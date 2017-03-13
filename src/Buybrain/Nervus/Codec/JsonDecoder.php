@@ -56,7 +56,7 @@ class JsonDecoder implements Decoder
         if (!is_array($data)) {
             throw new RuntimeException('Error while decoding JSON, expected array, got ' . json_encode($data));
         }
-        return call_user_func([$class, 'fromArray'], $this->decodeStruct());
+        return call_user_func([$class, 'fromArray'], $data);
     }
 
     /**

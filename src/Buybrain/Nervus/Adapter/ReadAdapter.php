@@ -1,7 +1,7 @@
 <?php
 namespace Buybrain\Nervus\Adapter;
 
-use Buybrain\Nervus\EntityId;
+use Exception;
 
 class ReadAdapter extends AbstractAdapter
 {
@@ -16,9 +16,15 @@ class ReadAdapter extends AbstractAdapter
 
     protected function doStep()
     {
-        $ids = $this->decoder->decodeList(EntityId::class);
-        $entities = $this->requestHandler->onRequest($ids);
-        $this->encoder->encode($entities);
+        /** @var ReadRequest $req */
+        $req = $this->decoder->decode(ReadRequest::class);
+        try {
+            $entities = $this->requestHandler->onRequest($req->getIds());
+            $res = ReadResponse::success($entities);
+        } catch (Exception $ex) {
+            $res = ReadResponse::error($ex);
+        }
+        $this->encoder->encode($res);
     }
 
     /**

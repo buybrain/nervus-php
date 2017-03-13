@@ -9,7 +9,7 @@ class ReadAdapterTest extends PHPUnit_Framework_TestCase
 {
     public function testReadAdapter()
     {
-        $request = [new EntityId('test', 123)];
+        $request = new ReadRequest([new EntityId('test', 123)]);
         $reqHandler = new MockReadRequestHandler();
 
         $input = fopen('php://temp', 'r+');
@@ -26,7 +26,7 @@ class ReadAdapterTest extends PHPUnit_Framework_TestCase
 
         rewind($output);
         $written = stream_get_contents($output);
-        $expected = json_encode($reqHandler->onRequest($request));
+        $expected = json_encode(ReadResponse::success($reqHandler->onRequest($request->getIds())));
 
         $this->assertEquals($expected, $written);
     }
