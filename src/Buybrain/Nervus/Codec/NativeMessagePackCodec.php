@@ -1,7 +1,7 @@
 <?php
 namespace Buybrain\Nervus\Codec;
 
-class PureMsgpackCodec implements Codec
+class NativeMessagePackCodec implements Codec
 {
     /**
      * @param resource $stream
@@ -9,7 +9,7 @@ class PureMsgpackCodec implements Codec
      */
     public function newDecoder($stream)
     {
-        return new PureMsgpackDecoder($stream);
+        return new NativeMessagePackDecoder($stream);
     }
 
     /**
@@ -18,6 +18,6 @@ class PureMsgpackCodec implements Codec
      */
     public function newEncoder($stream)
     {
-        return new PureMsgpackEncoder($stream);
+        return new NativeMessagePackEncoder($stream);
     }
 }

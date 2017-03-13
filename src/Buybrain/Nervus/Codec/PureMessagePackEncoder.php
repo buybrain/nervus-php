@@ -4,7 +4,7 @@ namespace Buybrain\Nervus\Codec;
 use Buybrain\Nervus\Util\Objects;
 use MessagePack\Packer;
 
-class PureMsgpackEncoder extends AbstractEncoder
+class PureMessagePackEncoder extends AbstractEncoder
 {
     /** @var Packer */
     private $packer;

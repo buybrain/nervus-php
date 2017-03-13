@@ -1,17 +1,15 @@
 <?php
 namespace Buybrain\Nervus\Codec;
 
-use MessagePack\BufferUnpacker;
 use RuntimeException;
+use MessagePackUnpacker;
 
-class PureMsgpackDecoder extends AbstractDecoder
+class NativeMessagePackDecoder extends AbstractDecoder
 {
     const BUFFER_SIZE = 1048576; // 1 MB
 
-    /** @var BufferUnpacker */
+    /** @var MessagePackUnpacker */
     private $unpacker;
-    /** @var array */
-    private $buffer = [];
 
     /**
      * @param resource $stream
@@ -19,7 +17,7 @@ class PureMsgpackDecoder extends AbstractDecoder
     public function __construct($stream)
     {
         parent::__construct($stream);
-        $this->unpacker = new BufferUnpacker();
+        $this->unpacker = new MessagePackUnpacker();
     }
 
     /**
@@ -27,18 +25,16 @@ class PureMsgpackDecoder extends AbstractDecoder
      */
     protected function decodeStruct()
     {
-        while (count($this->buffer) === 0) {
+        while (!$this->unpacker->execute()) {
             $data = fread($this->stream, self::BUFFER_SIZE);
             if ($data === false) {
                 if (feof($this->stream)) {
                     throw new RuntimeException('Encountered EOF while decoding');
                 }
-                throw new RuntimeException('Error while reading from stream: ');
+                throw new RuntimeException('Error while reading from stream');
             }
-
-            $this->unpacker->append($data);
-            $this->buffer = $this->unpacker->tryUnpack();
+            $this->unpacker->feed($data);
         }
-        return array_shift($this->buffer);
+        return $this->unpacker->data();
     }
 }
