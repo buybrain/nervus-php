@@ -51,7 +51,7 @@ class AdapterContext
     /**
      * @return AdapterContext
      */
-    public static function createDefault()
+    public static function newDefault()
     {
         return new self(new JsonCodec(), fopen(STDIN, 'r'), fopen(STDOUT, 'w'));
     }

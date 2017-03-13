@@ -20,4 +20,13 @@ class ReadAdapter extends AbstractAdapter
         $entities = $this->requestHandler->onRequest($ids);
         $this->encoder->encode($entities);
     }
+
+    /**
+     * @param ReadRequestHandler $requestHandler
+     * @return ReadAdapter
+     */
+    public static function newDefault(ReadRequestHandler $requestHandler)
+    {
+        return new self(AdapterContext::newDefault(), $requestHandler);
+    }
 }

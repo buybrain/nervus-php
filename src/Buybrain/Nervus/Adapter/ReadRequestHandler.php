@@ -10,7 +10,6 @@ interface ReadRequestHandler
     /**
      * @param EntityId[] $ids
      * @return Entity[]
-     * @throws Exception
      */
     public function onRequest(array $ids);
 }
