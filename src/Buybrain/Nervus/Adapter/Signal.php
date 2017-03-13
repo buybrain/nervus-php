@@ -1,43 +1,43 @@
 <?php
 namespace Buybrain\Nervus\Adapter;
 
-use Buybrain\Nervus\Entity;
+use Buybrain\Nervus\EntityId;
 use Exception;
 use JsonSerializable;
 
-class ReadResponse implements JsonSerializable
+class Signal implements JsonSerializable
 {
     /** @var bool */
     private $status;
     /** @var string */
     private $error;
-    /** @var Entity[] */
-    private $entities;
+    /** @var EntityId[] */
+    private $ids;
 
     /**
      * @param bool $status
      * @param string $error
-     * @param Entity[] $entities
+     * @param EntityId[] $ids
      */
-    private function __construct($status, $error, $entities)
+    private function __construct($status, $error, $ids)
     {
         $this->status = $status;
         $this->error = $error;
-        $this->entities = $entities;
+        $this->ids = $ids;
     }
 
     /**
-     * @param Entity[] $entities
-     * @return ReadResponse
+     * @param EntityId[] $ids
+     * @return Signal
      */
-    public static function success(array $entities)
+    public static function success(array $ids)
     {
-        return new self(true, null, $entities);
+        return new self(true, null, $ids);
     }
 
     /**
      * @param Exception $error
-     * @return ReadResponse
+     * @return Signal
      */
     public static function error(Exception $error)
     {
@@ -52,7 +52,7 @@ class ReadResponse implements JsonSerializable
         return [
             'Status' => $this->status,
             'Error' => $this->error,
-            'Entities' => $this->entities
+            'Ids' => $this->ids
         ];
     }
 }

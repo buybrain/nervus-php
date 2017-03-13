@@ -39,7 +39,7 @@ class Entity implements JsonSerializable
     /**
      * return array
      */
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         return [
             'Id' => $this->id,

@@ -38,7 +38,7 @@ class WriteRequest implements JsonSerializable
     /**
      * @return array
      */
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         return [
             'Entities' => $this->entities,

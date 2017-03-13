@@ -41,7 +41,7 @@ class WriteResponse implements JsonSerializable
     /**
      * @return array
      */
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         return [
             'Status' => $this->status,
