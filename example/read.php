@@ -13,8 +13,6 @@ use Buybrain\Nervus\EntityId;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-ReadAdapter::newDefault(new Handler())->run();
-
 class Handler implements ReadRequestHandler
 {
     /**
@@ -31,3 +29,5 @@ class Handler implements ReadRequestHandler
         return $res;
     }
 }
+
+ReadAdapter::newDefault(new Handler())->run();

@@ -2,7 +2,7 @@
 namespace Buybrain\Nervus\Adapter;
 
 use Buybrain\Nervus\Codec\Codec;
-use Buybrain\Nervus\Codec\JsonCodec;
+use Buybrain\Nervus\Codec\MessagePackCodec;
 use Buybrain\Nervus\Util\Streams;
 
 class AdapterContext
@@ -57,6 +57,6 @@ class AdapterContext
      */
     public static function newDefault()
     {
-        return new self(new JsonCodec(), fopen(STDIN, 'r'), fopen(STDOUT, 'w'));
+        return new self(new MessagePackCodec(), STDIN, STDOUT);
     }
 }

@@ -14,8 +14,6 @@ use Buybrain\Nervus\EntityId;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-SignalAdapter::newDefault(new Handler())->run();
-
 class Handler implements SignalRequestHandler
 {
     public function onRequest(SignalCallback $callback)
@@ -30,3 +28,5 @@ class Handler implements SignalRequestHandler
         };
     }
 }
+
+SignalAdapter::newDefault(new Handler())->run();

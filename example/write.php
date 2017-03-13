@@ -12,8 +12,6 @@ require __DIR__ . '/../vendor/autoload.php';
 	When asked to write entities, it will just wait for a bit
  */
 
-WriteAdapter::newDefault(new Handler())->run();
-
 class Handler implements WriteRequestHandler
 {
     /**
@@ -24,3 +22,5 @@ class Handler implements WriteRequestHandler
         sleep(1);
     }
 }
+
+WriteAdapter::newDefault(new Handler())->run();
