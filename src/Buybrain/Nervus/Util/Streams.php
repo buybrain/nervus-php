@@ -1,5 +1,5 @@
 <?php
-namespace Buybrain\Nervus\Adapter;
+namespace Buybrain\Nervus\Util;
 
 use InvalidArgumentException;
 

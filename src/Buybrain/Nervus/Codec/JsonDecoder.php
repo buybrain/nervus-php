@@ -1,6 +1,7 @@
 <?php
-namespace Buybrain\Nervus\Adapter;
+namespace Buybrain\Nervus\Codec;
 
+use Buybrain\Nervus\Util\Streams;
 use RuntimeException;
 
 class JsonDecoder implements Decoder

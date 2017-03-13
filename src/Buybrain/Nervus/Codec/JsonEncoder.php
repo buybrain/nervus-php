@@ -1,6 +1,7 @@
 <?php
-namespace Buybrain\Nervus\Adapter;
+namespace Buybrain\Nervus\Codec;
 
+use Buybrain\Nervus\Util\Streams;
 use JsonSerializable;
 
 class JsonEncoder implements Encoder
@@ -23,7 +24,7 @@ class JsonEncoder implements Encoder
     public function encode($data)
     {
         if (is_array($data)) {
-            array_walk($data, ['self', 'validate']);
+            array_walk($data, [JsonEncoder::class, 'validate']);
         } else {
             self::validate($data);
         }

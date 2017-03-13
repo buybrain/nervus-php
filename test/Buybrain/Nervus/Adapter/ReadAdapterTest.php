@@ -1,6 +1,7 @@
 <?php
 namespace Buybrain\Nervus\Adapter;
 
+use Buybrain\Nervus\Codec\JsonCodec;
 use Buybrain\Nervus\EntityId;
 use PHPUnit_Framework_TestCase;
 

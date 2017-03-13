@@ -3,7 +3,6 @@ namespace Buybrain\Nervus\Adapter;
 
 use Buybrain\Nervus\Entity;
 use Buybrain\Nervus\EntityId;
-use Exception;
 
 interface ReadRequestHandler
 {

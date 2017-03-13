@@ -1,6 +1,10 @@
 <?php
 namespace Buybrain\Nervus\Adapter;
 
+use Buybrain\Nervus\Codec\Codec;
+use Buybrain\Nervus\Codec\JsonCodec;
+use Buybrain\Nervus\Util\Streams;
+
 class AdapterContext
 {
     /** @var Codec */

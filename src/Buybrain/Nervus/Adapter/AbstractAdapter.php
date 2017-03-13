@@ -1,6 +1,9 @@
 <?php
 namespace Buybrain\Nervus\Adapter;
 
+use Buybrain\Nervus\Codec\Decoder;
+use Buybrain\Nervus\Codec\Encoder;
+
 abstract class AbstractAdapter
 {
     /** @var AdapterContext */
