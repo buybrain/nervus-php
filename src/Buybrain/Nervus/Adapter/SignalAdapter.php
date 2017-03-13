@@ -27,4 +27,13 @@ class SignalAdapter extends AbstractAdapter
             $this->encoder->encode(Signal::error($ex));
         }
     }
+
+    /**
+     * @param SignalRequestHandler $requestHandler
+     * @return SignalAdapter
+     */
+    public static function newDefault(SignalRequestHandler $requestHandler)
+    {
+        return new self(AdapterContext::newDefault(), $requestHandler);
+    }
 }

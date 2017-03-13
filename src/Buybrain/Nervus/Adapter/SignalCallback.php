@@ -15,9 +15,10 @@ class SignalCallback
 
     /**
      * @param EntityId[] $ids
+     * @return SignalResponse
      */
     public function onSignal(array $ids)
     {
-        call_user_func($this->onSignal, $ids);
+        return call_user_func($this->onSignal, $ids);
     }
 }

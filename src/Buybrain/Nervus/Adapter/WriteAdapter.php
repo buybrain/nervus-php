@@ -25,6 +25,14 @@ class WriteAdapter extends AbstractAdapter
             $res = WriteResponse::error($ex);
         }
         $this->encoder->encode($res);
+    }
 
+    /**
+     * @param WriteRequestHandler $requestHandler
+     * @return WriteAdapter
+     */
+    public static function newDefault(WriteRequestHandler $requestHandler)
+    {
+        return new self(AdapterContext::newDefault(), $requestHandler);
     }
 }

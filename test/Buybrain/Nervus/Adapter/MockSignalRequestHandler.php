@@ -7,6 +7,8 @@ class MockSignalRequestHandler implements SignalRequestHandler
 {
     /** @var EntityId[] */
     private $signal;
+    /** @var SignalResponse */
+    private $response;
 
     /**
      * @param EntityId[] $signal
@@ -19,6 +21,14 @@ class MockSignalRequestHandler implements SignalRequestHandler
 
     public function onRequest(SignalCallback $callback)
     {
-        $callback->onSignal($this->signal);
+        $this->response = $callback->onSignal($this->signal);
+    }
+
+    /**
+     * @return SignalResponse
+     */
+    public function getResponse()
+    {
+        return $this->response;
     }
 }

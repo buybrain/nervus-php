@@ -1,5 +1,5 @@
 <?php
-namespace Example;
+namespace Example\Read;
 
 use Buybrain\Nervus\Adapter\ReadAdapter;
 use Buybrain\Nervus\Adapter\ReadRequestHandler;
