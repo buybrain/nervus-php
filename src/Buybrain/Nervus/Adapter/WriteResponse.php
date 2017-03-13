@@ -1,47 +1,41 @@
 <?php
 namespace Buybrain\Nervus\Adapter;
 
-use Buybrain\Nervus\Entity;
 use Exception;
 use JsonSerializable;
 
-class ReadResponse implements JsonSerializable
+class WriteResponse implements JsonSerializable
 {
     /** @var bool */
     private $status;
     /** @var string */
     private $error;
-    /** @var Entity[] */
-    private $entities;
 
     /**
      * @param bool $status
      * @param string $error
-     * @param Entity[] $entities
      */
-    private function __construct($status, $error, array $entities)
+    private function __construct($status, $error)
     {
         $this->status = $status;
         $this->error = $error;
-        $this->entities = $entities;
     }
 
     /**
-     * @param Entity[] $entities
-     * @return ReadResponse
+     * @return WriteResponse
      */
-    public static function success(array $entities)
+    public static function success()
     {
-        return new self(true, null, $entities);
+        return new self(true, null);
     }
 
     /**
      * @param Exception $error
-     * @return ReadResponse
+     * @return WriteResponse
      */
     public static function error(Exception $error)
     {
-        return new self(false, $error->getMessage(), null);
+        return new self(false, $error->getMessage());
     }
 
     /**
@@ -52,7 +46,6 @@ class ReadResponse implements JsonSerializable
         return [
             'Status' => $this->status,
             'Error' => $this->error,
-            'Entities' => $this->entities
         ];
     }
 }

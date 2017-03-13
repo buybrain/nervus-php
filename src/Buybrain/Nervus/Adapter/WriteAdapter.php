@@ -1,7 +1,7 @@
 <?php
 namespace Buybrain\Nervus\Adapter;
 
-use Buybrain\Nervus\Entity;
+use Exception;
 
 class WriteAdapter extends AbstractAdapter
 {
@@ -16,7 +16,15 @@ class WriteAdapter extends AbstractAdapter
 
     protected function doStep()
     {
-        $entities = $this->decoder->decodeList(Entity::class);
-        $this->requestHandler->onRequest($entities);
+        /** @var WriteRequest $req */
+        $req = $this->decoder->decode(WriteRequest::class);
+        try {
+            $this->requestHandler->onRequest($req->getEntities());
+            $res = WriteResponse::success();
+        } catch (Exception $ex) {
+            $res = WriteResponse::error($ex);
+        }
+        $this->encoder->encode($res);
+
     }
 }

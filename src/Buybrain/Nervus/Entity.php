@@ -46,4 +46,16 @@ class Entity implements JsonSerializable
             'Data' => base64_encode($this->data),
         ];
     }
+
+    /**
+     * @param array $data
+     * @return Entity
+     */
+    public static function fromArray(array $data)
+    {
+        return new self(
+            EntityId::fromArray($data['Id']),
+            base64_decode($data['Data'])
+        );
+    }
 }
