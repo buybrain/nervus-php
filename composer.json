@@ -1,0 +1,28 @@
+{
+    "name": "buybrain/nervus-php",
+    "description": "A PHP library for creating nervus adapters",
+    "keywords": [
+        "nervus"
+    ],
+    "homepage": "https://github.com/buybrain/nervus-php",
+    "type": "library",
+    "licence": "MIT",
+    "authors": [
+        {
+            "name": "Ede Meijer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Buybrain\\": "src/Buybrain/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Buybrain\\": "test/Buybrain/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.7"
+    }
+}
