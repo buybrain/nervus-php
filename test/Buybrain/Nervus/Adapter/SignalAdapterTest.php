@@ -30,7 +30,7 @@ class SignalAdapterTest extends \PHPUnit_Framework_TestCase
         $written = stream_get_contents($output);
         $expected = json_encode(Signal::success($signal));
 
-        $this->assertEquals($expected, $written);
+        $this->assertEquals($expected, trim($written));
         $this->assertTrue($reqHandler->getResponse()->isAck());
     }
 }

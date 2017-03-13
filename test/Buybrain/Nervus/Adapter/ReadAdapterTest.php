@@ -28,6 +28,6 @@ class ReadAdapterTest extends PHPUnit_Framework_TestCase
         $written = stream_get_contents($output);
         $expected = json_encode(ReadResponse::success($reqHandler->onRequest($request->getIds())));
 
-        $this->assertEquals($expected, $written);
+        $this->assertEquals($expected, trim($written));
     }
 }

@@ -1,40 +1,29 @@
 <?php
 namespace Buybrain\Nervus\Codec;
 
-use Buybrain\Nervus\Util\Streams;
+use InvalidArgumentException;
 use JsonSerializable;
 
-class JsonEncoder implements Encoder
+class JsonEncoder extends AbstractEncoder
 {
-    /** @var resource */
-    private $stream;
-
     /**
-     * @param resource $stream
+     * @param $data
+     * @return string
      */
-    public function __construct($stream)
-    {
-        Streams::assertStream($stream);
-        $this->stream = $stream;
-    }
-
-    /**
-     * @param mixed $data
-     */
-    public function encode($data)
+    protected function serialize($data)
     {
         if (is_array($data)) {
             array_walk($data, [JsonEncoder::class, 'validate']);
         } else {
             self::validate($data);
         }
-        fwrite($this->stream, json_encode($data));
+        return json_encode($data) . "\n";
     }
 
     private static function validate($data)
     {
-        if (!$data instanceof JsonSerializable) {
-            throw new \InvalidArgumentException('Data for encoding should implement ' . JsonSerializable::class);
+        if (is_object($data) && !$data instanceof JsonSerializable) {
+            throw new InvalidArgumentException('Data for encoding should implement ' . JsonSerializable::class);
         }
     }
 }
