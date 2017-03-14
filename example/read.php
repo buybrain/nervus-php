@@ -7,8 +7,8 @@ use Buybrain\Nervus\Entity;
 use Buybrain\Nervus\EntityId;
 
 /*
-	Example implementation of a read adapter using the PHP adapter library.
-	When asked to read entities, it will just give back static data.
+    Example implementation of a read adapter using the PHP adapter library.
+    When asked to read entities, it will just give back static data.
  */
 
 require __DIR__ . '/../vendor/autoload.php';

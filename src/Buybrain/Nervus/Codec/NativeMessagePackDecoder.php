@@ -1,8 +1,8 @@
 <?php
 namespace Buybrain\Nervus\Codec;
 
-use RuntimeException;
 use MessagePackUnpacker;
+use RuntimeException;
 
 class NativeMessagePackDecoder extends AbstractDecoder
 {

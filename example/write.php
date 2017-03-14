@@ -8,8 +8,8 @@ use Buybrain\Nervus\Entity;
 require __DIR__ . '/../vendor/autoload.php';
 
 /*
-	Example implementation of a write adapter using the PHP adapter library.
-	When asked to write entities, it will just wait for a bit
+    Example implementation of a write adapter using the PHP adapter library.
+    When asked to write entities, it will just wait for a bit
  */
 
 class Handler implements WriteRequestHandler

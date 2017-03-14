@@ -31,7 +31,7 @@ function benchmark(Codec $codec, $message, $outerIter)
 {
     echo 'Starting ', get_class($codec), PHP_EOL;
     $start = microtime(true);
-    for ($o = 0; $o < $outerIter; $o ++) {
+    for ($o = 0; $o < $outerIter; $o++) {
         $stream = fopen('php://temp', 'r+');
         $enc = $codec->newEncoder($stream);
         $dec = $codec->newDecoder($stream);

@@ -7,8 +7,8 @@ use Buybrain\Nervus\Adapter\SignalRequestHandler;
 use Buybrain\Nervus\EntityId;
 
 /*
-	Example implementation of a signal adapter using the PHP adapter library.
-	When asked for a new signal, it will wait for a little while and emit a few random entity IDs. Then, it will wait
+    Example implementation of a signal adapter using the PHP adapter library.
+    When asked for a new signal, it will wait for a little while and emit a few random entity IDs. Then, it will wait
     for acknowledgement.
  */
 

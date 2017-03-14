@@ -54,7 +54,7 @@ class CodecTest extends PHPUnit_Framework_TestCase
         rewind($stream);
 
         $decoded = [];
-        for ($i = 0; $i < count($values); $i ++) {
+        for ($i = 0; $i < count($values); $i++) {
             $decoded[] = $dec->decode(EntityId::class);
         }
 
