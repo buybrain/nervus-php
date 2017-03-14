@@ -27,5 +27,8 @@
     },
     "require": {
         "rybakit/msgpack": "^0.2.1"
+    },
+    "suggest": {
+        "msgpack/msgpack-php": "Native MessagePack codec that's more efficient than the default pure PHP version"
     }
 }
