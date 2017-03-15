@@ -1,25 +1,18 @@
 <?php
 namespace Buybrain\Nervus\Adapter;
 
+use Buybrain\Nervus\Entity;
+use Buybrain\Nervus\EntityId;
 use Exception;
 
-class ReadAdapter extends AbstractAdapter
+abstract class ReadAdapter extends Adapter
 {
-    /** @var ReadRequestHandler */
-    private $requestHandler;
-
-    public function __construct(AdapterContext $context, ReadRequestHandler $requestHandler)
-    {
-        parent::__construct($context);
-        $this->requestHandler = $requestHandler;
-    }
-
     protected function doStep()
     {
         /** @var ReadRequest $req */
         $req = $this->decoder->decode(ReadRequest::class);
         try {
-            $entities = $this->requestHandler->onRequest($req->getIds());
+            $entities = $this->onRequest($req->getIds());
             $res = ReadResponse::success($entities);
         } catch (Exception $ex) {
             $res = ReadResponse::error($ex);
@@ -28,11 +21,8 @@ class ReadAdapter extends AbstractAdapter
     }
 
     /**
-     * @param ReadRequestHandler $requestHandler
-     * @return ReadAdapter
+     * @param EntityId[] $ids
+     * @return Entity[]
      */
-    public static function newDefault(ReadRequestHandler $requestHandler)
-    {
-        return new self(AdapterContext::newDefault(), $requestHandler);
-    }
+    abstract protected function onRequest(array $ids);
 }

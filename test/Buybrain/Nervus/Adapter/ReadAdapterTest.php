@@ -2,6 +2,7 @@
 namespace Buybrain\Nervus\Adapter;
 
 use Buybrain\Nervus\Codec\JsonCodec;
+use Buybrain\Nervus\Entity;
 use Buybrain\Nervus\EntityId;
 use PHPUnit_Framework_TestCase;
 
@@ -9,24 +10,21 @@ class ReadAdapterTest extends PHPUnit_Framework_TestCase
 {
     public function testReadAdapter()
     {
-        $request = new ReadRequest([new EntityId('test', 123)]);
-        $reqHandler = new MockReadRequestHandler();
-
+        $entityId = new EntityId('test', '123');
+        $request = new ReadRequest([$entityId]);
+  
         $input = fopen('php://temp', 'r+');
         $output = fopen('php://temp', 'r+');
         fwrite($input, json_encode($request) . "\n");
         rewind($input);
 
-        $SUT = new ReadAdapter(
-            new AdapterContext(new JsonCodec(), $input, $output),
-            $reqHandler
-        );
+        $SUT = (new MockReadAdapter())->in($input)->out($output)->codec(new JsonCodec());
 
         $SUT->step();
 
         rewind($output);
         $written = stream_get_contents($output);
-        $expected = json_encode(ReadResponse::success($reqHandler->onRequest($request->getIds())));
+        $expected = json_encode(ReadResponse::success([new Entity($entityId, 'test')]));
 
         $this->assertEquals($expected, trim($written));
     }

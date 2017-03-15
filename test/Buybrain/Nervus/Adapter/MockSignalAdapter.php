@@ -3,7 +3,7 @@ namespace Buybrain\Nervus\Adapter;
 
 use Buybrain\Nervus\EntityId;
 
-class MockSignalRequestHandler implements SignalRequestHandler
+class MockSignalAdapter extends SignalAdapter
 {
     /** @var EntityId[] */
     private $signal;
@@ -15,6 +15,7 @@ class MockSignalRequestHandler implements SignalRequestHandler
      */
     public function __construct(array $signal)
     {
+        parent::__construct();
         $this->signal = $signal;
     }
 

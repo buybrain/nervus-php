@@ -98,10 +98,13 @@ class CodecTest extends PHPUnit_Framework_TestCase
 
     public function codecs()
     {
-        return [
+        $result = [
             [new JsonCodec()],
             [new PureMessagePackCodec()],
-            [new NativeMessagePackCodec()],
         ];
+        if (NativeMessagePackCodec::isSupported()) {
+            $result[] = [new NativeMessagePackCodec()];
+        }
+        return $result;
     }
 }

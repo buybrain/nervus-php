@@ -2,7 +2,6 @@
 namespace Example\Write;
 
 use Buybrain\Nervus\Adapter\WriteAdapter;
-use Buybrain\Nervus\Adapter\WriteRequestHandler;
 use Buybrain\Nervus\Entity;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -12,7 +11,7 @@ require __DIR__ . '/../vendor/autoload.php';
     When asked to write entities, it will just wait for a bit
  */
 
-class Handler implements WriteRequestHandler
+class MyWriteAdapter extends WriteAdapter
 {
     /**
      * @param Entity[] $entities
@@ -23,4 +22,4 @@ class Handler implements WriteRequestHandler
     }
 }
 
-WriteAdapter::newDefault(new Handler())->run();
+(new MyWriteAdapter())->socketAddr(getopt('', ['socket:'])['socket'])->run();

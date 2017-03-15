@@ -11,7 +11,6 @@ class SignalAdapterTest extends \PHPUnit_Framework_TestCase
         $request = new SignalRequest();
         $signal = [new EntityId('test', 123)];
         $response = new SignalResponse(true);
-        $reqHandler = new MockSignalRequestHandler($signal);
 
         $input = fopen('php://temp', 'r+');
         $output = fopen('php://temp', 'r+');
@@ -19,10 +18,7 @@ class SignalAdapterTest extends \PHPUnit_Framework_TestCase
         fwrite($input, json_encode($response) . "\n");
         rewind($input);
 
-        $SUT = new SignalAdapter(
-            new AdapterContext(new JsonCodec(), $input, $output),
-            $reqHandler
-        );
+        $SUT = (new MockSignalAdapter($signal))->in($input)->out($output)->codec(new JsonCodec());
 
         $SUT->step();
 
@@ -31,6 +27,6 @@ class SignalAdapterTest extends \PHPUnit_Framework_TestCase
         $expected = json_encode(Signal::success($signal));
 
         $this->assertEquals($expected, trim($written));
-        $this->assertTrue($reqHandler->getResponse()->isAck());
+        $this->assertTrue($SUT->getResponse()->isAck());
     }
 }

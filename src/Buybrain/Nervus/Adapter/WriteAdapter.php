@@ -1,25 +1,17 @@
 <?php
 namespace Buybrain\Nervus\Adapter;
 
+use Buybrain\Nervus\Entity;
 use Exception;
 
-class WriteAdapter extends AbstractAdapter
+abstract class WriteAdapter extends Adapter
 {
-    /** @var WriteRequestHandler */
-    private $requestHandler;
-
-    public function __construct(AdapterContext $context, WriteRequestHandler $requestHandler)
-    {
-        parent::__construct($context);
-        $this->requestHandler = $requestHandler;
-    }
-
     protected function doStep()
     {
         /** @var WriteRequest $req */
         $req = $this->decoder->decode(WriteRequest::class);
         try {
-            $this->requestHandler->onRequest($req->getEntities());
+            $this->onRequest($req->getEntities());
             $res = WriteResponse::success();
         } catch (Exception $ex) {
             $res = WriteResponse::error($ex);
@@ -28,11 +20,7 @@ class WriteAdapter extends AbstractAdapter
     }
 
     /**
-     * @param WriteRequestHandler $requestHandler
-     * @return WriteAdapter
+     * @param Entity[] $entities
      */
-    public static function newDefault(WriteRequestHandler $requestHandler)
-    {
-        return new self(AdapterContext::newDefault(), $requestHandler);
-    }
+    abstract protected function onRequest(array $entities);
 }

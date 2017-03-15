@@ -3,7 +3,7 @@ namespace Buybrain\Nervus\Adapter;
 
 use Buybrain\Nervus\Entity;
 
-class MockWriteRequestHandler implements WriteRequestHandler
+class MockWriteAdapter extends WriteAdapter
 {
     /**
      * @param Entity[] $entities

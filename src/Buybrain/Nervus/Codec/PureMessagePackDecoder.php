@@ -29,10 +29,11 @@ class PureMessagePackDecoder extends AbstractDecoder
     {
         while (count($this->buffer) === 0) {
             $data = fread($this->stream, self::BUFFER_SIZE);
+            
+            if (($data === '' || $data === false) && feof($this->stream)) {
+                throw new RuntimeException('Encountered EOF while decoding');
+            }
             if ($data === false) {
-                if (feof($this->stream)) {
-                    throw new RuntimeException('Encountered EOF while decoding');
-                }
                 throw new RuntimeException('Error while reading from stream: ');
             }
 

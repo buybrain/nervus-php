@@ -10,17 +10,13 @@ class WriteAdapterTest extends \PHPUnit_Framework_TestCase
     public function testWriteAdapter()
     {
         $request = new WriteRequest([new Entity(new EntityId('test', 123), 'test')]);
-        $reqHandler = new MockWriteRequestHandler();
 
         $input = fopen('php://temp', 'r+');
         $output = fopen('php://temp', 'r+');
         fwrite($input, json_encode($request) . "\n");
         rewind($input);
 
-        $SUT = new WriteAdapter(
-            new AdapterContext(new JsonCodec(), $input, $output),
-            $reqHandler
-        );
+        $SUT = (new MockWriteAdapter())->in($input)->out($output)->codec(new JsonCodec());
 
         $SUT->step();
 

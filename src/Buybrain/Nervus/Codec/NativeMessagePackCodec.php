@@ -7,7 +7,7 @@ class NativeMessagePackCodec implements Codec
 {
     /** @var bool */
     private static $supported;
-    
+
     /**
      * @param resource $stream
      * @return Decoder
@@ -38,7 +38,7 @@ class NativeMessagePackCodec implements Codec
         }
         return self::$supported;
     }
-    
+
     private static function assertSupported()
     {
         if (!self::isSupported()) {

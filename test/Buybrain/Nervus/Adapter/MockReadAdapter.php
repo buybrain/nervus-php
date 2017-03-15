@@ -5,7 +5,7 @@ use Buybrain\Nervus\Entity;
 use Buybrain\Nervus\EntityId;
 use Exception;
 
-class MockReadRequestHandler implements ReadRequestHandler
+class MockReadAdapter extends ReadAdapter
 {
     /** @var string */
     private $mockData;
@@ -15,6 +15,7 @@ class MockReadRequestHandler implements ReadRequestHandler
      */
     public function __construct($mockData = 'test')
     {
+        parent::__construct();
         $this->mockData = $mockData;
     }
 

@@ -2,7 +2,6 @@
 namespace Example\Read;
 
 use Buybrain\Nervus\Adapter\ReadAdapter;
-use Buybrain\Nervus\Adapter\ReadRequestHandler;
 use Buybrain\Nervus\Entity;
 use Buybrain\Nervus\EntityId;
 
@@ -13,7 +12,7 @@ use Buybrain\Nervus\EntityId;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-class Handler implements ReadRequestHandler
+class ExampleReadAdapter extends ReadAdapter
 {
     /**
      * @param EntityId[] $ids
@@ -30,4 +29,4 @@ class Handler implements ReadRequestHandler
     }
 }
 
-ReadAdapter::newDefault(new Handler())->run();
+(new ExampleReadAdapter())->socketAddr(getopt('', ['socket:'])['socket'])->run();

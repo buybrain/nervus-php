@@ -7,6 +7,7 @@ class Streams
 {
     /**
      * @param mixed $stream
+     * @return resource
      */
     public static function assertStream($stream)
     {
@@ -16,5 +17,6 @@ class Streams
                 gettype($stream)
             ));
         }
+        return $stream;
     }
 }
