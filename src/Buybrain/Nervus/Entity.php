@@ -1,6 +1,7 @@
 <?php
 namespace Buybrain\Nervus;
 
+use Buybrain\Nervus\Util\Objects;
 use JsonSerializable;
 
 class Entity implements JsonSerializable
@@ -43,7 +44,7 @@ class Entity implements JsonSerializable
     {
         return [
             'Id' => $this->id,
-            'Data' => base64_encode($this->data),
+            'Data' => $this->data,
         ];
     }
 
@@ -55,7 +56,7 @@ class Entity implements JsonSerializable
     {
         return new self(
             EntityId::fromArray($data['Id']),
-            base64_decode($data['Data'])
+            Objects::toPrimitiveOrStruct($data['Data'])
         );
     }
 }
