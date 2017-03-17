@@ -20,4 +20,12 @@ class PureMessagePackCodec implements Codec
     {
         return new PureMessagePackEncoder($stream);
     }
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return 'msgpack';
+    }
+    
 }

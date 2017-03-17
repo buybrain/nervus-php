@@ -24,4 +24,12 @@ class MessagePackCodec implements Codec
             new NativeMessagePackEncoder($stream) :
             new PureMessagePackEncoder($stream);
     }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return 'msgpack';
+    }
 }

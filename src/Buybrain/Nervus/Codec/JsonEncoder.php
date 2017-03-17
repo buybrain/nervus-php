@@ -6,6 +6,19 @@ use JsonSerializable;
 
 class JsonEncoder extends AbstractEncoder
 {
+    /** @var bool */
+    private $useNewlines = true;
+
+    /**
+     * @param bool $useNewlines
+     * @return $this
+     */
+    public function useNewlines($useNewlines)
+    {
+        $this->useNewlines = $useNewlines;
+        return $this;
+    }
+    
     /**
      * @param $data
      * @return string
@@ -17,7 +30,7 @@ class JsonEncoder extends AbstractEncoder
         } else {
             self::validate($data);
         }
-        return json_encode($data) . "\n";
+        return json_encode($data) . ($this->useNewlines ? "\n" : '');
     }
 
     private static function validate($data)

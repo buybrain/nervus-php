@@ -14,4 +14,9 @@ interface Codec
      * @return Encoder
      */
     public function newEncoder($stream);
+
+    /**
+     * @return string
+     */
+    public function getName();
 }

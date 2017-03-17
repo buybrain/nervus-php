@@ -4,6 +4,7 @@ namespace Buybrain\Nervus\Adapter;
 use Buybrain\Nervus\Codec\Codec;
 use Buybrain\Nervus\Codec\Decoder;
 use Buybrain\Nervus\Codec\Encoder;
+use Buybrain\Nervus\Codec\JsonEncoder;
 use Buybrain\Nervus\Codec\MessagePackCodec;
 use Buybrain\Nervus\Util\Streams;
 use RuntimeException;
@@ -97,6 +98,7 @@ abstract class Adapter
     private function init()
     {
         if ($this->encoder === null) {
+            (new JsonEncoder($this->output))->useNewlines(false)->encode(new AdapterConfig($this->codec->getName()));
             $this->decoder = $this->codec->newDecoder($this->input);
             $this->encoder = $this->codec->newEncoder($this->output);
         }

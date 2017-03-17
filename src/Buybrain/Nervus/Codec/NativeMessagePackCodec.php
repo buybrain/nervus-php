@@ -29,6 +29,14 @@ class NativeMessagePackCodec implements Codec
     }
 
     /**
+     * @return string
+     */
+    public function getName()
+    {
+        return 'msgpack';
+    }
+
+    /**
      * @return bool
      */
     public static function isSupported()

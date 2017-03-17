@@ -22,7 +22,9 @@ class WriteAdapterTest extends \PHPUnit_Framework_TestCase
 
         rewind($output);
         $written = stream_get_contents($output);
-        $expected = json_encode(WriteResponse::success());
+        $expected =
+            json_encode(new AdapterConfig('json')) .
+            json_encode(WriteResponse::success());
 
         $this->assertEquals($expected, trim($written));
     }

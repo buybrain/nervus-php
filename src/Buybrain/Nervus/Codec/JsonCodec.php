@@ -20,4 +20,12 @@ class JsonCodec implements Codec
     {
         return new JsonEncoder($stream);
     }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return 'json';
+    }
 }
