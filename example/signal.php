@@ -19,12 +19,20 @@ class MySignalAdapter extends SignalAdapter
     {
         // Wait for a while
         usleep(500000);
-        // Send a fake signal to handler and wait for the result
-        $response = $callback->onSignal([new EntityId('example', "123"), new EntityId('example', "234")]);
-        // Normally, this is where you would check response.Ack to determine whether to retry this, drop it, pause, etc
-        if ($response->isAck()) {
 
-        };
+        // Send a fake (but successful) signal to handler using $callback->onSuccess and wait for the result
+        // Alternatively, if generating a new signal somehow resulted in an error, throw an exception instead
+        $ids = [new EntityId('example', "123"), new EntityId('example', "234")];
+        $callback->onSuccess($ids, function ($ack) {
+            // Normally, this is where you would check $ack to determine whether to retry this, drop it, pause, etc
+            // Because handling the acknowledgement could result in an error itself, this callback can throw an
+            // exception. It will then be called again at a later time to retry the acknowledgement. If there is no way
+            // to recover from failing to handle the acknowledgement by means of retrying, just return without throwing
+            // and solve it another way.
+            if ($ack) {
+
+            }
+        });
     }
 }
 

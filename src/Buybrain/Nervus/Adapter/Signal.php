@@ -2,57 +2,36 @@
 namespace Buybrain\Nervus\Adapter;
 
 use Buybrain\Nervus\EntityId;
-use Exception;
 use JsonSerializable;
 
 class Signal implements JsonSerializable
 {
-    /** @var bool */
-    private $status;
-    /** @var string */
-    private $error;
     /** @var EntityId[] */
     private $ids;
 
     /**
-     * @param bool $status
-     * @param string $error
      * @param EntityId[] $ids
      */
-    private function __construct($status, $error, $ids)
+    public function __construct(array $ids)
     {
-        $this->status = $status;
-        $this->error = $error;
         $this->ids = $ids;
     }
 
     /**
-     * @param EntityId[] $ids
-     * @return Signal
+     * @return EntityId[]
      */
-    public static function success(array $ids)
+    public function getIds()
     {
-        return new self(true, null, $ids);
-    }
-
-    /**
-     * @param Exception $error
-     * @return Signal
-     */
-    public static function error(Exception $error)
-    {
-        return new self(false, $error->getMessage(), null);
+        return $this->ids;
     }
 
     /**
      * @return array
      */
-    public function jsonSerialize()
+    function jsonSerialize()
     {
         return [
-            'Status' => $this->status,
-            'Error' => $this->error,
-            'Ids' => $this->ids
+            'Ids' => $this->ids,
         ];
     }
 }

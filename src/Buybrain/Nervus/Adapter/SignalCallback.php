@@ -6,19 +6,20 @@ use Buybrain\Nervus\EntityId;
 class SignalCallback
 {
     /** @var callable */
-    private $onSignal;
+    private $onSuccess;
 
-    public function __construct(callable $onSignal)
+    public function __construct(callable $onSuccess)
     {
-        $this->onSignal = $onSignal;
+        $this->onSuccess = $onSuccess;
     }
 
     /**
      * @param EntityId[] $ids
-     * @return SignalResponse
+     * @param callable $onAck
+     * @return SignalAckRequest
      */
-    public function onSignal(array $ids)
+    public function onSuccess(array $ids, callable $onAck)
     {
-        return call_user_func($this->onSignal, $ids);
+        return call_user_func($this->onSuccess, $ids, $onAck);
     }
 }

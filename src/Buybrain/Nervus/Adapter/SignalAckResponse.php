@@ -1,10 +1,10 @@
 <?php
 namespace Buybrain\Nervus\Adapter;
 
-class WriteResponse extends AbstractResponse
+class SignalAckResponse extends AbstractResponse
 {
     /**
-     * @return WriteResponse
+     * @return SignalAckResponse
      */
     public static function success()
     {

@@ -1,36 +1,20 @@
 <?php
 namespace Buybrain\Nervus\Adapter;
 
-use JsonSerializable;
-
-class SignalResponse implements JsonSerializable
+class SignalResponse extends AbstractResponse
 {
-    /** @var bool */
-    private $ack;
+    /** @var Signal */
+    private $signal;
 
     /**
-     * @param bool $ack
-     */
-    public function __construct($ack)
-    {
-        $this->ack = $ack;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isAck()
-    {
-        return $this->ack;
-    }
-
-    /**
-     * @param array $data
+     * @param Signal $signal
      * @return SignalResponse
      */
-    public static function fromArray(array $data)
+    public static function success(Signal $signal)
     {
-        return new self($data['Ack']);
+        $res = self::emptySuccess();
+        $res->signal = $signal;
+        return $res;
     }
 
     /**
@@ -38,6 +22,6 @@ class SignalResponse implements JsonSerializable
      */
     public function jsonSerialize()
     {
-        return ['Ack' => $this->ack];
+        return array_merge(parent::jsonSerialize(), ['Signal' => $this->signal]);
     }
 }

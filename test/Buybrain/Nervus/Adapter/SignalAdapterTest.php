@@ -9,8 +9,8 @@ class SignalAdapterTest extends \PHPUnit_Framework_TestCase
     public function testSignalAdapter()
     {
         $request = new SignalRequest();
-        $signal = [new EntityId('test', 123)];
-        $response = new SignalResponse(true);
+        $signal = new Signal([new EntityId('test', 123)]);
+        $response = new SignalAckRequest(true);
 
         $input = fopen('php://temp', 'r+');
         $output = fopen('php://temp', 'r+');
@@ -24,9 +24,9 @@ class SignalAdapterTest extends \PHPUnit_Framework_TestCase
 
         rewind($output);
         $written = stream_get_contents($output);
-        $expected = json_encode(Signal::success($signal));
+        $expected = json_encode(SignalResponse::success($signal)) . "\n" . json_encode(SignalAckResponse::success());
 
         $this->assertEquals($expected, trim($written));
-        $this->assertTrue($SUT->getResponse()->isAck());
+        $this->assertTrue($SUT->getResponse());
     }
 }

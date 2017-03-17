@@ -1,19 +1,14 @@
 <?php
 namespace Buybrain\Nervus\Adapter;
 
-use Buybrain\Nervus\EntityId;
-
 class MockSignalAdapter extends SignalAdapter
 {
-    /** @var EntityId[] */
+    /** @var Signal */
     private $signal;
-    /** @var SignalResponse */
+    /** @var bool */
     private $response;
 
-    /**
-     * @param EntityId[] $signal
-     */
-    public function __construct(array $signal)
+    public function __construct(Signal $signal)
     {
         parent::__construct();
         $this->signal = $signal;
@@ -22,11 +17,13 @@ class MockSignalAdapter extends SignalAdapter
 
     public function onRequest(SignalCallback $callback)
     {
-        $this->response = $callback->onSignal($this->signal);
+        $callback->onSuccess($this->signal->getIds(), function ($ack) {
+            $this->response = $ack;
+        });
     }
 
     /**
-     * @return SignalResponse
+     * @return bool
      */
     public function getResponse()
     {
