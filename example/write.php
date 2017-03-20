@@ -2,7 +2,6 @@
 namespace Example\Write;
 
 use Buybrain\Nervus\Adapter\WriteAdapter;
-use Buybrain\Nervus\Entity;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -11,23 +10,9 @@ require __DIR__ . '/../vendor/autoload.php';
     When asked to write entities, it will just wait for a bit
  */
 
-class MyWriteAdapter extends WriteAdapter
-{
-    /**
-     * @param Entity[] $entities
-     */
-    public function onRequest(array $entities)
-    {
+WriteAdapter::compose()
+    ->type('example', function (array $entities) {
         sleep(1);
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getSupportedEntityTypes()
-    {
-        return ['example'];
-    }
-}
-
-(new MyWriteAdapter())->socketAddr(getopt('', ['socket:'])['socket'])->run();
+    })
+    ->socketAddr(getopt('', ['socket:'])['socket'])
+    ->run();

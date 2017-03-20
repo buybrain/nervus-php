@@ -31,4 +31,12 @@ abstract class WriteAdapter extends Adapter
     {
         return 'write';
     }
+
+    /**
+     * @return ComposableWriteAdapter
+     */
+    public static function compose()
+    {
+        return new ComposableWriteAdapter();
+    }
 }

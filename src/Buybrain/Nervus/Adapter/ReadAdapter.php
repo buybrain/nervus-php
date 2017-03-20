@@ -33,4 +33,12 @@ abstract class ReadAdapter extends Adapter
     {
         return 'read';
     }
+
+    /**
+     * @return ComposableReadAdapter
+     */
+    public static function compose()
+    {
+        return new ComposableReadAdapter();
+    }
 }

@@ -65,6 +65,14 @@ abstract class SignalAdapter extends Adapter
     }
 
     /**
+     * @return string[]
+     */
+    public function getSupportedEntityTypes()
+    {
+        return null;
+    }
+
+    /**
      * @return string
      */
     protected function getAdapterType()
