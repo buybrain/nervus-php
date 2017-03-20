@@ -1,6 +1,7 @@
 <?php
 namespace Buybrain\Nervus\Adapter;
 
+use Buybrain\Nervus\Adapter\Config\AdapterConfig;
 use Buybrain\Nervus\Codec\JsonCodec;
 use Buybrain\Nervus\Entity;
 use Buybrain\Nervus\EntityId;

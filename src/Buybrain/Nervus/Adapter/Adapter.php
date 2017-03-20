@@ -1,6 +1,9 @@
 <?php
 namespace Buybrain\Nervus\Adapter;
 
+use Buybrain\Nervus\Adapter\Config\AdapterConfig;
+use Buybrain\Nervus\Adapter\Config\ExtraAdapterConfig;
+use Buybrain\Nervus\Adapter\Config\NoExtraConfig;
 use Buybrain\Nervus\Codec\Codec;
 use Buybrain\Nervus\Codec\Decoder;
 use Buybrain\Nervus\Codec\Encoder;
@@ -105,13 +108,22 @@ abstract class Adapter
      */
     abstract public function getSupportedEntityTypes();
 
+    /**
+     * @return ExtraAdapterConfig
+     */
+    protected function getExtraConfig()
+    {
+        return null;
+    }
+
     private function init()
     {
         if ($this->encoder === null) {
             $config = new AdapterConfig(
                 $this->codec->getName(), 
                 $this->getAdapterType(), 
-                $this->getSupportedEntityTypes()
+                $this->getSupportedEntityTypes(),
+                $this->getExtraConfig()
             );
             (new JsonEncoder($this->output))->useNewlines(false)->encode($config);
             $this->decoder = $this->codec->newDecoder($this->input);

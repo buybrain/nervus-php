@@ -1,10 +1,15 @@
 <?php
 namespace Buybrain\Nervus\Adapter;
 
+use Buybrain\Nervus\Adapter\Config\ExtraAdapterConfig;
+use Buybrain\Nervus\Adapter\Config\SignalAdapterConfig;
 use Exception;
 
 abstract class SignalAdapter extends Adapter
 {
+    /** @var float */
+    private $interval = 0;
+    
     protected function doStep()
     {
         // Wait for the next signal request
@@ -39,7 +44,25 @@ abstract class SignalAdapter extends Adapter
         }
     }
 
+    /**
+     * @param float $seconds
+     * @return $this
+     */
+    public function interval($seconds)
+    {
+        $this->interval = $seconds;
+        return $this;
+    }
+
     abstract protected function onRequest(SignalCallback $callback);
+
+    /**
+     * @return ExtraAdapterConfig
+     */
+    protected function getExtraConfig()
+    {
+        return new SignalAdapterConfig($this->interval);
+    }
 
     /**
      * @return string

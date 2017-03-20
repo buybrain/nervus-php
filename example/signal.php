@@ -44,4 +44,4 @@ class MySignalAdapter extends SignalAdapter
     }
 }
 
-(new MySignalAdapter())->socketAddr(getopt('', ['socket:'])['socket'])->run();
+(new MySignalAdapter())->socketAddr(getopt('', ['socket:'])['socket'])->interval(10)->run();
