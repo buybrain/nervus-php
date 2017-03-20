@@ -12,4 +12,12 @@ class MockWriteAdapter extends WriteAdapter
     {
         // Do nothing, pretend write succeeded
     }
+
+    /**
+     * @return string[]
+     */
+    public function getSupportedEntityTypes()
+    {
+        return ['test'];
+    }
 }

@@ -20,6 +20,14 @@ class MyWriteAdapter extends WriteAdapter
     {
         sleep(1);
     }
+
+    /**
+     * @return string[]
+     */
+    public function getSupportedEntityTypes()
+    {
+        return ['example'];
+    }
 }
 
 (new MyWriteAdapter())->socketAddr(getopt('', ['socket:'])['socket'])->run();

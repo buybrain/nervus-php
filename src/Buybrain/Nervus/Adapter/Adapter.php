@@ -95,10 +95,25 @@ abstract class Adapter
 
     abstract protected function doStep();
 
+    /**
+     * @return string
+     */
+    abstract protected function getAdapterType();
+    
+    /**
+     * @return string[]|null
+     */
+    abstract public function getSupportedEntityTypes();
+
     private function init()
     {
         if ($this->encoder === null) {
-            (new JsonEncoder($this->output))->useNewlines(false)->encode(new AdapterConfig($this->codec->getName()));
+            $config = new AdapterConfig(
+                $this->codec->getName(), 
+                $this->getAdapterType(), 
+                $this->getSupportedEntityTypes()
+            );
+            (new JsonEncoder($this->output))->useNewlines(false)->encode($config);
             $this->decoder = $this->codec->newDecoder($this->input);
             $this->encoder = $this->codec->newEncoder($this->output);
         }

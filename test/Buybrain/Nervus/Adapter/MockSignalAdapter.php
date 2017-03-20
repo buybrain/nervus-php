@@ -29,4 +29,12 @@ class MockSignalAdapter extends SignalAdapter
     {
         return $this->response;
     }
+
+    /**
+     * @return string[]
+     */
+    public function getSupportedEntityTypes()
+    {
+        return ['test'];
+    }
 }

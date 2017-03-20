@@ -27,6 +27,14 @@ class ExampleReadAdapter extends ReadAdapter
         }
         return $res;
     }
+
+    /**
+     * @return string[]
+     */
+    public function getSupportedEntityTypes()
+    {
+        return ['example'];
+    }
 }
 
 (new ExampleReadAdapter())->socketAddr(getopt('', ['socket:'])['socket'])->run();

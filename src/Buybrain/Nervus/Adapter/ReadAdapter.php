@@ -25,4 +25,12 @@ abstract class ReadAdapter extends Adapter
      * @return Entity[]
      */
     abstract protected function onRequest(array $ids);
+
+    /**
+     * @return string
+     */
+    protected function getAdapterType()
+    {
+        return 'read';
+    }
 }

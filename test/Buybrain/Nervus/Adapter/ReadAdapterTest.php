@@ -25,7 +25,7 @@ class ReadAdapterTest extends PHPUnit_Framework_TestCase
         rewind($output);
         $written = stream_get_contents($output);
         $expected = 
-            json_encode(new AdapterConfig('json')) . 
+            json_encode(new AdapterConfig('json', 'read', ['test'])) . 
             json_encode(ReadResponse::success([new Entity($entityId, 'test')]));
 
         $this->assertEquals($expected, trim($written));

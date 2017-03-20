@@ -34,6 +34,14 @@ class MySignalAdapter extends SignalAdapter
             }
         });
     }
+
+    /**
+     * @return string[]
+     */
+    public function getSupportedEntityTypes()
+    {
+        return ['example'];
+    }
 }
 
 (new MySignalAdapter())->socketAddr(getopt('', ['socket:'])['socket'])->run();

@@ -30,4 +30,12 @@ class MockReadAdapter extends ReadAdapter
             return new Entity($id, $this->mockData);
         }, $ids);
     }
+
+    /**
+     * @return string[]
+     */
+    public function getSupportedEntityTypes()
+    {
+        return ['test'];
+    }
 }

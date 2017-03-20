@@ -40,4 +40,12 @@ abstract class SignalAdapter extends Adapter
     }
 
     abstract protected function onRequest(SignalCallback $callback);
+
+    /**
+     * @return string
+     */
+    protected function getAdapterType()
+    {
+        return 'signal';
+    }
 }

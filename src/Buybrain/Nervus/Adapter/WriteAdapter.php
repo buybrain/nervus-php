@@ -23,4 +23,12 @@ abstract class WriteAdapter extends Adapter
      * @param Entity[] $entities
      */
     abstract protected function onRequest(array $entities);
+
+    /**
+     * @return string
+     */
+    protected function getAdapterType()
+    {
+        return 'write';
+    }
 }
