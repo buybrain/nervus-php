@@ -39,6 +39,15 @@ abstract class AbstractResponse implements JsonSerializable
     }
 
     /**
+     * @param array $data
+     * @return static
+     */
+    public static function fromArray(array $data)
+    {
+        return new static($data['Status'], $data['Error']);
+    }
+
+    /**
      * @return array
      */
     public function jsonSerialize()

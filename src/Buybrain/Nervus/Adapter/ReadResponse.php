@@ -20,6 +20,18 @@ class ReadResponse extends AbstractResponse
     }
 
     /**
+     * @param array $data
+     * @return ReadResponse
+     */
+    public static function fromArray(array $data)
+    {
+        /** @var ReadResponse $res */
+        $res = parent::fromArray($data);
+        $res->entities = array_map([Entity::class, 'fromArray'], $data['Entities']);
+        return $res;
+    }
+
+    /**
      * @return array
      */
     public function jsonSerialize()

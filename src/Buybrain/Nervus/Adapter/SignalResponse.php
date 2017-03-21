@@ -18,6 +18,18 @@ class SignalResponse extends AbstractResponse
     }
 
     /**
+     * @param array $data
+     * @return SignalResponse
+     */
+    public static function fromArray(array $data)
+    {
+        /** @var SignalResponse $res */
+        $res = parent::fromArray($data);
+        $res->signal = Signal::fromArray($data['Signal']);
+        return $res;
+    }
+
+    /**
      * @return array
      */
     public function jsonSerialize()

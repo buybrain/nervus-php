@@ -26,6 +26,15 @@ class Signal implements JsonSerializable
     }
 
     /**
+     * @param array $data
+     * @return Signal
+     */
+    public static function fromArray(array $data)
+    {
+        return new self(array_map([EntityId::class, 'fromArray'], $data['Ids']));
+    }
+
+    /**
      * @return array
      */
     function jsonSerialize()
