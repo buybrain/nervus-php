@@ -41,6 +41,7 @@ class ComposableReadAdapter extends ReadAdapter
      */
     protected function onRequest(array $ids)
     {
+        // Collect the ids per type
         $perType = [];
         foreach ($ids as $id) {
             $type = $id->getType();
@@ -50,15 +51,9 @@ class ComposableReadAdapter extends ReadAdapter
             $perType[$type][] = $id;
         }
 
-        $unsupportedTypes = array_diff(array_keys($perType), $this->getSupportedEntityTypes());
-        if (count($unsupportedTypes) > 0) {
-            throw new Exception(sprintf(
-                'Composable read adapter encountered unsupported types %s (supported are %s)',
-                implode(', ', $unsupportedTypes),
-                implode(', ', $this->getSupportedEntityTypes())
-            ));
-        }
+        $this->checkUnsupportedTypes(array_keys($perType));
 
+        // Use the read handlers for every type and combine the results
         $result = [];
         foreach ($perType as $type => $ids) {
             $result[] = $this->handlers[$type]->read($ids);

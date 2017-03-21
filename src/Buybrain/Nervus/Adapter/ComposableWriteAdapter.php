@@ -48,14 +48,7 @@ class ComposableWriteAdapter extends WriteAdapter
             $perType[$type][] = $entity;
         }
 
-        $unsupportedTypes = array_diff(array_keys($perType), $this->getSupportedEntityTypes());
-        if (count($unsupportedTypes) > 0) {
-            throw new Exception(sprintf(
-                'Composable write adapter encountered unsupported types %s (supported are %s)',
-                implode(', ', $unsupportedTypes),
-                implode(', ', $this->getSupportedEntityTypes())
-            ));
-        }
+        $this->checkUnsupportedTypes(array_keys($perType));
 
         foreach ($perType as $type => $entities) {
             $this->handlers[$type]->write($entities);

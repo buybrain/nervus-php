@@ -3,14 +3,13 @@ namespace Buybrain\Nervus\Adapter;
 
 use Buybrain\Nervus\Adapter\Config\AdapterConfig;
 use Buybrain\Nervus\Adapter\Config\ExtraAdapterConfig;
-use Buybrain\Nervus\Adapter\Config\NoExtraConfig;
 use Buybrain\Nervus\Codec\Codec;
 use Buybrain\Nervus\Codec\Decoder;
 use Buybrain\Nervus\Codec\Encoder;
 use Buybrain\Nervus\Codec\JsonEncoder;
 use Buybrain\Nervus\Codec\MessagePackCodec;
+use Buybrain\Nervus\Exception\Exception;
 use Buybrain\Nervus\Util\Streams;
-use RuntimeException;
 
 abstract class Adapter
 {
@@ -38,7 +37,7 @@ abstract class Adapter
     {
         $socket = stream_socket_client('tcp://' . $addr);
         if ($socket === false) {
-            throw new RuntimeException('Could not dial to ' . $addr . ': ' . socket_strerror(socket_last_error()));
+            throw new Exception('Could not dial to ' . $addr . ': ' . socket_strerror(socket_last_error()));
         }
         return $this->io($socket);
     }
@@ -107,6 +106,22 @@ abstract class Adapter
      * @return string[]|null
      */
     abstract public function getSupportedEntityTypes();
+
+    /**
+     * @param string[] $incomingTypes
+     */
+    protected function checkUnsupportedTypes(array $incomingTypes)
+    {
+        $unsupportedTypes = array_diff($incomingTypes, $this->getSupportedEntityTypes());
+        if (count($unsupportedTypes) > 0) {
+            throw new Exception(sprintf(
+                '%s encountered unsupported types %s (supported are %s)',
+                get_class($this),
+                implode(', ', $unsupportedTypes),
+                implode(', ', $this->getSupportedEntityTypes())
+            ));
+        }
+    }
 
     /**
      * @return ExtraAdapterConfig
