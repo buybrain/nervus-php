@@ -11,7 +11,7 @@ class SignalAdapterTest extends \PHPUnit_Framework_TestCase
     public function testSignalAdapter()
     {
         $request = new SignalRequest();
-        $signal = new Signal([new EntityId('test', 123)]);
+        $signal = new Signal([new EntityId('test', '123')]);
         $response = new SignalAckRequest(true);
 
         $io = (new TestIO())->write($request)->write($response);
