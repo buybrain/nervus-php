@@ -9,7 +9,7 @@ abstract class SignalAdapter extends Adapter
 {
     /** @var float */
     private $interval = 0;
-    
+
     protected function doStep()
     {
         // Wait for the next signal request

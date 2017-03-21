@@ -1,8 +1,7 @@
 <?php
-namespace Buybrain\Nervus;
+namespace Buybrain\Nervus\Util;
 
 use Buybrain\Nervus\Exception\Exception;
-use Buybrain\Nervus\Util\Streams;
 use PHPUnit_Framework_TestCase;
 
 class StreamsTest extends PHPUnit_Framework_TestCase
@@ -22,7 +21,7 @@ class StreamsTest extends PHPUnit_Framework_TestCase
     {
         Streams::assertStream($noStream);
     }
-    
+
     public function noStreamProvider()
     {
         return [

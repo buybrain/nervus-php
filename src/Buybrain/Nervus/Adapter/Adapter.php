@@ -101,7 +101,7 @@ abstract class Adapter
      * @return string
      */
     abstract protected function getAdapterType();
-    
+
     /**
      * @return string[]|null
      */
@@ -135,8 +135,8 @@ abstract class Adapter
     {
         if ($this->encoder === null) {
             $config = new AdapterConfig(
-                $this->codec->getName(), 
-                $this->getAdapterType(), 
+                $this->codec->getName(),
+                $this->getAdapterType(),
                 $this->getSupportedEntityTypes(),
                 $this->getExtraConfig()
             );

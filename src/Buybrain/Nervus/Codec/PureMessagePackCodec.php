@@ -20,6 +20,7 @@ class PureMessagePackCodec implements Codec
     {
         return new PureMessagePackEncoder($stream);
     }
+
     /**
      * @return string
      */
@@ -27,5 +28,4 @@ class PureMessagePackCodec implements Codec
     {
         return 'msgpack';
     }
-    
 }

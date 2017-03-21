@@ -18,7 +18,7 @@ class JsonEncoder extends AbstractEncoder
         $this->useNewlines = $useNewlines;
         return $this;
     }
-    
+
     /**
      * @param $data
      * @return string

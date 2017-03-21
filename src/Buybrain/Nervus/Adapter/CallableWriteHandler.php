@@ -15,7 +15,7 @@ class CallableWriteHandler implements WriteHandler
     {
         $this->callable = $callable;
     }
-    
+
     /**
      * @param Entity[] $entities
      */
