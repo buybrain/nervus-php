@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit colors="true" bootstrap="../vendor/autoload.php">
+    <testsuites>
+        <testsuite name="nervus-php test suite">
+            <directory>Buybrain</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">../src</directory>
+        </whitelist>
+    </filter>
+</phpunit>

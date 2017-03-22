@@ -21,7 +21,7 @@ class ComposableReadAdapter extends ReadAdapter
             $handler = new CallableReadHandler($handler);
         }
         if (!$handler instanceof ReadHandler) {
-            throw new Exception('Handler must be callable or instanceof ReadHandler, got ' . gettype($handler));
+            throw new Exception('Handler must be callable or instance of ReadHandler, got ' . gettype($handler));
         }
         $this->handlers[$type] = $handler;
         return $this;

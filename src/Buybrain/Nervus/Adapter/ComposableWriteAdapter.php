@@ -20,7 +20,7 @@ class ComposableWriteAdapter extends WriteAdapter
             $handler = new CallableWriteHandler($handler);
         }
         if (!$handler instanceof WriteHandler) {
-            throw new Exception('Handler must be callable or instanceof WriteHandler, got ' . gettype($handler));
+            throw new Exception('Handler must be callable or instance of WriteHandler, got ' . gettype($handler));
         }
         $this->handlers[$type] = $handler;
         return $this;
