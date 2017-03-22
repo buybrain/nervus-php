@@ -1,9 +1,10 @@
 <?php
 namespace Buybrain\Nervus;
 
+use Buybrain\Nervus\Util\Typed;
 use JsonSerializable;
 
-class EntityId implements JsonSerializable
+class EntityId implements JsonSerializable, Typed
 {
     /** @var string */
     private $type;

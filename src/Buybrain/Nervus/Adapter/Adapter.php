@@ -10,7 +10,12 @@ use Buybrain\Nervus\Codec\JsonEncoder;
 use Buybrain\Nervus\Codec\MessagePackCodec;
 use Buybrain\Nervus\Exception\Exception;
 use Buybrain\Nervus\Util\Streams;
+use Buybrain\Nervus\Util\Typed;
+use Buybrain\Nervus\Util\TypedUtils;
 
+/**
+ * Base class for all nervus adapters. It mainly handles communication with the nervus host.
+ */
 abstract class Adapter
 {
     /** @var Codec */
@@ -30,19 +35,8 @@ abstract class Adapter
     }
 
     /**
-     * @param $addr string
-     * @return $this
-     */
-    public function socketAddr($addr)
-    {
-        $socket = stream_socket_client('tcp://' . $addr);
-        if ($socket === false) {
-            throw new Exception('Could not dial to ' . $addr . ': ' . socket_strerror(socket_last_error()));
-        }
-        return $this->io($socket);
-    }
-
-    /**
+     * Set a stream for both input and output
+     *
      * @param resource $stream
      * @return $this
      */
@@ -52,6 +46,8 @@ abstract class Adapter
     }
 
     /**
+     * Set a stream for input
+     *
      * @param resource $input
      * @return $this
      */
@@ -62,6 +58,8 @@ abstract class Adapter
     }
 
     /**
+     * Set a stream for output
+     *
      * @param resource $output
      * @return $this
      */
@@ -72,6 +70,8 @@ abstract class Adapter
     }
 
     /**
+     * Specify a codec to use for communicating with the nervus host
+     *
      * @param Codec $codec
      * @return $this
      */
@@ -81,6 +81,10 @@ abstract class Adapter
         return $this;
     }
 
+    /**
+     * Starts the adapter and keeps handling requests in a loop. This method never returns and will typically be
+     * the last call in an adapter implementation script.
+     */
     public function run()
     {
         $this->init();
@@ -89,6 +93,9 @@ abstract class Adapter
         }
     }
 
+    /**
+     * Perform a single step, i.e. handle a single incoming request
+     */
     public function step()
     {
         $this->init();
@@ -108,18 +115,22 @@ abstract class Adapter
     abstract public function getSupportedEntityTypes();
 
     /**
-     * @param string[] $incomingTypes
+     * Validate that all the entity types from a request are supported by this adapter
+     *
+     * @param Typed[] $objects
      */
-    protected function checkUnsupportedTypes(array $incomingTypes)
+    protected function checkUnsupportedTypes(array $objects)
     {
-        $unsupportedTypes = array_diff($incomingTypes, $this->getSupportedEntityTypes());
-        if (count($unsupportedTypes) > 0) {
-            throw new Exception(sprintf(
-                '%s encountered unsupported types %s (supported are %s)',
-                get_class($this),
-                implode(', ', $unsupportedTypes),
-                implode(', ', $this->getSupportedEntityTypes())
-            ));
+        if ($this->getSupportedEntityTypes() !== null) {
+            $unsupportedTypes = array_diff(TypedUtils::uniqueTypes($objects), $this->getSupportedEntityTypes());
+            if (count($unsupportedTypes) > 0) {
+                throw new Exception(sprintf(
+                    '%s encountered unsupported types %s (supported are %s)',
+                    get_class($this),
+                    implode(', ', $unsupportedTypes),
+                    implode(', ', $this->getSupportedEntityTypes())
+                ));
+            }
         }
     }
 
@@ -131,6 +142,10 @@ abstract class Adapter
         return null;
     }
 
+    /**
+     * Prepare this adapter for communication. Will send the adapter configuration to the nervus host and set up an
+     * encoder and decoder for further communication.
+     */
     private function init()
     {
         if ($this->encoder === null) {

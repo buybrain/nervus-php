@@ -4,6 +4,9 @@ namespace Buybrain\Nervus\Adapter;
 use Buybrain\Nervus\Entity;
 use Buybrain\Nervus\EntityId;
 
+/**
+ * Implementation of ReadHandler that passes read requests to a callable
+ */
 class CallableReadHandler implements ReadHandler
 {
     /** @var callable */

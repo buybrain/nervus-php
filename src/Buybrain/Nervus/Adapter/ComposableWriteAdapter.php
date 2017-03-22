@@ -3,15 +3,21 @@ namespace Buybrain\Nervus\Adapter;
 
 use Buybrain\Nervus\Entity;
 use Buybrain\Nervus\Exception\Exception;
+use Buybrain\Nervus\Util\TypedUtils;
 
+/**
+ * Implementation of WriteAdapter that can be composed of multiple handlers specialized for particular entity types
+ */
 class ComposableWriteAdapter extends WriteAdapter
 {
     /** @var WriteHandler[] */
     private $handlers = [];
 
     /**
+     * Register a handler for a specific entity type
+     *
      * @param string $type
-     * @param WriteHandler|callable $handler
+     * @param WriteHandler|callable $handler will be called for write requests for the given entity type
      * @return $this
      */
     public function type($type, $handler)
@@ -39,18 +45,7 @@ class ComposableWriteAdapter extends WriteAdapter
      */
     protected function onRequest(array $entities)
     {
-        $perType = [];
-        foreach ($entities as $entity) {
-            $type = $entity->getId()->getType();
-            if (!isset($perType[$type])) {
-                $perType[$type] = [];
-            }
-            $perType[$type][] = $entity;
-        }
-
-        $this->checkUnsupportedTypes(array_keys($perType));
-
-        foreach ($perType as $type => $entities) {
+        foreach (TypedUtils::groupByType($entities) as $type => $entities) {
             $this->handlers[$type]->write($entities);
         }
     }

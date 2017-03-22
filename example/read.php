@@ -3,6 +3,7 @@ namespace Example\Read;
 
 use Buybrain\Nervus\Adapter\ReadAdapter;
 use Buybrain\Nervus\Entity;
+use Buybrain\Nervus\Util\Tcp;
 
 /*
     Example implementation of a read adapter using the PHP adapter library.
@@ -20,5 +21,5 @@ ReadAdapter::compose()
         }
         return $res;
     })
-    ->socketAddr(getopt('', ['socket:'])['socket'])
+    ->io(Tcp::dial(getopt('', ['socket:'])['socket']))
     ->run();

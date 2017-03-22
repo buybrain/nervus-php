@@ -5,6 +5,9 @@ use Buybrain\Nervus\Adapter\Config\ExtraAdapterConfig;
 use Buybrain\Nervus\Adapter\Config\SignalAdapterConfig;
 use Exception;
 
+/**
+ * Base class for all signal adapters
+ */
 abstract class SignalAdapter extends Adapter
 {
     /** @var float */
@@ -12,39 +15,19 @@ abstract class SignalAdapter extends Adapter
 
     protected function doStep()
     {
-        // Wait for the next signal request
+        // Wait for the next signal request. The request itself doesn't contain any data.
         $this->decoder->decode(SignalRequest::class);
-
-        $callback = new SignalCallback(function (array $ids, callable $onAck) {
-            // Send the signal to the host application
-            $this->encoder->encode(SignalResponse::success(new Signal($ids)));
-
-            while (true) {
-                // Wait for the result, which should be a request to ack or nack the signal
-                /** @var SignalAckRequest $ackRequest */
-                $ackRequest = $this->decoder->decode(SignalAckRequest::class);
-
-                // Let the implementation handle the ack request
-                try {
-                    call_user_func($onAck, $ackRequest->isAck());
-                    $this->encoder->encode(SignalAckResponse::success());
-                    // The acknowledgement worked, we can stop listening for consecutive acknowledgement requests
-                    break;
-                } catch (Exception $ex) {
-                    // Something went wrong. Send the error back and wait for the next acknowledgement request
-                    $this->encoder->encode(SignalAckResponse::error($ex));
-                }
-            }
-        });
-
+        
         try {
-            $this->onRequest($callback);
+            $this->onRequest(new SignalCallback($this->encoder, $this->decoder));
         } catch (Exception $ex) {
             $this->encoder->encode(SignalResponse::error($ex));
         }
     }
 
     /**
+     * Set the interval in seconds that the nervus host should wait between consecutive signal requests
+     * 
      * @param float $seconds
      * @return $this
      */
@@ -69,6 +52,7 @@ abstract class SignalAdapter extends Adapter
      */
     public function getSupportedEntityTypes()
     {
+        // The concept of supported types isn't really meaningful for signal adapters
         return null;
     }
 

@@ -4,6 +4,9 @@ namespace Buybrain\Nervus\Adapter;
 use Buybrain\Nervus\Entity;
 use Exception;
 
+/**
+ * Base class for all write adapters
+ */
 abstract class WriteAdapter extends Adapter
 {
     protected function doStep()
@@ -11,6 +14,7 @@ abstract class WriteAdapter extends Adapter
         /** @var WriteRequest $req */
         $req = $this->decoder->decode(WriteRequest::class);
         try {
+            $this->checkUnsupportedTypes($req->getEntities());
             $this->onRequest($req->getEntities());
             $res = WriteResponse::success();
         } catch (Exception $ex) {
@@ -33,6 +37,8 @@ abstract class WriteAdapter extends Adapter
     }
 
     /**
+     * Start composing a new write adapter
+     * 
      * @return ComposableWriteAdapter
      */
     public static function compose()

@@ -4,16 +4,19 @@ namespace Buybrain\Nervus\Adapter;
 use Exception;
 use JsonSerializable;
 
+/**
+ * Base class for response messages that get sent back to the nervus host
+ */
 abstract class AbstractResponse implements JsonSerializable
 {
     /** @var bool */
     private $status;
-    /** @var string */
+    /** @var string|null */
     private $error;
 
     /**
      * @param bool $status
-     * @param string $error
+     * @param string|null
      */
     private function __construct($status, $error)
     {
@@ -30,6 +33,8 @@ abstract class AbstractResponse implements JsonSerializable
     }
 
     /**
+     * Create a new error response message
+     * 
      * @param Exception $error
      * @return static
      */

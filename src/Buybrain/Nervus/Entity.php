@@ -2,9 +2,10 @@
 namespace Buybrain\Nervus;
 
 use Buybrain\Nervus\Util\Objects;
+use Buybrain\Nervus\Util\Typed;
 use JsonSerializable;
 
-class Entity implements JsonSerializable
+class Entity implements JsonSerializable, Typed
 {
     /** @var EntityId */
     private $id;
@@ -46,6 +47,14 @@ class Entity implements JsonSerializable
             'Id' => $this->id,
             'Data' => $this->data,
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->id->getType();
     }
 
     /**

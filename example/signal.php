@@ -4,6 +4,7 @@ namespace Example\Signal;
 use Buybrain\Nervus\Adapter\SignalAdapter;
 use Buybrain\Nervus\Adapter\SignalCallback;
 use Buybrain\Nervus\EntityId;
+use Buybrain\Nervus\Util\Tcp;
 
 /*
     Example implementation of a signal adapter using the PHP adapter library.
@@ -36,4 +37,4 @@ class MySignalAdapter extends SignalAdapter
     }
 }
 
-(new MySignalAdapter())->socketAddr(getopt('', ['socket:'])['socket'])->interval(10)->run();
+(new MySignalAdapter())->io(Tcp::dial(getopt('', ['socket:'])['socket']))->interval(10)->run();

@@ -2,6 +2,7 @@
 namespace Example\Write;
 
 use Buybrain\Nervus\Adapter\WriteAdapter;
+use Buybrain\Nervus\Util\Tcp;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -15,5 +16,5 @@ WriteAdapter::compose()
         // Write entities here
         sleep(1);
     })
-    ->socketAddr(getopt('', ['socket:'])['socket'])
+    ->io(Tcp::dial(getopt('', ['socket:'])['socket']))
     ->run();

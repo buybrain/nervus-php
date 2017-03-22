@@ -5,6 +5,9 @@ use Buybrain\Nervus\Entity;
 use Buybrain\Nervus\EntityId;
 use Exception;
 
+/**
+ * Base class for all read adapters
+ */
 abstract class ReadAdapter extends Adapter
 {
     protected function doStep()
@@ -12,6 +15,7 @@ abstract class ReadAdapter extends Adapter
         /** @var ReadRequest $req */
         $req = $this->decoder->decode(ReadRequest::class);
         try {
+            $this->checkUnsupportedTypes($req->getIds());
             $entities = $this->onRequest($req->getIds());
             $res = ReadResponse::success($entities);
         } catch (Exception $ex) {
@@ -35,6 +39,8 @@ abstract class ReadAdapter extends Adapter
     }
 
     /**
+     * Start composing a new read adapter
+     * 
      * @return ComposableReadAdapter
      */
     public static function compose()
