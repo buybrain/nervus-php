@@ -12,6 +12,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 WriteAdapter::compose()
     ->type('example', function (array $entities) {
+        // Write entities here
         sleep(1);
     })
     ->socketAddr(getopt('', ['socket:'])['socket'])
