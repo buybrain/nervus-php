@@ -1,6 +1,7 @@
 <?php
 namespace Example\Read;
 
+use Buybrain\Nervus\Adapter\CallableReader;
 use Buybrain\Nervus\Adapter\ReadAdapter;
 use Buybrain\Nervus\Entity;
 use Buybrain\Nervus\Util\Tcp;
@@ -12,14 +13,17 @@ use Buybrain\Nervus\Util\Tcp;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-ReadAdapter::compose()
-    ->type('example', function (array $ids) {
-        // For every ID, just return an entity with 'example' as data
-        $res = [];
-        foreach ($ids as $id) {
-            $res[] = new Entity($id, 'example');
-        }
-        return $res;
-    })
+(new ReadAdapter())
+    ->add(new CallableReader(
+        function (array $ids) {
+            // For every ID, just return an entity with 'example' as data
+            $res = [];
+            foreach ($ids as $id) {
+                $res[] = new Entity($id, 'example');
+            }
+            return $res;
+        },
+        ['example']
+    ))
     ->io(Tcp::dial(getopt('', ['socket:'])['socket']))
     ->run();

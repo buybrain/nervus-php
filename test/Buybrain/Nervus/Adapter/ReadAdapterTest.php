@@ -17,12 +17,22 @@ class ReadAdapterTest extends PHPUnit_Framework_TestCase
 
         $io = (new TestIO())->write($request);
 
-        $SUT = (new MockReadAdapter())->in($io->input())->out($io->output())->codec($io->codec());
+        $SUT = (new ReadAdapter())
+            ->add(new CallableReader(
+                function ($ids) {
+                    return array_map(function ($id) {
+                        return new Entity($id, 'test');
+                    }, $ids);
+                }
+            ))
+            ->in($io->input())
+            ->out($io->output())
+            ->codec($io->codec());
 
         $SUT->step();
 
         $expected =
-            json_encode(new AdapterConfig($io->codec()->getName(), 'read', ['test'])) .
+            json_encode(new AdapterConfig($io->codec()->getName(), 'read', null)) .
             $io->encode(ReadResponse::success([new Entity($entityId, 'test')]));
 
         $this->assertEquals($expected, $io->writtenData());
@@ -35,17 +45,23 @@ class ReadAdapterTest extends PHPUnit_Framework_TestCase
         $request = new ReadRequest([$id1, $id2]);
 
         $io = (new TestIO())->write($request);
-
-        $SUT = ReadAdapter::compose()
+        
+        $SUT = (new ReadAdapter())
+            ->add(new CallableReader(
+                function ($ids) {
+                    return $this->mapToStaticContent($ids, 'content1');
+                },
+                ['type1']
+            ))
+            ->add(new CallableReader(
+                function ($ids) {
+                    return $this->mapToStaticContent($ids, 'content2');
+                },
+                ['type2']
+            ))
             ->in($io->input())
             ->out($io->output())
-            ->codec($io->codec())
-            ->type('type1', function (array $ids) {
-                return $this->mapToStaticContent($ids, 'content1');
-            })
-            ->type('type2', function (array $ids) {
-                return $this->mapToStaticContent($ids, 'content2');
-            });
+            ->codec($io->codec());
 
         $this->assertEquals(['type1', 'type2'], $SUT->getSupportedEntityTypes());
 
@@ -57,25 +73,29 @@ class ReadAdapterTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $io->writtenData());
     }
-    
+
     public function testUnsupportedType()
     {
         $request = new ReadRequest([new EntityId('unsupportedType', '234')]);
 
         $io = (new TestIO())->write($request);
 
-        $SUT = ReadAdapter::compose()
+        $SUT = (new ReadAdapter())
+            ->add(new CallableReader(
+                function ($ids) {
+                    return array_map(function ($id) {
+                        return new Entity($id, 'test');
+                    }, $ids);
+                },
+                ['type1']
+            ))
             ->in($io->input())
             ->out($io->output())
-            ->codec($io->codec())
-            ->type('type1', function (array $ids) {
-                return $this->mapToStaticContent($ids, 'content1');
-            });
-        
+            ->codec($io->codec());
+
         $SUT->step();
-        
-        $expectedErr = 'Buybrain\\Nervus\\Adapter\\ComposableReadAdapter encountered unsupported types ' . 
-            'unsupportedType (supported are type1)';
+
+        $expectedErr = ReadAdapter::class . ' encountered unsupported types unsupportedType (supported are type1)';
 
         $expected =
             json_encode(new AdapterConfig($io->codec()->getName(), 'read', ['type1'])) .

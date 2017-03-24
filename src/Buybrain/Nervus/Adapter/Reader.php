@@ -7,11 +7,16 @@ use Buybrain\Nervus\EntityId;
 /**
  * Interface for classes that can read a list of entities based on their IDs
  */
-interface ReadHandler
+interface Reader
 {
     /**
      * @param EntityId[] $ids
      * @return Entity[]
      */
     function read(array $ids);
+
+    /**
+     * @return string[]|null
+     */
+    public function getSupportedEntityTypes();
 }
