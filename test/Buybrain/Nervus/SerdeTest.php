@@ -38,7 +38,7 @@ class SerdeTest extends PHPUnit_Framework_TestCase
                 EntityId::class
             ],
             [
-                ['Id' => ['Id' => 234, 'Type' => 'test'], 'Data' => 'Some data'],
+                ['Id' => ['Id' => 234, 'Type' => 'test'], 'Data' => 'Some data', 'Deleted' => false],
                 Entity::class
             ],
             [
@@ -62,11 +62,17 @@ class SerdeTest extends PHPUnit_Framework_TestCase
                 ReadRequest::class
             ],
             [
-                ['Status' => true, 'Error' => null, 'Entities' => [['Id' => ['Type' => 'test', 'Id' => '123'], 'Data' => 'Some data']]],
+                [
+                    'Status' => true, 
+                    'Error' => null, 
+                    'Entities' => [
+                        ['Id' => ['Type' => 'test', 'Id' => '123'], 'Data' => 'Some data', 'Deleted' => false]
+                    ]
+                ],
                 ReadResponse::class
             ],
             [
-                ['Entities' => [['Id' => ['Type' => 'test', 'Id' => '123'], 'Data' => 'Some data']]],
+                ['Entities' => [['Id' => ['Type' => 'test', 'Id' => '123'], 'Data' => 'Some data', 'Deleted' => false]]],
                 WriteRequest::class
             ],
             [

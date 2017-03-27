@@ -30,7 +30,7 @@ class ObjectsTest extends PHPUnit_Framework_TestCase
             [(object)['a' => 1], ['a' => 1]],
             [
                 new Entity(new EntityId('test', '123'), 'aaa'),
-                ['Id' => ['Type' => 'test', 'Id' => '123'], 'Data' => 'aaa']
+                ['Id' => ['Type' => 'test', 'Id' => '123'], 'Data' => 'aaa', 'Deleted' => false]
             ],
         ];
     }

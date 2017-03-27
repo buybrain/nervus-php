@@ -4,6 +4,11 @@ namespace Buybrain\Nervus;
 use Buybrain\Nervus\Util\Typed;
 use JsonSerializable;
 
+/**
+ * Identifier of an Entity. Contains the type of entity and an ID that's unique among all entities of the same type.
+ * 
+ * @see Entity
+ */
 class EntityId implements JsonSerializable, Typed
 {
     /** @var string */
@@ -44,7 +49,7 @@ class EntityId implements JsonSerializable, Typed
     {
         return [
             'Type' => $this->type,
-            'Id' => $this->id
+            'Id' => $this->id,
         ];
     }
 
