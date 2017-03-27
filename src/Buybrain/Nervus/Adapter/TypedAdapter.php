@@ -49,7 +49,7 @@ abstract class TypedAdapter extends Adapter
     }
 
     /**
-     * @return ExtraAdapterConfig
+     * @return ExtraAdapterConfig|null
      */
     protected function getExtraConfig()
     {

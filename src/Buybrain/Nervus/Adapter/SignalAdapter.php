@@ -90,7 +90,7 @@ class SignalAdapter extends Adapter implements SignalCallback
     }
 
     /**
-     * @return ExtraAdapterConfig
+     * @return ExtraAdapterConfig|null
      */
     protected function getExtraConfig()
     {

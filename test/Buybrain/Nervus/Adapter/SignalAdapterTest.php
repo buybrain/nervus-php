@@ -43,4 +43,59 @@ class SignalAdapterTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $io->writtenData());
         $this->assertTrue($ackResponse);
     }
+
+    public function testErrorDuringSignal()
+    {
+        $io = (new TestIO())->write(new SignalRequest());
+
+        $ackResponse = null;
+        $SUT = (new SignalAdapter(new CallableSignaler(function (SignalCallback $callback) {
+            throw new \RuntimeException('Oh no');
+        })))
+            ->in($io->input())
+            ->out($io->output())
+            ->codec($io->codec());
+
+        $SUT->step();
+
+        $expected =
+            json_encode(new AdapterConfig($io->codec()->getName(), 'signal', new SignalAdapterConfig(0))) .
+            $io->encode(SignalResponse::error(new \RuntimeException('Oh no')));
+
+        $this->assertEquals($expected, $io->writtenData());
+    }
+
+    public function testErrorDuringAck()
+    {
+        $io = (new TestIO())
+            ->write(new SignalRequest())
+            ->write(new SignalAckRequest(true)) // This one will fail, try again
+            ->write(new SignalAckRequest(true)); // This one will succeed
+
+        
+        $counter = 0;
+        $SUT = (new SignalAdapter(new CallableSignaler(function (SignalCallback $callback) use (&$counter) {
+            $callback->onSignal([], function ($ack) use (&$counter) {
+                if ($counter++ === 0) {
+                    throw new \RuntimeException('Oh no');
+                }
+                // okay, no problem
+            });
+        })))
+            ->in($io->input())
+            ->out($io->output())
+            ->codec($io->codec());
+
+        $SUT->step();
+
+        $expected =
+            json_encode(new AdapterConfig($io->codec()->getName(), 'signal', new SignalAdapterConfig(0))) .
+            $io->encode(
+                SignalResponse::success(new Signal([])),
+                SignalAckResponse::error(new \RuntimeException('Oh no')),
+                SignalAckResponse::success()
+            );
+
+        $this->assertEquals($expected, $io->writtenData());
+    }
 }

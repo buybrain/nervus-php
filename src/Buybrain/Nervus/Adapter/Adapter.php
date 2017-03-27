@@ -107,12 +107,9 @@ abstract class Adapter
     abstract protected function getAdapterType();
 
     /**
-     * @return ExtraAdapterConfig
+     * @return ExtraAdapterConfig|null
      */
-    protected function getExtraConfig()
-    {
-        return null;
-    }
+    abstract protected function getExtraConfig();
 
     /**
      * Prepare this adapter for communication. Will send the adapter configuration to the nervus host and set up an
