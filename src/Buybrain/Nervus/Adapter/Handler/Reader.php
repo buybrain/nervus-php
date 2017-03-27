@@ -5,7 +5,7 @@ use Buybrain\Nervus\Entity;
 use Buybrain\Nervus\EntityId;
 
 /**
- * Interface for classes that can read a list of entities based on their IDs
+ * Interface for adapter handlers that can read a list of entities based on their IDs
  */
 interface Reader extends TypedHandler
 {

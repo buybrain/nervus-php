@@ -1,6 +1,9 @@
 <?php
 namespace Buybrain\Nervus\Adapter\Handler;
 
+/**
+ * Base class for adapter handlers that can support specific entity types
+ */
 abstract class AbstractTypedHandler implements TypedHandler
 {
     /** @var string[]|null */

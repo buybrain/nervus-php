@@ -1,6 +1,10 @@
 <?php
 namespace Buybrain\Nervus\Adapter\Config;
 
+/**
+ * Specialized adapter configuration for typed adapters (read / write).
+ * @see AdapterConfig
+ */
 class TypedAdapterConfig implements ExtraAdapterConfig
 {
     /** @var string[]|null */
@@ -9,7 +13,7 @@ class TypedAdapterConfig implements ExtraAdapterConfig
     /**
      * @param string[]|null $entityTypes
      */
-    public function __construct($entityTypes)
+    public function __construct(array $entityTypes = null)
     {
         $this->entityTypes = $entityTypes;
     }

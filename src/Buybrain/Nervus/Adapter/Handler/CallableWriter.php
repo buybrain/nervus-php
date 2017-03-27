@@ -4,7 +4,7 @@ namespace Buybrain\Nervus\Adapter\Handler;
 use Buybrain\Nervus\Entity;
 
 /**
- * Implementation of WriteHandler that passes write requests to a callable
+ * Implementation of Writer that passes write requests to a callable. Primarily meant for testing and prototyping.
  */
 class CallableWriter extends AbstractCallableHandler implements Writer
 {

@@ -5,7 +5,7 @@ use Buybrain\Nervus\Entity;
 use Buybrain\Nervus\EntityId;
 
 /**
- * Implementation of ReadHandler that passes read requests to a callable
+ * Implementation of Reader that passes read requests to a callable. Primarily meant for testing and prototyping.
  */
 class CallableReader extends AbstractCallableHandler implements Reader
 {

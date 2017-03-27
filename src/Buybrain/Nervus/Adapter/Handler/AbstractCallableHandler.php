@@ -1,6 +1,9 @@
 <?php
 namespace Buybrain\Nervus\Adapter\Handler;
 
+/**
+ * Base class for typed adapter handlers that will handle a request by calling a supplied callable
+ */
 abstract class AbstractCallableHandler extends AbstractTypedHandler
 {
     /** @var callable */
