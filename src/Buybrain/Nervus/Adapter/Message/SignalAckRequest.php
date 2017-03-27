@@ -3,6 +3,9 @@ namespace Buybrain\Nervus\Adapter\Message;
 
 use JsonSerializable;
 
+/**
+ * Request message for acknowledging or rejecting a recently dispatched signal
+ */
 class SignalAckRequest implements JsonSerializable
 {
     /** @var bool */

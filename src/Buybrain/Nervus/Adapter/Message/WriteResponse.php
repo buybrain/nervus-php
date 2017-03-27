@@ -1,6 +1,10 @@
 <?php
 namespace Buybrain\Nervus\Adapter\Message;
 
+/**
+ * Response message as a response to write requests
+ * @see WriteRequest
+ */
 class WriteResponse extends AbstractResponse
 {
     /**

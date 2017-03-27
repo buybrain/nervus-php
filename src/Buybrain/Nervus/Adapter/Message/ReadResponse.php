@@ -3,6 +3,10 @@ namespace Buybrain\Nervus\Adapter\Message;
 
 use Buybrain\Nervus\Entity;
 
+/**
+ * Response message as a response to read requests, containing the requested entities
+ * @see ReadRequest
+ */
 class ReadResponse extends AbstractResponse
 {
     /** @var Entity[] */

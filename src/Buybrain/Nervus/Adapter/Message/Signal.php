@@ -4,6 +4,9 @@ namespace Buybrain\Nervus\Adapter\Message;
 use Buybrain\Nervus\EntityId;
 use JsonSerializable;
 
+/**
+ * Collection of entity IDs indicating that the referenced entities (might) have changed and should be synced
+ */
 class Signal implements JsonSerializable
 {
     /** @var EntityId[] */

@@ -4,6 +4,9 @@ namespace Buybrain\Nervus\Adapter\Message;
 use Buybrain\Nervus\Entity;
 use JsonSerializable;
 
+/**
+ * Request message for writing a list of entities
+ */
 class WriteRequest implements JsonSerializable
 {
     /** @var Entity[] */

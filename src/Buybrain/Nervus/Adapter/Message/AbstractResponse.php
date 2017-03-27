@@ -5,7 +5,8 @@ use Exception;
 use JsonSerializable;
 
 /**
- * Base class for response messages that get sent back to the nervus host
+ * Base class for response messages that get sent back to the nervus host. Contains the status (success / failure) and
+ * optionally an error message in case of failure.
  */
 abstract class AbstractResponse implements JsonSerializable
 {

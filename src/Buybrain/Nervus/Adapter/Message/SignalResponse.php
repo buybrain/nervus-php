@@ -1,6 +1,10 @@
 <?php
 namespace Buybrain\Nervus\Adapter\Message;
 
+/**
+ * Response message as a response to signal requests, containing the next signal
+ * @see SignalRequest
+ */
 class SignalResponse extends AbstractResponse
 {
     /** @var Signal */

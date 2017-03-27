@@ -4,6 +4,9 @@ namespace Buybrain\Nervus\Adapter\Message;
 use Buybrain\Nervus\EntityId;
 use JsonSerializable;
 
+/**
+ * Request message for reading a list of entities based on their IDs
+ */
 class ReadRequest implements JsonSerializable
 {
     /** @var EntityId[] */

@@ -3,6 +3,9 @@ namespace Buybrain\Nervus\Adapter\Message;
 
 use JsonSerializable;
 
+/**
+ * Request message for dispatching the next signal
+ */
 class SignalRequest implements JsonSerializable
 {
     /**
