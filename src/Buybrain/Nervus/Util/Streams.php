@@ -3,6 +3,9 @@ namespace Buybrain\Nervus\Util;
 
 use InvalidArgumentException;
 
+/**
+ * Utility functions for dealing with streams
+ */
 class Streams
 {
     /**

@@ -5,6 +5,9 @@ use InvalidArgumentException;
 use JsonSerializable;
 use stdClass;
 
+/**
+ * Utility functions for dealing with objects
+ */
 class Objects
 {
     /**

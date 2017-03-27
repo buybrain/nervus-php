@@ -1,6 +1,9 @@
 <?php
 namespace Buybrain\Nervus\Util;
 
+/**
+ * Utility functions for dealing with arrays
+ */
 class Arrays
 {
     /**
