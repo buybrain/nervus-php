@@ -4,13 +4,16 @@ namespace Buybrain\Nervus\Codec;
 use InvalidArgumentException;
 use JsonSerializable;
 
+/**
+ * Encoder that writes JSON encoded messages
+ */
 class JsonEncoder extends AbstractEncoder
 {
     /** @var bool */
     private $useNewlines = true;
 
     /**
-     * @param bool $useNewlines
+     * @param bool $useNewlines whether to insert newlines between consecutive messages
      * @return $this
      */
     public function useNewlines($useNewlines)

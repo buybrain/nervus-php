@@ -1,6 +1,9 @@
 <?php
 namespace Buybrain\Nervus\Codec;
 
+/**
+ * Codec that reads and writes MessagePack encoded messages using a pure PHP implementation
+ */
 class PureMessagePackCodec implements Codec
 {
     /**

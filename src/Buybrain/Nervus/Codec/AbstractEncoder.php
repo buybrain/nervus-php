@@ -3,6 +3,9 @@ namespace Buybrain\Nervus\Codec;
 
 use Buybrain\Nervus\Util\Streams;
 
+/**
+ * Base class for encoders
+ */
 abstract class AbstractEncoder implements Encoder
 {
     /** @var resource */

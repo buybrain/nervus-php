@@ -1,6 +1,10 @@
 <?php
 namespace Buybrain\Nervus\Codec;
 
+/**
+ * Codec that reads and writes MessagePack encoded messages using either a pure PHP implementation or a faster native
+ * PECL extension, depending on whether the latter is installed
+ */
 class MessagePackCodec implements Codec
 {
     /**

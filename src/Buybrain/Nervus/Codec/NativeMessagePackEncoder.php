@@ -3,6 +3,9 @@ namespace Buybrain\Nervus\Codec;
 
 use Buybrain\Nervus\Util\Objects;
 
+/**
+ * Decoder that writes MessagePack encoded messages using a native PECL extension
+ */
 class NativeMessagePackEncoder extends AbstractEncoder
 {
     /**

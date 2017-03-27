@@ -4,6 +4,9 @@ namespace Buybrain\Nervus\Codec;
 use Buybrain\Nervus\Util\Objects;
 use MessagePack\Packer;
 
+/**
+ * Decoder that writes MessagePack encoded messages using a pure PHP implementation
+ */
 class PureMessagePackEncoder extends AbstractEncoder
 {
     /** @var Packer */

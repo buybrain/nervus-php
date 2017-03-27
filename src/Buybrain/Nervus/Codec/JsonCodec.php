@@ -1,6 +1,9 @@
 <?php
 namespace Buybrain\Nervus\Codec;
 
+/**
+ * Codec that reads and writes JSON encoded messages
+ */
 class JsonCodec implements Codec
 {
     /**

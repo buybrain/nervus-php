@@ -3,6 +3,9 @@ namespace Buybrain\Nervus\Codec;
 
 use RuntimeException;
 
+/**
+ * Codec that reads and writes MessagePack encoded messages using a native PECL extension
+ */
 class NativeMessagePackCodec implements Codec
 {
     /** @var bool */

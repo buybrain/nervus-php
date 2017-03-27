@@ -2,12 +2,12 @@
 namespace Buybrain\Nervus\Codec;
 
 use MessagePackUnpacker;
-use RuntimeException;
 
+/**
+ * Decoder that reads MessagePack encoded messages using a native PECL extension
+ */
 class NativeMessagePackDecoder extends AbstractDecoder
 {
-    const BUFFER_SIZE = 1048576; // 1 MB
-
     /** @var MessagePackUnpacker */
     private $unpacker;
 
@@ -26,14 +26,7 @@ class NativeMessagePackDecoder extends AbstractDecoder
     protected function decodeStruct()
     {
         while (!$this->unpacker->execute()) {
-            $data = fread($this->stream, self::BUFFER_SIZE);
-            if ($data === false) {
-                if (feof($this->stream)) {
-                    throw new RuntimeException('Encountered EOF while decoding');
-                }
-                throw new RuntimeException('Error while reading from stream');
-            }
-            $this->unpacker->feed($data);
+            $this->unpacker->feed($this->readChunk());
         }
         return $this->unpacker->data();
     }

@@ -1,6 +1,9 @@
 <?php
 namespace Buybrain\Nervus\Codec;
 
+/**
+ * Interface for encoders
+ */
 interface Encoder
 {
     /**

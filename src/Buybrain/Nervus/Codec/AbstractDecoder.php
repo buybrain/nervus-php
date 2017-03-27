@@ -1,13 +1,19 @@
 <?php
 namespace Buybrain\Nervus\Codec;
 
+use Buybrain\Nervus\Exception\Exception;
 use Buybrain\Nervus\Util\Streams;
-use RuntimeException;
 
+/**
+ * Base class for decoders. Deals with reading from the stream and decoding raw data structures into instances of
+ * specific classes.
+ */
 abstract class AbstractDecoder implements Decoder
 {
+    const BUFFER_SIZE = 8192;
+
     /** @var resource */
-    protected $stream;
+    private $stream;
 
     /**
      * @param resource $stream
@@ -32,7 +38,7 @@ abstract class AbstractDecoder implements Decoder
         }
         self::validateClass($class);
         if (!is_array($data)) {
-            throw new RuntimeException('Error while decoding, expected array, got ' . json_encode($data));
+            throw new Exception('Error while decoding, expected array, got ' . json_encode($data));
         }
         return call_user_func([$class, 'fromArray'], $data);
     }
@@ -49,7 +55,7 @@ abstract class AbstractDecoder implements Decoder
         $data = $this->decodeStruct();
         return array_map(function ($object) use ($class, $data) {
             if (!is_array($object)) {
-                throw new RuntimeException(sprintf(
+                throw new Exception(sprintf(
                     "Error while decoding array element, expected array, got %s. \n\nWhole payload was:\n\n%s",
                     json_encode($object),
                     json_encode($data)
@@ -60,15 +66,32 @@ abstract class AbstractDecoder implements Decoder
     }
 
     /**
+     * @return string
+     */
+    protected function readChunk()
+    {
+        $data = fread($this->stream, self::BUFFER_SIZE);
+
+        if (($data === '' || $data === false) && feof($this->stream)) {
+            throw new Exception('Encountered EOF while decoding');
+        }
+        if ($data === false) {
+            throw new Exception('Error while reading from stream');
+        }
+
+        return $data;
+    }
+
+    /**
      * @param string $class
      */
     private static function validateClass($class)
     {
         if (!class_exists($class)) {
-            throw new \InvalidArgumentException(sprintf('Cannot decode to %f, class does not exist', $class));
+            throw new Exception(sprintf('Cannot decode to %f, class does not exist', $class));
         }
         if (!method_exists($class, 'fromArray')) {
-            throw new \InvalidArgumentException(sprintf(
+            throw new Exception(sprintf(
                 'Cannot decode to %s, class does not implement fromArray($data)',
                 $class
             ));

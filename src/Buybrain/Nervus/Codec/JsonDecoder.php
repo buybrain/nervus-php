@@ -1,28 +1,34 @@
 <?php
 namespace Buybrain\Nervus\Codec;
 
-use RuntimeException;
+use Buybrain\Nervus\Exception\Exception;
 
+/**
+ * Decoder that reads JSON encoded messages
+ */
 class JsonDecoder extends AbstractDecoder
 {
-    const BUFFER_SIZE = 536870912; // 512 MB
+    /** @var string */
+    private $buffer = '';
 
     /**
      * @return array
      */
     protected function decodeStruct()
     {
-        // JSON messages are encoded as one message per line. Read a whole line from the stream.
-        $line = stream_get_line($this->stream, self::BUFFER_SIZE, "\n");
-        if ($line === false) {
-            if (feof($this->stream)) {
-                throw new RuntimeException('Encountered EOF while decoding');
-            }
-            throw new RuntimeException('Error while reading from stream: ');
+        // JSON messages are encoded as one message per line. Keep reading until we encounter a newline.
+        $line = $this->buffer;
+        $this->buffer = '';
+        while (($end = strpos($line, "\n")) === false) {
+            $line .= $this->readChunk();
         }
+        // Take the part until the newline, put the part after in an in-memory buffer
+        $this->buffer = substr($line, $end + 1);
+        $line = substr($line, 0, $end);
+
         $data = json_decode($line, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new RuntimeException(sprintf(
+            throw new Exception(sprintf(
                 "Error while decoding JSON: %s\n\nData was:\n\n%s",
                 json_last_error_msg(),
                 $line

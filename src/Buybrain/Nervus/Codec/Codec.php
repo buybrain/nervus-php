@@ -1,6 +1,9 @@
 <?php
 namespace Buybrain\Nervus\Codec;
 
+/**
+ * Interface for codecs that can encode data to a stream and decode data from a stream
+ */
 interface Codec
 {
     /**
