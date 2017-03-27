@@ -124,8 +124,6 @@ abstract class Adapter
             $config = new AdapterConfig(
                 $this->codec->getName(),
                 $this->getAdapterType(),
-                // TODO get types out of here
-                $this->getSupportedEntityTypes(),
                 $this->getExtraConfig()
             );
             (new JsonEncoder($this->output))->useNewlines(false)->encode($config);

@@ -31,7 +31,7 @@ class SignalAdapterTest extends PHPUnit_Framework_TestCase
         $SUT->step();
 
         $expected =
-            json_encode(new AdapterConfig($io->codec()->getName(), 'signal', ['test'], new SignalAdapterConfig(10))) .
+            json_encode(new AdapterConfig($io->codec()->getName(), 'signal', new SignalAdapterConfig(10))) .
             $io->encode(SignalResponse::success($signal), SignalAckResponse::success());
 
         $this->assertEquals($expected, $io->writtenData());

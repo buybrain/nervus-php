@@ -16,7 +16,6 @@ class MockSignalAdapter extends SignalAdapter
         $this->signal = $signal;
     }
 
-
     public function onRequest(SignalCallback $callback)
     {
         $callback->onSuccess($this->signal->getIds(), function ($ack) {
@@ -30,13 +29,5 @@ class MockSignalAdapter extends SignalAdapter
     public function getResponse()
     {
         return $this->response;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getSupportedEntityTypes()
-    {
-        return ['test'];
     }
 }

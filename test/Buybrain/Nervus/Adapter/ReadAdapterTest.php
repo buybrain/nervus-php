@@ -2,6 +2,7 @@
 namespace Buybrain\Nervus\Adapter;
 
 use Buybrain\Nervus\Adapter\Config\AdapterConfig;
+use Buybrain\Nervus\Adapter\Config\TypedAdapterConfig;
 use Buybrain\Nervus\Adapter\Handler\CallableReader;
 use Buybrain\Nervus\Adapter\Message\ReadRequest;
 use Buybrain\Nervus\Adapter\Message\ReadResponse;
@@ -35,7 +36,7 @@ class ReadAdapterTest extends PHPUnit_Framework_TestCase
         $SUT->step();
 
         $expected =
-            json_encode(new AdapterConfig($io->codec()->getName(), 'read', null)) .
+            json_encode(new AdapterConfig($io->codec()->getName(), 'read', new TypedAdapterConfig(null))) .
             $io->encode(ReadResponse::success([new Entity($entityId, 'test')]));
 
         $this->assertEquals($expected, $io->writtenData());
@@ -66,12 +67,10 @@ class ReadAdapterTest extends PHPUnit_Framework_TestCase
             ->out($io->output())
             ->codec($io->codec());
 
-        $this->assertEquals(['type1', 'type2'], $SUT->getSupportedEntityTypes());
-
         $SUT->step();
 
         $expected =
-            json_encode(new AdapterConfig($io->codec()->getName(), 'read', ['type1', 'type2'])) .
+            json_encode(new AdapterConfig($io->codec()->getName(), 'read', new TypedAdapterConfig(['type1', 'type2']))) .
             $io->encode(ReadResponse::success([new Entity($id1, 'content1'), new Entity($id2, 'content2')]));
 
         $this->assertEquals($expected, $io->writtenData());
@@ -101,7 +100,7 @@ class ReadAdapterTest extends PHPUnit_Framework_TestCase
         $expectedErr = ReadAdapter::class . ' encountered unsupported types unsupportedType (supported: type1)';
 
         $expected =
-            json_encode(new AdapterConfig($io->codec()->getName(), 'read', ['type1'])) .
+            json_encode(new AdapterConfig($io->codec()->getName(), 'read', new TypedAdapterConfig(['type1']))) .
             $io->encode(ReadResponse::error(new Exception($expectedErr)));
 
         $this->assertEquals($expected, $io->writtenData());

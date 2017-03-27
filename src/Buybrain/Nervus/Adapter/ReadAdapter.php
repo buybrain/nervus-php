@@ -11,6 +11,15 @@ use Exception;
 
 class ReadAdapter extends TypedAdapter
 {
+    /**
+     * @param Reader $reader
+     * @return $this
+     */
+    public function add(Reader $reader)
+    {
+        return $this->addHandler($reader);
+    }
+
     protected function doStep()
     {
         /** @var ReadRequest $req */
@@ -23,15 +32,6 @@ class ReadAdapter extends TypedAdapter
             $res = ReadResponse::error($ex);
         }
         $this->encoder->encode($res);
-    }
-
-    /**
-     * @param Reader $reader
-     * @return $this
-     */
-    public function add(Reader $reader)
-    {
-        return $this->addHandler($reader);
     }
 
     /**

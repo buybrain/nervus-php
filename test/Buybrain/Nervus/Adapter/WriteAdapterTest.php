@@ -2,6 +2,7 @@
 namespace Buybrain\Nervus\Adapter;
 
 use Buybrain\Nervus\Adapter\Config\AdapterConfig;
+use Buybrain\Nervus\Adapter\Config\TypedAdapterConfig;
 use Buybrain\Nervus\Adapter\Handler\CallableWriter;
 use Buybrain\Nervus\Adapter\Message\WriteRequest;
 use Buybrain\Nervus\Adapter\Message\WriteResponse;
@@ -48,7 +49,7 @@ class WriteAdapterTest extends PHPUnit_Framework_TestCase
         $this->assertEquals([$request->getEntities()[1]], $receivedEntities2);
 
         $expected =
-            json_encode(new AdapterConfig($io->codec()->getName(), 'write', ['type1', 'type2'])) .
+            json_encode(new AdapterConfig($io->codec()->getName(), 'write', new TypedAdapterConfig(['type1', 'type2']))) .
             $io->encode(WriteResponse::success());
 
         $this->assertEquals($expected, $io->writtenData());
@@ -71,7 +72,7 @@ class WriteAdapterTest extends PHPUnit_Framework_TestCase
         $SUT->step();
 
         $expected =
-            json_encode(new AdapterConfig($io->codec()->getName(), 'write', null)) .
+            json_encode(new AdapterConfig($io->codec()->getName(), 'write', new TypedAdapterConfig(null))) .
             $io->encode(WriteResponse::error(new Exception('Wow')));
 
         $this->assertEquals($expected, $io->writtenData());

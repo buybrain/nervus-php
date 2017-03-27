@@ -9,6 +9,15 @@ use Exception;
 
 class WriteAdapter extends TypedAdapter
 {
+    /**
+     * @param Writer $writer
+     * @return $this
+     */
+    public function add(Writer $writer)
+    {
+        return $this->addHandler($writer);
+    }
+
     protected function doStep()
     {
         /** @var WriteRequest $req */
@@ -21,15 +30,6 @@ class WriteAdapter extends TypedAdapter
             $res = WriteResponse::error($ex);
         }
         $this->encoder->encode($res);
-    }
-
-    /**
-     * @param Writer $writer
-     * @return $this
-     */
-    public function add(Writer $writer)
-    {
-        return $this->addHandler($writer);
     }
 
     /**

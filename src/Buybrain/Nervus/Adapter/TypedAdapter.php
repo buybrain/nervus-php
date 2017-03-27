@@ -1,6 +1,8 @@
 <?php
 namespace Buybrain\Nervus\Adapter;
 
+use Buybrain\Nervus\Adapter\Config\ExtraAdapterConfig;
+use Buybrain\Nervus\Adapter\Config\TypedAdapterConfig;
 use Buybrain\Nervus\Adapter\Handler\TypedHandler;
 use Buybrain\Nervus\Exception\Exception;
 use Buybrain\Nervus\Util\Arrays;
@@ -43,11 +45,11 @@ abstract class TypedAdapter extends Adapter
     }
 
     /**
-     * @return string[]|null
+     * @return ExtraAdapterConfig
      */
-    public function getSupportedEntityTypes()
+    protected function getExtraConfig()
     {
-        return $this->supportedTypes;
+        return new TypedAdapterConfig($this->supportedTypes);
     }
 
     /**
@@ -88,15 +90,14 @@ abstract class TypedAdapter extends Adapter
      */
     protected function checkUnsupportedTypes(array $objects)
     {
-        if ($this->getSupportedEntityTypes() !== null) {
-            $unsupportedTypes = array_diff(TypedUtils::uniqueTypes($objects), $this->getSupportedEntityTypes());
+        if ($this->supportedTypes !== null) {
+            $unsupportedTypes = array_diff(TypedUtils::uniqueTypes($objects), $this->supportedTypes);
             if (count($unsupportedTypes) > 0) {
-                $supported = $this->getSupportedEntityTypes();
                 throw new Exception(sprintf(
                     '%s encountered unsupported types %s (supported: %s)',
                     get_class($this),
                     implode(', ', $unsupportedTypes),
-                    count($supported) > 0 ? implode(', ', $supported) : '*none*'
+                    count($this->supportedTypes) > 0 ? implode(', ', $this->supportedTypes) : '*none*'
                 ));
             }
         }
