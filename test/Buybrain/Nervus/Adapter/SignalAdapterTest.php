@@ -3,10 +3,16 @@ namespace Buybrain\Nervus\Adapter;
 
 use Buybrain\Nervus\Adapter\Config\AdapterConfig;
 use Buybrain\Nervus\Adapter\Config\SignalAdapterConfig;
+use Buybrain\Nervus\Adapter\Message\Signal;
+use Buybrain\Nervus\Adapter\Message\SignalAckRequest;
+use Buybrain\Nervus\Adapter\Message\SignalAckResponse;
+use Buybrain\Nervus\Adapter\Message\SignalRequest;
+use Buybrain\Nervus\Adapter\Message\SignalResponse;
 use Buybrain\Nervus\EntityId;
 use Buybrain\Nervus\TestIO;
+use PHPUnit_Framework_TestCase;
 
-class SignalAdapterTest extends \PHPUnit_Framework_TestCase
+class SignalAdapterTest extends PHPUnit_Framework_TestCase
 {
     public function testSignalAdapter()
     {

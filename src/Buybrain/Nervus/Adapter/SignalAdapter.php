@@ -3,6 +3,8 @@ namespace Buybrain\Nervus\Adapter;
 
 use Buybrain\Nervus\Adapter\Config\ExtraAdapterConfig;
 use Buybrain\Nervus\Adapter\Config\SignalAdapterConfig;
+use Buybrain\Nervus\Adapter\Message\SignalRequest;
+use Buybrain\Nervus\Adapter\Message\SignalResponse;
 use Exception;
 
 /**
@@ -17,7 +19,7 @@ abstract class SignalAdapter extends Adapter
     {
         // Wait for the next signal request. The request itself doesn't contain any data.
         $this->decoder->decode(SignalRequest::class);
-        
+
         try {
             $this->onRequest(new SignalCallback($this->encoder, $this->decoder));
         } catch (Exception $ex) {
@@ -27,7 +29,7 @@ abstract class SignalAdapter extends Adapter
 
     /**
      * Set the interval in seconds that the nervus host should wait between consecutive signal requests
-     * 
+     *
      * @param float $seconds
      * @return $this
      */

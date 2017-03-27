@@ -1,19 +1,16 @@
 <?php
 namespace Buybrain\Nervus\Adapter;
 
+use Buybrain\Nervus\Adapter\Handler\Reader;
+use Buybrain\Nervus\Adapter\Message\ReadRequest;
+use Buybrain\Nervus\Adapter\Message\ReadResponse;
 use Buybrain\Nervus\Entity;
 use Buybrain\Nervus\EntityId;
 use Buybrain\Nervus\Util\Arrays;
-use Buybrain\Nervus\Util\TypedUtils;
 use Exception;
 
-class ReadAdapter extends Adapter
+class ReadAdapter extends TypedAdapter
 {
-    /** @var Reader[] */
-    private $readers = [];
-    /** @var string[] */
-    private $supportedTypes = [];
-
     protected function doStep()
     {
         /** @var ReadRequest $req */
@@ -29,52 +26,31 @@ class ReadAdapter extends Adapter
     }
 
     /**
+     * @param Reader $reader
+     * @return $this
+     */
+    public function add(Reader $reader)
+    {
+        return $this->addHandler($reader);
+    }
+
+    /**
      * @param EntityId[] $ids
      * @return Entity[]
      */
     private function read(array $ids)
     {
         $result = [];
-        // We will assign every entity type to the first reader that supports it
-        $perType = TypedUtils::groupByType($ids);
-        foreach ($this->readers as $reader) {
-            $remainingTypes = array_keys($perType);
-            $readerTypes = $reader->getSupportedEntityTypes();
-            $useTypes = $readerTypes === null ? $remainingTypes : array_intersect($readerTypes, $remainingTypes);
-            if (count($useTypes) > 0) {
-                $adapterIds = [];
-                foreach ($useTypes as $type) {
-                    $adapterIds[] = $perType[$type];
-                    unset($perType[$type]);
-                }
-                $result[] = $reader->read(Arrays::flatten($adapterIds));
-                if (count($perType) === 0) {
-                    // Done
-                    break;
-                }
-            }
+        foreach ($this->assignToHandlers($ids) as $tuple) {
+            /**
+             * @var Reader $handler
+             * @var EntityId[] $assigned
+             */
+            list($handler, $assigned) = $tuple;
+            $result[] = $handler->read($assigned);
         }
-        return Arrays::flatten($result);
-    }
 
-    /**
-     * @param Reader $reader
-     * @return $this
-     */
-    public function add(Reader $reader)
-    {
-        if ($reader->getSupportedEntityTypes() === null) {
-            // The new reader supports all types, so the adapter also supports all types
-            $this->supportedTypes = null;
-        } else if ($this->supportedTypes !== null) {
-            // The reader support specific types, and so does the adapter, so add the new types from the reader
-            $this->supportedTypes = array_unique(array_merge(
-                $this->supportedTypes,
-                $reader->getSupportedEntityTypes()
-            ));
-        }
-        $this->readers[] = $reader;
-        return $this;
+        return Arrays::flatten($result);
     }
 
     /**
@@ -83,13 +59,5 @@ class ReadAdapter extends Adapter
     protected function getAdapterType()
     {
         return 'read';
-    }
-
-    /**
-     * @return string[]|null
-     */
-    public function getSupportedEntityTypes()
-    {
-        return $this->supportedTypes;
     }
 }

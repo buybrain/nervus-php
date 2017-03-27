@@ -1,5 +1,5 @@
 <?php
-namespace Buybrain\Nervus\Adapter;
+namespace Buybrain\Nervus\Adapter\Message;
 
 use Exception;
 use JsonSerializable;
@@ -34,7 +34,7 @@ abstract class AbstractResponse implements JsonSerializable
 
     /**
      * Create a new error response message
-     * 
+     *
      * @param Exception $error
      * @return static
      */

@@ -1,6 +1,7 @@
 <?php
 namespace Example\Write;
 
+use Buybrain\Nervus\Adapter\Handler\CallableWriter;
 use Buybrain\Nervus\Adapter\WriteAdapter;
 use Buybrain\Nervus\Util\Tcp;
 
@@ -11,10 +12,13 @@ require __DIR__ . '/../vendor/autoload.php';
     When asked to write entities, it will just wait for a bit
  */
 
-WriteAdapter::compose()
-    ->type('example', function (array $entities) {
-        // Write entities here
-        sleep(1);
-    })
+(new WriteAdapter())
+    ->add(new CallableWriter(
+        function (array $entities) {
+            // Write entities here
+            sleep(1);
+        },
+        ['example']
+    ))
     ->io(Tcp::dial(getopt('', ['socket:'])['socket']))
     ->run();

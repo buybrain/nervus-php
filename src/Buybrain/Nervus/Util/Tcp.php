@@ -10,8 +10,8 @@ class Tcp
 {
     /**
      * Connect to a TCP address and return a stream resource
-     * 
-     * @param $addr string 
+     *
+     * @param $addr string
      * @return resource
      */
     public static function dial($addr)

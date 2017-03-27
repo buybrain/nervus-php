@@ -1,6 +1,10 @@
 <?php
 namespace Buybrain\Nervus\Adapter;
 
+use Buybrain\Nervus\Adapter\Message\Signal;
+use Buybrain\Nervus\Adapter\Message\SignalAckRequest;
+use Buybrain\Nervus\Adapter\Message\SignalAckResponse;
+use Buybrain\Nervus\Adapter\Message\SignalResponse;
 use Buybrain\Nervus\Codec\Decoder;
 use Buybrain\Nervus\Codec\Encoder;
 use Buybrain\Nervus\EntityId;
@@ -9,7 +13,7 @@ use Buybrain\Nervus\Exception\Exception;
 /**
  * The signal callback is passed to the handler function of a signal adapter. It is best viewed as an extension of the
  * signal adapter itself.
- * 
+ *
  * @see SignalAdapter
  */
 class SignalCallback
@@ -18,7 +22,7 @@ class SignalCallback
     private $encoder;
     /** @var Decoder */
     private $decoder;
-    
+
     public function __construct(Encoder $encoder, Decoder $decoder)
     {
         $this->encoder = $encoder;

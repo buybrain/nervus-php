@@ -1,5 +1,5 @@
 <?php
-namespace Buybrain\Nervus\Adapter;
+namespace Buybrain\Nervus\Adapter\Message;
 
 class SignalAckResponse extends AbstractResponse
 {

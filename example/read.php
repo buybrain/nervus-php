@@ -1,7 +1,7 @@
 <?php
 namespace Example\Read;
 
-use Buybrain\Nervus\Adapter\CallableReader;
+use Buybrain\Nervus\Adapter\Handler\CallableReader;
 use Buybrain\Nervus\Adapter\ReadAdapter;
 use Buybrain\Nervus\Entity;
 use Buybrain\Nervus\Util\Tcp;

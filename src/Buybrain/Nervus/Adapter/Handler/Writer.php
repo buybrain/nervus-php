@@ -1,9 +1,9 @@
 <?php
-namespace Buybrain\Nervus\Adapter;
+namespace Buybrain\Nervus\Adapter\Handler;
 
 use Buybrain\Nervus\Entity;
 
-interface WriteHandler
+interface Writer extends TypedHandler
 {
     /**
      * @param Entity[] $entities

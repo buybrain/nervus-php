@@ -5,7 +5,7 @@ class Arrays
 {
     /**
      * Concatenates multiple arrays into a single array
-     * 
+     *
      * @param array[] $arrays
      * @return array
      */

@@ -1,10 +1,10 @@
 <?php
-namespace Buybrain\Nervus\Adapter;
+namespace Buybrain\Nervus\Adapter\Message;
 
 use Buybrain\Nervus\EntityId;
 use JsonSerializable;
 
-class Signal implements JsonSerializable
+class ReadRequest implements JsonSerializable
 {
     /** @var EntityId[] */
     private $ids;
@@ -27,20 +27,19 @@ class Signal implements JsonSerializable
 
     /**
      * @param array $data
-     * @return Signal
+     * @return ReadRequest
      */
     public static function fromArray(array $data)
     {
-        return new self(array_map([EntityId::class, 'fromArray'], $data['Ids']));
+        $ids = array_map([EntityId::class, 'fromArray'], $data['Ids']);
+        return new self($ids);
     }
 
     /**
      * @return array
      */
-    function jsonSerialize()
+    public function jsonSerialize()
     {
-        return [
-            'Ids' => $this->ids,
-        ];
+        return ['Ids' => $this->ids];
     }
 }

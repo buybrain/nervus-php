@@ -8,7 +8,7 @@ class TypedUtils
 {
     /**
      * Get the unique types of a list of typed objects
-     * 
+     *
      * @param Typed[] $objects
      * @return string[]
      */
@@ -21,7 +21,7 @@ class TypedUtils
 
     /**
      * Group typed objects by their type
-     * 
+     *
      * @param Typed[] $objects
      * @return Typed[][] map indexed by types and lists of objects as values
      */

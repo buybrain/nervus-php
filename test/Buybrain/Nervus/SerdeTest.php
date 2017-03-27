@@ -1,14 +1,14 @@
 <?php
 namespace Buybrain\Nervus;
 
-use Buybrain\Nervus\Adapter\ReadRequest;
-use Buybrain\Nervus\Adapter\ReadResponse;
-use Buybrain\Nervus\Adapter\SignalAckRequest;
-use Buybrain\Nervus\Adapter\SignalAckResponse;
-use Buybrain\Nervus\Adapter\SignalRequest;
-use Buybrain\Nervus\Adapter\SignalResponse;
-use Buybrain\Nervus\Adapter\WriteRequest;
-use Buybrain\Nervus\Adapter\WriteResponse;
+use Buybrain\Nervus\Adapter\Message\ReadRequest;
+use Buybrain\Nervus\Adapter\Message\ReadResponse;
+use Buybrain\Nervus\Adapter\Message\SignalAckRequest;
+use Buybrain\Nervus\Adapter\Message\SignalAckResponse;
+use Buybrain\Nervus\Adapter\Message\SignalRequest;
+use Buybrain\Nervus\Adapter\Message\SignalResponse;
+use Buybrain\Nervus\Adapter\Message\WriteRequest;
+use Buybrain\Nervus\Adapter\Message\WriteResponse;
 use Buybrain\Nervus\Util\Objects;
 use JsonSerializable;
 use PHPUnit_Framework_TestCase;

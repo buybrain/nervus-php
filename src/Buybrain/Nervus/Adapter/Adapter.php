@@ -8,10 +8,7 @@ use Buybrain\Nervus\Codec\Decoder;
 use Buybrain\Nervus\Codec\Encoder;
 use Buybrain\Nervus\Codec\JsonEncoder;
 use Buybrain\Nervus\Codec\MessagePackCodec;
-use Buybrain\Nervus\Exception\Exception;
 use Buybrain\Nervus\Util\Streams;
-use Buybrain\Nervus\Util\Typed;
-use Buybrain\Nervus\Util\TypedUtils;
 
 /**
  * Base class for all nervus adapters. It mainly handles communication with the nervus host.
@@ -110,31 +107,6 @@ abstract class Adapter
     abstract protected function getAdapterType();
 
     /**
-     * @return string[]|null
-     */
-    abstract public function getSupportedEntityTypes();
-
-    /**
-     * Validate that all the entity types from a request are supported by this adapter
-     *
-     * @param Typed[] $objects
-     */
-    protected function checkUnsupportedTypes(array $objects)
-    {
-        if ($this->getSupportedEntityTypes() !== null) {
-            $unsupportedTypes = array_diff(TypedUtils::uniqueTypes($objects), $this->getSupportedEntityTypes());
-            if (count($unsupportedTypes) > 0) {
-                throw new Exception(sprintf(
-                    '%s encountered unsupported types %s (supported are %s)',
-                    get_class($this),
-                    implode(', ', $unsupportedTypes),
-                    implode(', ', $this->getSupportedEntityTypes())
-                ));
-            }
-        }
-    }
-
-    /**
      * @return ExtraAdapterConfig
      */
     protected function getExtraConfig()
@@ -152,6 +124,7 @@ abstract class Adapter
             $config = new AdapterConfig(
                 $this->codec->getName(),
                 $this->getAdapterType(),
+                // TODO get types out of here
                 $this->getSupportedEntityTypes(),
                 $this->getExtraConfig()
             );

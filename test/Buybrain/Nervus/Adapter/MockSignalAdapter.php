@@ -1,6 +1,8 @@
 <?php
 namespace Buybrain\Nervus\Adapter;
 
+use Buybrain\Nervus\Adapter\Message\Signal;
+
 class MockSignalAdapter extends SignalAdapter
 {
     /** @var Signal */

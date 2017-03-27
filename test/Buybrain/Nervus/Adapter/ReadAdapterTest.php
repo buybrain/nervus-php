@@ -2,6 +2,9 @@
 namespace Buybrain\Nervus\Adapter;
 
 use Buybrain\Nervus\Adapter\Config\AdapterConfig;
+use Buybrain\Nervus\Adapter\Handler\CallableReader;
+use Buybrain\Nervus\Adapter\Message\ReadRequest;
+use Buybrain\Nervus\Adapter\Message\ReadResponse;
 use Buybrain\Nervus\Entity;
 use Buybrain\Nervus\EntityId;
 use Buybrain\Nervus\Exception\Exception;
@@ -10,7 +13,7 @@ use PHPUnit_Framework_TestCase;
 
 class ReadAdapterTest extends PHPUnit_Framework_TestCase
 {
-    public function testExtendingReadAdapter()
+    public function testReadAdapter()
     {
         $entityId = new EntityId('test', '123');
         $request = new ReadRequest([$entityId]);
@@ -95,7 +98,7 @@ class ReadAdapterTest extends PHPUnit_Framework_TestCase
 
         $SUT->step();
 
-        $expectedErr = ReadAdapter::class . ' encountered unsupported types unsupportedType (supported are type1)';
+        $expectedErr = ReadAdapter::class . ' encountered unsupported types unsupportedType (supported: type1)';
 
         $expected =
             json_encode(new AdapterConfig($io->codec()->getName(), 'read', ['type1'])) .
