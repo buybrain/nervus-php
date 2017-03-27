@@ -11,7 +11,7 @@ use Buybrain\Nervus\Codec\MessagePackCodec;
 use Buybrain\Nervus\Util\Streams;
 
 /**
- * Base class for all nervus adapters. It mainly handles communication with the nervus host.
+ * Base class for all nervus adapters. It handles communication with the nervus host.
  */
 abstract class Adapter
 {

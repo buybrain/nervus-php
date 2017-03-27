@@ -3,6 +3,7 @@ namespace Buybrain\Nervus\Adapter\Config;
 
 /**
  * Specialized adapter configuration for signal adapters.
+ * 
  * @see AdapterConfig
  */
 class SignalAdapterConfig implements ExtraAdapterConfig

@@ -12,17 +12,28 @@ use Buybrain\Nervus\Adapter\Message\SignalResponse;
 use Buybrain\Nervus\EntityId;
 use Exception;
 
+/**
+ * Adapter implementation for handling signal dispatch requests. It will use the supplied Signaler for dispatching the
+ * actual signals.
+ *
+ * @see SignalRequest
+ * @see SignalAckRequest
+ * @see Signaler
+ */
 class SignalAdapter extends Adapter implements SignalCallback
 {
     /** @var Signaler */
-    private $handler;
+    private $signaler;
     /** @var float */
     private $interval = 0;
-    
-    public function __construct(Signaler $handler)
+
+    /**
+     * @param Signaler $signaler handler for actually dispatching new signals
+     */
+    public function __construct(Signaler $signaler)
     {
         parent::__construct();
-        $this->handler = $handler;
+        $this->signaler = $signaler;
     }
 
     protected function doStep()
@@ -31,7 +42,7 @@ class SignalAdapter extends Adapter implements SignalCallback
         $this->decoder->decode(SignalRequest::class);
 
         try {
-            $this->handler->signal($this);
+            $this->signaler->signal($this);
         } catch (Exception $ex) {
             $this->encoder->encode(SignalResponse::error($ex));
         }
@@ -41,7 +52,7 @@ class SignalAdapter extends Adapter implements SignalCallback
      * Callback method meant to be called by signal handlers when a new signal is available
      * 
      * @param EntityId[] $ids
-     * @param callable $onAck
+     * @param callable $onAck will be passed a single boolean $ack argument
      */
     public function onSignal(array $ids, callable $onAck)
     {

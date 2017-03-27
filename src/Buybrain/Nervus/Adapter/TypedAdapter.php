@@ -9,6 +9,10 @@ use Buybrain\Nervus\Util\Arrays;
 use Buybrain\Nervus\Util\Typed;
 use Buybrain\Nervus\Util\TypedUtils;
 
+/**
+ * Base class for typed adapters (read / write). It can register typed handlers and assign typed objects from incoming
+ * requests to the appropriate handlers.
+ */
 abstract class TypedAdapter extends Adapter
 {
     /** @var TypedHandler[] */

@@ -7,9 +7,17 @@ use Buybrain\Nervus\Adapter\Message\WriteResponse;
 use Buybrain\Nervus\Entity;
 use Exception;
 
+/**
+ * Adapter implementation for handling entity write requests. It will use the registered Writers to write the data.
+ *
+ * @see WriteRequest
+ * @see Writer
+ */
 class WriteAdapter extends TypedAdapter
 {
     /**
+     * Add a writer to this adapter for handling incoming write requests
+     *
      * @param Writer $writer
      * @return $this
      */

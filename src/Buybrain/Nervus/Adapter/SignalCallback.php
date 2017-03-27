@@ -10,7 +10,7 @@ interface SignalCallback
 {
     /**
      * @param EntityId[] $ids
-     * @param callable $onAck
+     * @param callable $onAck will be passed a single boolean $ack argument
      */
     public function onSignal(array $ids, callable $onAck);
 }

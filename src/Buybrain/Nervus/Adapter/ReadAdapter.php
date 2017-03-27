@@ -9,9 +9,17 @@ use Buybrain\Nervus\EntityId;
 use Buybrain\Nervus\Util\Arrays;
 use Exception;
 
+/**
+ * Adapter implementation for handling entity read requests. It will use the registered Readers to obtain the data.
+ * 
+ * @see ReadRequest
+ * @see Reader
+ */
 class ReadAdapter extends TypedAdapter
 {
     /**
+     * Add a reader to this adapter for handling incoming read requests
+     * 
      * @param Reader $reader
      * @return $this
      */

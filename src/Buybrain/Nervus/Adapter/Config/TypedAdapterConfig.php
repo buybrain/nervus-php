@@ -3,6 +3,7 @@ namespace Buybrain\Nervus\Adapter\Config;
 
 /**
  * Specialized adapter configuration for typed adapters (read / write).
+ * 
  * @see AdapterConfig
  */
 class TypedAdapterConfig implements ExtraAdapterConfig
