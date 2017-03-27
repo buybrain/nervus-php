@@ -3,17 +3,27 @@ namespace Buybrain\Nervus\Adapter;
 
 use Buybrain\Nervus\Adapter\Config\ExtraAdapterConfig;
 use Buybrain\Nervus\Adapter\Config\SignalAdapterConfig;
+use Buybrain\Nervus\Adapter\Handler\Signaler;
+use Buybrain\Nervus\Adapter\Message\Signal;
+use Buybrain\Nervus\Adapter\Message\SignalAckRequest;
+use Buybrain\Nervus\Adapter\Message\SignalAckResponse;
 use Buybrain\Nervus\Adapter\Message\SignalRequest;
 use Buybrain\Nervus\Adapter\Message\SignalResponse;
+use Buybrain\Nervus\EntityId;
 use Exception;
 
-/**
- * Base class for all signal adapters
- */
-abstract class SignalAdapter extends Adapter
+class SignalAdapter extends Adapter implements SignalCallback
 {
+    /** @var Signaler */
+    private $handler;
     /** @var float */
     private $interval = 0;
+    
+    public function __construct(Signaler $handler)
+    {
+        parent::__construct();
+        $this->handler = $handler;
+    }
 
     protected function doStep()
     {
@@ -21,9 +31,38 @@ abstract class SignalAdapter extends Adapter
         $this->decoder->decode(SignalRequest::class);
 
         try {
-            $this->onRequest(new SignalCallback($this->encoder, $this->decoder));
+            $this->handler->signal($this);
         } catch (Exception $ex) {
             $this->encoder->encode(SignalResponse::error($ex));
+        }
+    }
+
+    /**
+     * Callback method meant to be called by signal handlers when a new signal is available
+     * 
+     * @param EntityId[] $ids
+     * @param callable $onAck
+     */
+    public function onSignal(array $ids, callable $onAck)
+    {
+        // Send the signal to the host application
+        $this->encoder->encode(SignalResponse::success(new Signal($ids)));
+
+        while (true) {
+            // Wait for the result, which should be a request to ack or nack the signal
+            /** @var SignalAckRequest $ackRequest */
+            $ackRequest = $this->decoder->decode(SignalAckRequest::class);
+
+            // Let the implementation handle the ack request
+            try {
+                call_user_func($onAck, $ackRequest->isAck());
+                $this->encoder->encode(SignalAckResponse::success());
+                // The acknowledgement worked, we can stop listening for consecutive acknowledgement requests
+                break;
+            } catch (Exception $ex) {
+                // Something went wrong. Send the error back and wait for the next acknowledgement request
+                $this->encoder->encode(SignalAckResponse::error($ex));
+            }
         }
     }
 
@@ -38,8 +77,6 @@ abstract class SignalAdapter extends Adapter
         $this->interval = $seconds;
         return $this;
     }
-
-    abstract protected function onRequest(SignalCallback $callback);
 
     /**
      * @return ExtraAdapterConfig

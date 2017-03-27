@@ -3,6 +3,7 @@ namespace Buybrain\Nervus\Adapter;
 
 use Buybrain\Nervus\Adapter\Config\AdapterConfig;
 use Buybrain\Nervus\Adapter\Config\SignalAdapterConfig;
+use Buybrain\Nervus\Adapter\Handler\CallableSignaler;
 use Buybrain\Nervus\Adapter\Message\Signal;
 use Buybrain\Nervus\Adapter\Message\SignalAckRequest;
 use Buybrain\Nervus\Adapter\Message\SignalAckResponse;
@@ -22,7 +23,12 @@ class SignalAdapterTest extends PHPUnit_Framework_TestCase
 
         $io = (new TestIO())->write($request)->write($response);
 
-        $SUT = (new MockSignalAdapter($signal))
+        $ackResponse = null;
+        $SUT = (new SignalAdapter(new CallableSignaler(function (SignalCallback $callback) use ($signal, &$ackResponse) {
+            $callback->onSignal($signal->getIds(), function ($ack) use (&$ackResponse) {
+                $ackResponse = $ack;
+            });
+        })))
             ->in($io->input())
             ->out($io->output())
             ->codec($io->codec())
@@ -35,6 +41,6 @@ class SignalAdapterTest extends PHPUnit_Framework_TestCase
             $io->encode(SignalResponse::success($signal), SignalAckResponse::success());
 
         $this->assertEquals($expected, $io->writtenData());
-        $this->assertTrue($SUT->getResponse());
+        $this->assertTrue($ackResponse);
     }
 }
