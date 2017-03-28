@@ -36,12 +36,16 @@ class SignalAdapter extends Adapter implements SignalCallback
         $this->signaler = $signaler;
     }
 
+    /**
+     * Perform a single step, process a single request
+     */
     protected function doStep()
     {
         // Wait for the next signal request. The request itself doesn't contain any data.
         $this->decoder->decode(SignalRequest::class);
 
         try {
+            // Request a new signal from the implementation
             $this->signaler->signal($this);
         } catch (Exception $ex) {
             $this->encoder->encode(SignalResponse::error($ex));
@@ -56,7 +60,7 @@ class SignalAdapter extends Adapter implements SignalCallback
      */
     public function onSignal(array $ids, callable $onAck)
     {
-        // Send the signal to the host application
+        // We got a signal, send it to the host application
         $this->encoder->encode(SignalResponse::success(new Signal($ids)));
 
         while (true) {

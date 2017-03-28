@@ -28,6 +28,9 @@ class ReadAdapter extends TypedAdapter
         return $this->addHandler($reader);
     }
 
+    /**
+     * Perform a single step, process a single request
+     */
     protected function doStep()
     {
         // Wait for the next read request
@@ -40,6 +43,7 @@ class ReadAdapter extends TypedAdapter
         } catch (Exception $ex) {
             $res = ReadResponse::error($ex);
         }
+        // Send the result back to the host
         $this->encoder->encode($res);
     }
 

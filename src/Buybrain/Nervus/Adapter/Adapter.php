@@ -99,6 +99,9 @@ abstract class Adapter
         $this->doStep();
     }
 
+    /**
+     * Perform a single step, process a single request
+     */
     abstract protected function doStep();
 
     /**
@@ -118,6 +121,7 @@ abstract class Adapter
     private function init()
     {
         if ($this->encoder === null) {
+            // Send the adapter config as JSON payload to the host
             $config = new AdapterConfig(
                 $this->codec->getName(),
                 $this->getAdapterType(),
@@ -125,6 +129,7 @@ abstract class Adapter
             );
             Codecs::json()->newEncoder($this->output)->useNewlines(false)->encode($config);
 
+            // Set up encoder / decoder for further communication
             $this->decoder = $this->codec->newDecoder($this->input);
             $this->encoder = $this->codec->newEncoder($this->output);
         }

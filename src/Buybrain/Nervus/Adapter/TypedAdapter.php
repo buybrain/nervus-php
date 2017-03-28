@@ -21,6 +21,8 @@ abstract class TypedAdapter extends Adapter
     private $supportedTypes = [];
 
     /**
+     * Add a handler to the adapter. The handler's supported types will be added to the adapter's supported types.
+     * 
      * @param TypedHandler $handler
      * @return $this
      */
@@ -45,6 +47,7 @@ abstract class TypedAdapter extends Adapter
                 $this->supportedTypes,
                 $handler->getSupportedEntityTypes()
             ));
+            sort($this->supportedTypes);
         }
     }
 

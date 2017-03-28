@@ -26,8 +26,12 @@ class WriteAdapter extends TypedAdapter
         return $this->addHandler($writer);
     }
 
+    /**
+     * Perform a single step, process a single request
+     */
     protected function doStep()
     {
+        // Wait for the next write request
         /** @var WriteRequest $req */
         $req = $this->decoder->decode(WriteRequest::class);
         try {
@@ -37,6 +41,7 @@ class WriteAdapter extends TypedAdapter
         } catch (Exception $ex) {
             $res = WriteResponse::error($ex);
         }
+        // Send the result back to the host
         $this->encoder->encode($res);
     }
 
