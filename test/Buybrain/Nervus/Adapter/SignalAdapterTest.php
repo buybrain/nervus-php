@@ -8,6 +8,7 @@ use Buybrain\Nervus\Adapter\Message\SignalRequest;
 use Buybrain\Nervus\EntityId;
 use Buybrain\Nervus\MockIO;
 use PHPUnit_Framework_TestCase;
+use RuntimeException;
 
 class SignalAdapterTest extends PHPUnit_Framework_TestCase
 {
@@ -15,9 +16,9 @@ class SignalAdapterTest extends PHPUnit_Framework_TestCase
     {
         $request = new SignalRequest();
         $signal = new Signal([new EntityId('test', '123')]);
-        $response = new SignalAckRequest(true);
+        $ackRequest = new SignalAckRequest(true);
 
-        $io = (new MockIO())->write($request)->write($response);
+        $io = (new MockIO())->write($request)->write($ackRequest);
 
         $ackResponse = null;
         $SUT = (new SignalAdapter(new CallableSignaler(function (SignalCallback $callback) use ($signal, &$ackResponse) {
@@ -44,9 +45,8 @@ class SignalAdapterTest extends PHPUnit_Framework_TestCase
     {
         $io = (new MockIO())->write(new SignalRequest());
 
-        $ackResponse = null;
         $SUT = (new SignalAdapter(new CallableSignaler(function (SignalCallback $callback) {
-            throw new \RuntimeException('Oh no');
+            throw new RuntimeException('Oh no');
         })))
             ->in($io->input())
             ->out($io->output())
@@ -67,14 +67,15 @@ class SignalAdapterTest extends PHPUnit_Framework_TestCase
             ->write(new SignalAckRequest(true))// This one will fail, try again
             ->write(new SignalAckRequest(true)); // This one will succeed
 
-
         $counter = 0;
         $SUT = (new SignalAdapter(new CallableSignaler(function (SignalCallback $callback) use (&$counter) {
             $callback->onSignal([], function ($ack) use (&$counter) {
-                if ($counter++ === 0) {
-                    throw new \RuntimeException('Oh no');
+                $counter++;
+                if ($counter === 1) {
+                    // First time, error
+                    throw new RuntimeException('Oh no');
                 }
-                // okay, no problem
+                // Second time, no problem
             });
         })))
             ->in($io->input())
