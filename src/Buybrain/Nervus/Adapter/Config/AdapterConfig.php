@@ -6,6 +6,8 @@ use JsonSerializable;
 /**
  * AdapterConfig encodes the capabilities of a nervus adapter. It is sent to the nervus host first thing when an adapter
  * starts, so that the host knows what the adapter can do and in what encoding to communicate.
+ *
+ * @see ExtraAdapterConfig
  */
 class AdapterConfig implements JsonSerializable
 {

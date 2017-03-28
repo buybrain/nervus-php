@@ -4,10 +4,9 @@ namespace Buybrain\Nervus\Adapter;
 use Buybrain\Nervus\Adapter\Config\AdapterConfig;
 use Buybrain\Nervus\Adapter\Config\ExtraAdapterConfig;
 use Buybrain\Nervus\Codec\Codec;
+use Buybrain\Nervus\Codec\Codecs;
 use Buybrain\Nervus\Codec\Decoder;
 use Buybrain\Nervus\Codec\Encoder;
-use Buybrain\Nervus\Codec\JsonEncoder;
-use Buybrain\Nervus\Codec\MessagePackCodec;
 use Buybrain\Nervus\Util\Streams;
 
 /**
@@ -28,7 +27,7 @@ abstract class Adapter
 
     public function __construct()
     {
-        $this->codec = new MessagePackCodec();
+        $this->codec = Codecs::messagePack();
     }
 
     /**
@@ -85,6 +84,7 @@ abstract class Adapter
     public function run()
     {
         $this->init();
+        // Loop forever
         while (true) {
             $this->doStep();
         }
@@ -123,7 +123,8 @@ abstract class Adapter
                 $this->getAdapterType(),
                 $this->getExtraConfig()
             );
-            (new JsonEncoder($this->output))->useNewlines(false)->encode($config);
+            Codecs::json()->newEncoder($this->output)->useNewlines(false)->encode($config);
+
             $this->decoder = $this->codec->newDecoder($this->input);
             $this->encoder = $this->codec->newEncoder($this->output);
         }

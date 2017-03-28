@@ -11,7 +11,7 @@ use Exception;
 
 /**
  * Adapter implementation for handling entity read requests. It will use the registered Readers to obtain the data.
- * 
+ *
  * @see ReadRequest
  * @see Reader
  */
@@ -19,7 +19,7 @@ class ReadAdapter extends TypedAdapter
 {
     /**
      * Add a reader to this adapter for handling incoming read requests
-     * 
+     *
      * @param Reader $reader
      * @return $this
      */
@@ -30,6 +30,7 @@ class ReadAdapter extends TypedAdapter
 
     protected function doStep()
     {
+        // Wait for the next read request
         /** @var ReadRequest $req */
         $req = $this->decoder->decode(ReadRequest::class);
         try {

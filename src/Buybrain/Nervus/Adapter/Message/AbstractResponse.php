@@ -1,6 +1,7 @@
 <?php
 namespace Buybrain\Nervus\Adapter\Message;
 
+use Buybrain\Nervus\Codec\Mapper\StructMapper;
 use Exception;
 use JsonSerializable;
 
@@ -46,9 +47,10 @@ abstract class AbstractResponse implements JsonSerializable
 
     /**
      * @param array $data
+     * @param StructMapper $mapper
      * @return static
      */
-    public static function fromArray(array $data)
+    public static function fromArray(array $data, StructMapper $mapper)
     {
         return new static($data['Status'], $data['Error']);
     }

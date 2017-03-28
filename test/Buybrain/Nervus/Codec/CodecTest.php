@@ -23,13 +23,6 @@ class CodecTest extends PHPUnit_Framework_TestCase
         $this->assertEncodeDecode($codec, [1, 2, 3]);
         $this->assertEncodeDecode($codec, ['a' => 1, 'b' => 2, 'c' => [true, false]]);
         $this->assertEncodeDecodeClass($codec, new Entity(new EntityId('test', 123), 'testing'));
-        $this->assertEncodeDecodeClassList(
-            $codec,
-            [
-                new Entity(new EntityId('test', 123), 'testing'),
-                new Entity(new EntityId('test', 456), 'testing'),
-            ]
-        );
     }
 
     /**
@@ -73,12 +66,6 @@ class CodecTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($value, $dec->decode(get_class($value)));
     }
 
-    private function assertEncodeDecodeClassList(Codec $codec, array $values)
-    {
-        $dec = $this->encode($codec, $values);
-        $this->assertEquals($values, $dec->decodeList(get_class($values[0])));
-    }
-
     /**
      * @param Codec $codec
      * @param $value
@@ -99,11 +86,11 @@ class CodecTest extends PHPUnit_Framework_TestCase
     public function codecs()
     {
         $result = [
-            [new JsonCodec()],
-            [new PureMessagePackCodec()],
+            [Codecs::json()],
+            [Codecs::pureMessagePack()],
         ];
         if (NativeMessagePackCodec::isSupported()) {
-            $result[] = [new NativeMessagePackCodec()];
+            $result[] = [Codecs::nativeMessagePack()];
         }
         return $result;
     }

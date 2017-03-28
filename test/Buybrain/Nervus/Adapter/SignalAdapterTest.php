@@ -1,16 +1,12 @@
 <?php
 namespace Buybrain\Nervus\Adapter;
 
-use Buybrain\Nervus\Adapter\Config\AdapterConfig;
-use Buybrain\Nervus\Adapter\Config\SignalAdapterConfig;
 use Buybrain\Nervus\Adapter\Handler\CallableSignaler;
 use Buybrain\Nervus\Adapter\Message\Signal;
 use Buybrain\Nervus\Adapter\Message\SignalAckRequest;
-use Buybrain\Nervus\Adapter\Message\SignalAckResponse;
 use Buybrain\Nervus\Adapter\Message\SignalRequest;
-use Buybrain\Nervus\Adapter\Message\SignalResponse;
 use Buybrain\Nervus\EntityId;
-use Buybrain\Nervus\TestIO;
+use Buybrain\Nervus\MockIO;
 use PHPUnit_Framework_TestCase;
 
 class SignalAdapterTest extends PHPUnit_Framework_TestCase
@@ -21,7 +17,7 @@ class SignalAdapterTest extends PHPUnit_Framework_TestCase
         $signal = new Signal([new EntityId('test', '123')]);
         $response = new SignalAckRequest(true);
 
-        $io = (new TestIO())->write($request)->write($response);
+        $io = (new MockIO())->write($request)->write($response);
 
         $ackResponse = null;
         $SUT = (new SignalAdapter(new CallableSignaler(function (SignalCallback $callback) use ($signal, &$ackResponse) {
@@ -36,9 +32,9 @@ class SignalAdapterTest extends PHPUnit_Framework_TestCase
 
         $SUT->step();
 
-        $expected =
-            json_encode(new AdapterConfig($io->codec()->getName(), 'signal', new SignalAdapterConfig(10))) .
-            $io->encode(SignalResponse::success($signal), SignalAckResponse::success());
+        $expected = '{"Codec":"json","AdapterType":"signal","Extra":{"Interval":10}}' .
+            '{"Status":true,"Error":null,"Signal":{"Ids":[{"Type":"test","Id":"123"}]}}' . "\n" .
+            '{"Status":true,"Error":null}';
 
         $this->assertEquals($expected, $io->writtenData());
         $this->assertTrue($ackResponse);
@@ -46,7 +42,7 @@ class SignalAdapterTest extends PHPUnit_Framework_TestCase
 
     public function testErrorDuringSignal()
     {
-        $io = (new TestIO())->write(new SignalRequest());
+        $io = (new MockIO())->write(new SignalRequest());
 
         $ackResponse = null;
         $SUT = (new SignalAdapter(new CallableSignaler(function (SignalCallback $callback) {
@@ -58,21 +54,20 @@ class SignalAdapterTest extends PHPUnit_Framework_TestCase
 
         $SUT->step();
 
-        $expected =
-            json_encode(new AdapterConfig($io->codec()->getName(), 'signal', new SignalAdapterConfig(0))) .
-            $io->encode(SignalResponse::error(new \RuntimeException('Oh no')));
+        $expected = '{"Codec":"json","AdapterType":"signal","Extra":{"Interval":0}}' .
+            '{"Status":false,"Error":"Oh no","Signal":null}';
 
         $this->assertEquals($expected, $io->writtenData());
     }
 
     public function testErrorDuringAck()
     {
-        $io = (new TestIO())
+        $io = (new MockIO())
             ->write(new SignalRequest())
-            ->write(new SignalAckRequest(true)) // This one will fail, try again
+            ->write(new SignalAckRequest(true))// This one will fail, try again
             ->write(new SignalAckRequest(true)); // This one will succeed
 
-        
+
         $counter = 0;
         $SUT = (new SignalAdapter(new CallableSignaler(function (SignalCallback $callback) use (&$counter) {
             $callback->onSignal([], function ($ack) use (&$counter) {
@@ -88,13 +83,10 @@ class SignalAdapterTest extends PHPUnit_Framework_TestCase
 
         $SUT->step();
 
-        $expected =
-            json_encode(new AdapterConfig($io->codec()->getName(), 'signal', new SignalAdapterConfig(0))) .
-            $io->encode(
-                SignalResponse::success(new Signal([])),
-                SignalAckResponse::error(new \RuntimeException('Oh no')),
-                SignalAckResponse::success()
-            );
+        $expected = '{"Codec":"json","AdapterType":"signal","Extra":{"Interval":0}}' .
+            '{"Status":true,"Error":null,"Signal":{"Ids":[]}}' . "\n" .
+            '{"Status":false,"Error":"Oh no"}' . "\n" .
+            '{"Status":true,"Error":null}';
 
         $this->assertEquals($expected, $io->writtenData());
     }

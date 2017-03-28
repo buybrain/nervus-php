@@ -1,6 +1,7 @@
 <?php
 namespace Buybrain\Nervus\Adapter\Message;
 
+use Buybrain\Nervus\Codec\Mapper\StructMapper;
 use Buybrain\Nervus\EntityId;
 use JsonSerializable;
 
@@ -30,11 +31,14 @@ class Signal implements JsonSerializable
 
     /**
      * @param array $data
+     * @param StructMapper $mapper
      * @return Signal
      */
-    public static function fromArray(array $data)
+    public static function fromArray(array $data, StructMapper $mapper)
     {
-        return new self(array_map([EntityId::class, 'fromArray'], $data['Ids']));
+        return new self(array_map(function ($id) use ($mapper) {
+            return $mapper->unmap($id, EntityId::class);
+        }, $data['Ids']));
     }
 
     /**

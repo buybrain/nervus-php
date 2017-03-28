@@ -37,10 +37,10 @@ abstract class TypedAdapter extends Adapter
     private function addHandlerTypes(TypedHandler $handler)
     {
         if ($handler->getSupportedEntityTypes() === null) {
-            // The new reader supports all types, so the adapter also supports all types
+            // The new handler supports all types, so the adapter also supports all types
             $this->supportedTypes = null;
         } else if ($this->supportedTypes !== null) {
-            // The reader support specific types, and so does the adapter, so add the new types from the reader
+            // The handler support specific types, and so does the adapter, so add the new types from the handler
             $this->supportedTypes = array_unique(array_merge(
                 $this->supportedTypes,
                 $handler->getSupportedEntityTypes()
@@ -57,19 +57,19 @@ abstract class TypedAdapter extends Adapter
     }
 
     /**
+     * Assign every entity to the first handler that supports it
+     *
      * @param Typed[] $objects
      * @return array tuples of [Handler, object[]]
      */
     protected function assignToHandlers(array $objects)
     {
         $result = [];
-
-        // We will assign every entity type to the first handler that supports it
         $perType = TypedUtils::groupByType($objects);
         foreach ($this->handlers as $handler) {
             $remainingTypes = array_keys($perType);
-            $writerTypes = $handler->getSupportedEntityTypes();
-            $useTypes = $writerTypes === null ? $remainingTypes : array_intersect($writerTypes, $remainingTypes);
+            $handlerTypes = $handler->getSupportedEntityTypes();
+            $useTypes = $handlerTypes === null ? $remainingTypes : array_intersect($handlerTypes, $remainingTypes);
             if (count($useTypes) > 0) {
                 $assigned = [];
                 foreach ($useTypes as $type) {
@@ -98,8 +98,7 @@ abstract class TypedAdapter extends Adapter
             $unsupportedTypes = array_diff(TypedUtils::uniqueTypes($objects), $this->supportedTypes);
             if (count($unsupportedTypes) > 0) {
                 throw new Exception(sprintf(
-                    '%s encountered unsupported types %s (supported: %s)',
-                    get_class($this),
+                    'Encountered unsupported types %s (supported: %s)',
                     implode(', ', $unsupportedTypes),
                     count($this->supportedTypes) > 0 ? implode(', ', $this->supportedTypes) : '*none*'
                 ));

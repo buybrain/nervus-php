@@ -1,6 +1,7 @@
 <?php
 namespace Buybrain\Nervus\Adapter\Message;
 
+use Buybrain\Nervus\Codec\Mapper\StructMapper;
 use Buybrain\Nervus\Entity;
 use JsonSerializable;
 
@@ -30,11 +31,14 @@ class WriteRequest implements JsonSerializable
 
     /**
      * @param array $data
+     * @param StructMapper $mapper
      * @return WriteRequest
      */
-    public static function fromArray(array $data)
+    public static function fromArray(array $data, StructMapper $mapper)
     {
-        $entities = array_map([Entity::class, 'fromArray'], $data['Entities']);
+        $entities = array_map(function ($id) use ($mapper) {
+            return $mapper->unmap($id, Entity::class);
+        }, $data['Entities']);
         return new self($entities);
     }
 

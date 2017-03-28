@@ -4,7 +4,7 @@ namespace Buybrain\Nervus\Codec;
 /**
  * Codec that reads and writes JSON encoded messages
  */
-class JsonCodec implements Codec
+class JsonCodec extends AbstractCodec
 {
     /**
      * @param resource $stream
@@ -12,16 +12,16 @@ class JsonCodec implements Codec
      */
     public function newDecoder($stream)
     {
-        return new JsonDecoder($stream);
+        return new JsonDecoder($stream, $this->mapper);
     }
 
     /**
      * @param resource $stream
-     * @return Encoder
+     * @return JsonEncoder
      */
     public function newEncoder($stream)
     {
-        return new JsonEncoder($stream);
+        return new JsonEncoder($stream, $this->mapper);
     }
 
     /**

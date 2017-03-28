@@ -5,7 +5,7 @@ namespace Buybrain\Nervus\Codec;
  * Codec that reads and writes MessagePack encoded messages using either a pure PHP implementation or a faster native
  * PECL extension, depending on whether the latter is installed
  */
-class MessagePackCodec implements Codec
+class MessagePackCodec extends AbstractCodec
 {
     /**
      * @param resource $stream
@@ -14,8 +14,8 @@ class MessagePackCodec implements Codec
     public function newDecoder($stream)
     {
         return NativeMessagePackCodec::isSupported() ?
-            new NativeMessagePackDecoder($stream) :
-            new PureMessagePackDecoder($stream);
+            new NativeMessagePackDecoder($stream, $this->mapper) :
+            new PureMessagePackDecoder($stream, $this->mapper);
     }
 
     /**
@@ -25,8 +25,8 @@ class MessagePackCodec implements Codec
     public function newEncoder($stream)
     {
         return NativeMessagePackCodec::isSupported() ?
-            new NativeMessagePackEncoder($stream) :
-            new PureMessagePackEncoder($stream);
+            new NativeMessagePackEncoder($stream, $this->mapper) :
+            new PureMessagePackEncoder($stream, $this->mapper);
     }
 
     /**

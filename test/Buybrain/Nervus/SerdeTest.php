@@ -9,7 +9,9 @@ use Buybrain\Nervus\Adapter\Message\SignalRequest;
 use Buybrain\Nervus\Adapter\Message\SignalResponse;
 use Buybrain\Nervus\Adapter\Message\WriteRequest;
 use Buybrain\Nervus\Adapter\Message\WriteResponse;
-use Buybrain\Nervus\Util\Objects;
+use Buybrain\Nervus\Codec\Mapper\EntityJsonMapperStrategy;
+use Buybrain\Nervus\Codec\Mapper\BasicStructMapperStrategy;
+use Buybrain\Nervus\Codec\Mapper\StructMapper;
 use JsonSerializable;
 use PHPUnit_Framework_TestCase;
 
@@ -23,11 +25,37 @@ class SerdeTest extends PHPUnit_Framework_TestCase
      */
     public function testRoundtrip(array $input, $classname)
     {
-        $decoded = $classname::fromArray($input);
+        $mapper = new StructMapper([new BasicStructMapperStrategy()]);
+        $decoded = $mapper->unmap($input, $classname);
         $this->assertTrue($decoded instanceof $classname);
         $this->assertTrue($decoded instanceof JsonSerializable);
-        $encoded = Objects::toPrimitiveOrStruct($decoded);
+        $encoded = $mapper->map($decoded);
         $this->assertEquals($input, $encoded);
+    }
+
+    public function testEntityJsonMapping()
+    {
+        $mapper = new StructMapper([new EntityJsonMapperStrategy(), new BasicStructMapperStrategy()]);
+
+        $req = new WriteRequest([new Entity(new EntityId('test', '123'), 'Some data')]);
+
+        $struct = $mapper->map($req);
+
+        $expected = [
+            'Entities' => [
+                [
+                    'Id' => ['Type' => 'test', 'Id' => '123'],
+                    'Data' => 'U29tZSBkYXRh', // Base 64 encoded
+                    'Deleted' => false
+                ]
+            ]
+        ];
+
+        $this->assertEquals($expected, $struct);
+
+        $unmapped = $mapper->unmap($struct, WriteRequest::class);
+
+        $this->assertEquals($req, $unmapped);
     }
 
     public function dataProvider()
@@ -63,8 +91,8 @@ class SerdeTest extends PHPUnit_Framework_TestCase
             ],
             [
                 [
-                    'Status' => true, 
-                    'Error' => null, 
+                    'Status' => true,
+                    'Error' => null,
                     'Entities' => [
                         ['Id' => ['Type' => 'test', 'Id' => '123'], 'Data' => 'Some data', 'Deleted' => false]
                     ]

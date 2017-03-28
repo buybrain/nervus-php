@@ -1,6 +1,7 @@
 <?php
 namespace Buybrain\Nervus\Codec;
 
+use Buybrain\Nervus\Codec\Mapper\StructMapper;
 use Buybrain\Nervus\Exception\Exception;
 use Buybrain\Nervus\Util\Streams;
 
@@ -14,14 +15,18 @@ abstract class AbstractDecoder implements Decoder
 
     /** @var resource */
     private $stream;
+    /** @var StructMapper */
+    private $mapper;
 
     /**
      * @param resource $stream
+     * @param StructMapper $mapper
      */
-    public function __construct($stream)
+    public function __construct($stream, StructMapper $mapper)
     {
         Streams::assertStream($stream);
         $this->stream = $stream;
+        $this->mapper = $mapper;
     }
 
     /**
@@ -33,36 +38,7 @@ abstract class AbstractDecoder implements Decoder
     public function decode($class = null)
     {
         $data = $this->decodeStruct();
-        if ($class === null) {
-            return $data;
-        }
-        self::validateClass($class);
-        if (!is_array($data)) {
-            throw new Exception('Error while decoding, expected array, got ' . json_encode($data));
-        }
-        return call_user_func([$class, 'fromArray'], $data);
-    }
-
-    /**
-     * Decode into a list of objects of the given class
-     *
-     * @param string $class the class name to decode into
-     * @return array of instances of the given class
-     */
-    public function decodeList($class)
-    {
-        self::validateClass($class);
-        $data = $this->decodeStruct();
-        return array_map(function ($object) use ($class, $data) {
-            if (!is_array($object)) {
-                throw new Exception(sprintf(
-                    "Error while decoding array element, expected array, got %s. \n\nWhole payload was:\n\n%s",
-                    json_encode($object),
-                    json_encode($data)
-                ));
-            }
-            return call_user_func([$class, 'fromArray'], $object);
-        }, $data);
+        return $this->mapper->unmap($data, $class);
     }
 
     /**
@@ -80,22 +56,6 @@ abstract class AbstractDecoder implements Decoder
         }
 
         return $data;
-    }
-
-    /**
-     * @param string $class
-     */
-    private static function validateClass($class)
-    {
-        if (!class_exists($class)) {
-            throw new Exception(sprintf('Cannot decode to %f, class does not exist', $class));
-        }
-        if (!method_exists($class, 'fromArray')) {
-            throw new Exception(sprintf(
-                'Cannot decode to %s, class does not implement fromArray($data)',
-                $class
-            ));
-        }
     }
 
     /**

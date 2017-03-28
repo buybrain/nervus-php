@@ -1,9 +1,11 @@
 <?php
 namespace Buybrain\Nervus\Adapter\Message;
 
+use Buybrain\Nervus\Codec\Mapper\StructMapper;
+
 /**
  * Response message as a response to signal requests, containing the next signal
- * 
+ *
  * @see SignalRequest
  */
 class SignalResponse extends AbstractResponse
@@ -24,13 +26,14 @@ class SignalResponse extends AbstractResponse
 
     /**
      * @param array $data
+     * @param StructMapper $mapper
      * @return SignalResponse
      */
-    public static function fromArray(array $data)
+    public static function fromArray(array $data, StructMapper $mapper)
     {
         /** @var SignalResponse $res */
-        $res = parent::fromArray($data);
-        $res->signal = Signal::fromArray($data['Signal']);
+        $res = parent::fromArray($data, $mapper);
+        $res->signal = $mapper->unmap($data['Signal'], Signal::class);
         return $res;
     }
 

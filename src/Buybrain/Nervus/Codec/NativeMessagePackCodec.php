@@ -6,7 +6,7 @@ use RuntimeException;
 /**
  * Codec that reads and writes MessagePack encoded messages using a native PECL extension
  */
-class NativeMessagePackCodec implements Codec
+class NativeMessagePackCodec extends AbstractCodec
 {
     /** @var bool */
     private static $supported;
@@ -18,7 +18,7 @@ class NativeMessagePackCodec implements Codec
     public function newDecoder($stream)
     {
         self::assertSupported();
-        return new NativeMessagePackDecoder($stream);
+        return new NativeMessagePackDecoder($stream, $this->mapper);
     }
 
     /**
@@ -28,7 +28,7 @@ class NativeMessagePackCodec implements Codec
     public function newEncoder($stream)
     {
         self::assertSupported();
-        return new NativeMessagePackEncoder($stream);
+        return new NativeMessagePackEncoder($stream, $this->mapper);
     }
 
     /**

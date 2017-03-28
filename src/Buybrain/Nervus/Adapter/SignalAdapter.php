@@ -50,7 +50,7 @@ class SignalAdapter extends Adapter implements SignalCallback
 
     /**
      * Callback method meant to be called by signal handlers when a new signal is available
-     * 
+     *
      * @param EntityId[] $ids
      * @param callable $onAck will be passed a single boolean $ack argument
      */

@@ -1,6 +1,7 @@
 <?php
 namespace Buybrain\Nervus\Adapter\Message;
 
+use Buybrain\Nervus\Codec\Mapper\StructMapper;
 use Buybrain\Nervus\EntityId;
 use JsonSerializable;
 
@@ -30,11 +31,15 @@ class ReadRequest implements JsonSerializable
 
     /**
      * @param array $data
+     * @param StructMapper $mapper
      * @return ReadRequest
      */
-    public static function fromArray(array $data)
+    public static function fromArray(array $data, StructMapper $mapper)
     {
-        $ids = array_map([EntityId::class, 'fromArray'], $data['Ids']);
+        $ids = array_map(function ($id) use ($mapper) {
+            return $mapper->unmap($id, EntityId::class);
+        }, $data['Ids']);
+
         return new self($ids);
     }
 

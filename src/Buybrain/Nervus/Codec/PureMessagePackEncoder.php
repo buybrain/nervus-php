@@ -1,7 +1,7 @@
 <?php
 namespace Buybrain\Nervus\Codec;
 
-use Buybrain\Nervus\Util\Objects;
+use Buybrain\Nervus\Codec\Mapper\StructMapper;
 use MessagePack\Packer;
 
 /**
@@ -14,10 +14,11 @@ class PureMessagePackEncoder extends AbstractEncoder
 
     /**
      * @param resource $stream
+     * @param StructMapper $mapper
      */
-    public function __construct($stream)
+    public function __construct($stream, StructMapper $mapper)
     {
-        parent::__construct($stream);
+        parent::__construct($stream, $mapper);
         $this->packer = new Packer();
     }
 
@@ -27,6 +28,6 @@ class PureMessagePackEncoder extends AbstractEncoder
      */
     protected function serialize($data)
     {
-        return $this->packer->pack(Objects::toPrimitiveOrStruct($data));
+        return $this->packer->pack($data);
     }
 }

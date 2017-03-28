@@ -1,6 +1,7 @@
 <?php
 namespace Buybrain\Nervus\Codec;
 
+use Buybrain\Nervus\Codec\Mapper\StructMapper;
 use MessagePack\BufferUnpacker;
 
 /**
@@ -15,10 +16,11 @@ class PureMessagePackDecoder extends AbstractDecoder
 
     /**
      * @param resource $stream
+     * @param StructMapper $mapper
      */
-    public function __construct($stream)
+    public function __construct($stream, StructMapper $mapper)
     {
-        parent::__construct($stream);
+        parent::__construct($stream, $mapper);
         $this->unpacker = new BufferUnpacker();
     }
 

@@ -2,9 +2,9 @@
 namespace Buybrain\Nervus;
 
 use Buybrain\Nervus\Codec\Codec;
-use Buybrain\Nervus\Codec\JsonCodec;
+use Buybrain\Nervus\Codec\Codecs;
 
-class TestIO
+class MockIO
 {
     /** @var Codec */
     private $codec;
@@ -15,7 +15,7 @@ class TestIO
 
     public function __construct()
     {
-        $this->codec = new JsonCodec();
+        $this->codec = Codecs::json();
         $this->input = fopen('php://temp', 'r+');
         $this->output = fopen('php://temp', 'r+');
     }
@@ -77,6 +77,6 @@ class TestIO
     public function writtenData()
     {
         rewind($this->output);
-        return stream_get_contents($this->output);
+        return trim(stream_get_contents($this->output));
     }
 }

@@ -1,7 +1,7 @@
 <?php
 namespace Buybrain\Nervus;
 
-use Buybrain\Nervus\Util\Objects;
+use Buybrain\Nervus\Codec\Mapper\StructMapper;
 use Buybrain\Nervus\Util\Typed;
 use JsonSerializable;
 
@@ -9,7 +9,7 @@ use JsonSerializable;
  * Business object that can be synced by the nervus system. Entities have an ID (which also contains the type of the
  * entity), data, and a 'deleted' flag. The data is encoded as a string (a byte array technically) and the encoding
  * scheme is up to the client application.
- * 
+ *
  * @see EntityId
  */
 class Entity implements JsonSerializable, Typed
@@ -79,13 +79,14 @@ class Entity implements JsonSerializable, Typed
 
     /**
      * @param array $data
+     * @param StructMapper $mapper
      * @return Entity
      */
-    public static function fromArray(array $data)
+    public static function fromArray(array $data, StructMapper $mapper)
     {
         return new self(
-            EntityId::fromArray($data['Id']),
-            Objects::toPrimitiveOrStruct($data['Data']),
+            $mapper->unmap($data['Id'], EntityId::class),
+            $data['Data'],
             $data['Deleted']
         );
     }

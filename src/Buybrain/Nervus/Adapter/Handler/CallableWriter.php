@@ -20,7 +20,7 @@ class CallableWriter extends AbstractTypedHandler implements Writer
         parent::__construct($supportedTypes);
         $this->callable = $callable;
     }
-    
+
     /**
      * @param Entity[] $entities
      */
