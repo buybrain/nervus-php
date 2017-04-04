@@ -3,6 +3,7 @@ namespace Buybrain\Nervus\Codec\Mapper;
 
 use Buybrain\Nervus\Exception\Exception;
 use JsonSerializable;
+use stdClass;
 
 /**
  * Basic mapper strategy for using JsonSerialize / fromArray
@@ -16,6 +17,9 @@ class BasicStructMapperStrategy implements StructMapperStrategy
      */
     public function map($data, StructMapper $mapper)
     {
+        if ($data instanceof stdClass) {
+            $data = (array)$data;
+        }
         if ($data instanceof JsonSerializable) {
             $data = $data->jsonSerialize();
         }
@@ -35,6 +39,9 @@ class BasicStructMapperStrategy implements StructMapperStrategy
      */
     public function unmap($data, StructMapper $mapper, $class = null)
     {
+        if ($data instanceof stdClass) {
+            $data = (array)$data;
+        }
         if ($class === null) {
             return $data;
         }
