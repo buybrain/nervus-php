@@ -52,7 +52,7 @@ abstract class AbstractResponse implements JsonSerializable
      */
     public static function fromArray(array $data, StructMapper $mapper)
     {
-        return new static($data['Status'], $data['Error']);
+        return new static($data['status'], $data['error']);
     }
 
     /**
@@ -61,8 +61,8 @@ abstract class AbstractResponse implements JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'Status' => $this->status,
-            'Error' => $this->error,
+            'status' => $this->status,
+            'error' => $this->error,
         ];
     }
 }

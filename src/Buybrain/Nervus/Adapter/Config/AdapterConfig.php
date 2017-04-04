@@ -36,9 +36,9 @@ class AdapterConfig implements JsonSerializable
     function jsonSerialize()
     {
         return [
-            'Codec' => $this->codec,
-            'AdapterType' => $this->adapterType,
-            'Extra' => $this->extra
+            'codec' => $this->codec,
+            'adapterType' => $this->adapterType,
+            'extra' => $this->extra
         ];
     }
 }

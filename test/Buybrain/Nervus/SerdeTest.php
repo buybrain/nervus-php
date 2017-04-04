@@ -42,11 +42,11 @@ class SerdeTest extends PHPUnit_Framework_TestCase
         $struct = $mapper->map($req);
 
         $expected = [
-            'Entities' => [
+            'entities' => [
                 [
-                    'Id' => ['Type' => 'test', 'Id' => '123'],
-                    'Data' => 'U29tZSBkYXRh', // Base 64 encoded
-                    'Deleted' => false
+                    'id' => ['type' => 'test', 'id' => '123'],
+                    'data' => 'U29tZSBkYXRh', // Base 64 encoded
+                    'deleted' => false
                 ]
             ]
         ];
@@ -62,11 +62,11 @@ class SerdeTest extends PHPUnit_Framework_TestCase
     {
         return [
             [
-                ['Id' => 123, 'Type' => 'test'],
+                ['id' => 123, 'type' => 'test'],
                 EntityId::class
             ],
             [
-                ['Id' => ['Id' => 234, 'Type' => 'test'], 'Data' => 'Some data', 'Deleted' => false],
+                ['id' => ['id' => 234, 'type' => 'test'], 'data' => 'Some data', 'deleted' => false],
                 Entity::class
             ],
             [
@@ -74,39 +74,39 @@ class SerdeTest extends PHPUnit_Framework_TestCase
                 SignalRequest::class
             ],
             [
-                ['Status' => true, 'Error' => null, 'Signal' => ['Ids' => [['Type' => 'test', 'Id' => '123']]]],
+                ['status' => true, 'error' => null, 'signal' => ['ids' => [['type' => 'test', 'id' => '123']]]],
                 SignalResponse::class
             ],
             [
-                ['Ack' => true],
+                ['ack' => true],
                 SignalAckRequest::class
             ],
             [
-                ['Status' => true, 'Error' => null],
+                ['status' => true, 'error' => null],
                 SignalAckResponse::class
             ],
             [
-                ['Ids' => [['Type' => 'test', 'Id' => '123']]],
+                ['ids' => [['type' => 'test', 'id' => '123']]],
                 ReadRequest::class
             ],
             [
                 [
-                    'Status' => true,
-                    'Error' => null,
-                    'Entities' => [
-                        ['Id' => ['Type' => 'test', 'Id' => '123'], 'Data' => 'Some data', 'Deleted' => false]
+                    'status' => true,
+                    'error' => null,
+                    'entities' => [
+                        ['id' => ['type' => 'test', 'id' => '123'], 'data' => 'Some data', 'deleted' => false]
                     ]
                 ],
                 ReadResponse::class
             ],
             [
-                ['Entities' => [['Id' => ['Type' => 'test', 'Id' => '123'], 'Data' => 'Some data', 'Deleted' => false]]],
+                ['entities' => [['id' => ['type' => 'test', 'id' => '123'], 'data' => 'Some data', 'deleted' => false]]],
                 WriteRequest::class
             ],
             [
-                ['Status' => true, 'Error' => null],
+                ['status' => true, 'error' => null],
                 WriteResponse::class
-            ]
+            ],
         ];
     }
 }

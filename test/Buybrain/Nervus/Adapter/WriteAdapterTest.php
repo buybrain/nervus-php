@@ -48,8 +48,8 @@ class WriteAdapterTest extends PHPUnit_Framework_TestCase
         $this->assertEquals([$request->getEntities()[0]], $receivedEntities1);
         $this->assertEquals([$request->getEntities()[1]], $receivedEntities2);
 
-        $expected = '{"Codec":"json","AdapterType":"write","Extra":{"EntityTypes":["type1","type2"]}}' .
-            '{"Status":true,"Error":null}';
+        $expected = '{"codec":"json","adapterType":"write","extra":{"entityTypes":["type1","type2"]}}' .
+            '{"status":true,"error":null}';
 
         $this->assertEquals($expected, $io->writtenData());
     }
@@ -70,8 +70,8 @@ class WriteAdapterTest extends PHPUnit_Framework_TestCase
 
         $SUT->step();
 
-        $expected = '{"Codec":"json","AdapterType":"write","Extra":{"EntityTypes":null}}' .
-            '{"Status":false,"Error":"Wow"}';
+        $expected = '{"codec":"json","adapterType":"write","extra":{"entityTypes":null}}' .
+            '{"status":false,"error":"Wow"}';
 
         $this->assertEquals($expected, $io->writtenData());
     }

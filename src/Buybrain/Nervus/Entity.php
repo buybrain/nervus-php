@@ -55,9 +55,9 @@ class Entity implements JsonSerializable, Typed
     public function jsonSerialize()
     {
         return [
-            'Id' => $this->id,
-            'Data' => $this->data,
-            'Deleted' => $this->deleted,
+            'id' => $this->id,
+            'data' => $this->data,
+            'deleted' => $this->deleted,
         ];
     }
 
@@ -85,9 +85,9 @@ class Entity implements JsonSerializable, Typed
     public static function fromArray(array $data, StructMapper $mapper)
     {
         return new self(
-            $mapper->unmap($data['Id'], EntityId::class),
-            $data['Data'],
-            $data['Deleted']
+            $mapper->unmap($data['id'], EntityId::class),
+            $data['data'],
+            $data['deleted']
         );
     }
 }

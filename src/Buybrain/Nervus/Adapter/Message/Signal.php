@@ -38,7 +38,7 @@ class Signal implements JsonSerializable
     {
         return new self(array_map(function ($id) use ($mapper) {
             return $mapper->unmap($id, EntityId::class);
-        }, $data['Ids']));
+        }, $data['ids']));
     }
 
     /**
@@ -47,7 +47,7 @@ class Signal implements JsonSerializable
     function jsonSerialize()
     {
         return [
-            'Ids' => $this->ids,
+            'ids' => $this->ids,
         ];
     }
 }

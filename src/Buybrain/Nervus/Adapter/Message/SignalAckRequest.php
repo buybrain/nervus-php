@@ -33,7 +33,7 @@ class SignalAckRequest implements JsonSerializable
      */
     public static function fromArray(array $data)
     {
-        return new self($data['Ack']);
+        return new self($data['ack']);
     }
 
     /**
@@ -41,6 +41,6 @@ class SignalAckRequest implements JsonSerializable
      */
     public function jsonSerialize()
     {
-        return ['Ack' => $this->ack];
+        return ['ack' => $this->ack];
     }
 }

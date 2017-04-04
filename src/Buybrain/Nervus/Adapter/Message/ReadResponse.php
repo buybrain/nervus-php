@@ -37,7 +37,7 @@ class ReadResponse extends AbstractResponse
 
         $res->entities = array_map(function ($id) use ($mapper) {
             return $mapper->unmap($id, Entity::class);
-        }, $data['Entities']);
+        }, $data['entities']);
 
         return $res;
     }
@@ -47,6 +47,6 @@ class ReadResponse extends AbstractResponse
      */
     public function jsonSerialize()
     {
-        return array_merge(parent::jsonSerialize(), ['Entities' => $this->entities]);
+        return array_merge(parent::jsonSerialize(), ['entities' => $this->entities]);
     }
 }

@@ -38,7 +38,7 @@ class ReadRequest implements JsonSerializable
     {
         $ids = array_map(function ($id) use ($mapper) {
             return $mapper->unmap($id, EntityId::class);
-        }, $data['Ids']);
+        }, $data['ids']);
 
         return new self($ids);
     }
@@ -48,6 +48,6 @@ class ReadRequest implements JsonSerializable
      */
     public function jsonSerialize()
     {
-        return ['Ids' => $this->ids];
+        return ['ids' => $this->ids];
     }
 }

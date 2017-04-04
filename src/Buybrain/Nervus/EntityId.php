@@ -48,8 +48,8 @@ class EntityId implements JsonSerializable, Typed
     public function jsonSerialize()
     {
         return [
-            'Type' => $this->type,
-            'Id' => $this->id,
+            'type' => $this->type,
+            'id' => $this->id,
         ];
     }
 
@@ -59,6 +59,6 @@ class EntityId implements JsonSerializable, Typed
      */
     public static function fromArray(array $data)
     {
-        return new self($data['Type'], $data['Id']);
+        return new self($data['type'], $data['id']);
     }
 }

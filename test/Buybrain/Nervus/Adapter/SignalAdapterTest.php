@@ -33,9 +33,9 @@ class SignalAdapterTest extends PHPUnit_Framework_TestCase
 
         $SUT->step();
 
-        $expected = '{"Codec":"json","AdapterType":"signal","Extra":{"Interval":10}}' .
-            '{"Status":true,"Error":null,"Signal":{"Ids":[{"Type":"test","Id":"123"}]}}' . "\n" .
-            '{"Status":true,"Error":null}';
+        $expected = '{"codec":"json","adapterType":"signal","extra":{"interval":10}}' .
+            '{"status":true,"error":null,"signal":{"ids":[{"type":"test","id":"123"}]}}' . "\n" .
+            '{"status":true,"error":null}';
 
         $this->assertEquals($expected, $io->writtenData());
         $this->assertTrue($ackResponse);
@@ -54,8 +54,8 @@ class SignalAdapterTest extends PHPUnit_Framework_TestCase
 
         $SUT->step();
 
-        $expected = '{"Codec":"json","AdapterType":"signal","Extra":{"Interval":0}}' .
-            '{"Status":false,"Error":"Oh no","Signal":null}';
+        $expected = '{"codec":"json","adapterType":"signal","extra":{"interval":0}}' .
+            '{"status":false,"error":"Oh no","signal":null}';
 
         $this->assertEquals($expected, $io->writtenData());
     }
@@ -84,10 +84,10 @@ class SignalAdapterTest extends PHPUnit_Framework_TestCase
 
         $SUT->step();
 
-        $expected = '{"Codec":"json","AdapterType":"signal","Extra":{"Interval":0}}' .
-            '{"Status":true,"Error":null,"Signal":{"Ids":[]}}' . "\n" .
-            '{"Status":false,"Error":"Oh no"}' . "\n" .
-            '{"Status":true,"Error":null}';
+        $expected = '{"codec":"json","adapterType":"signal","extra":{"interval":0}}' .
+            '{"status":true,"error":null,"signal":{"ids":[]}}' . "\n" .
+            '{"status":false,"error":"Oh no"}' . "\n" .
+            '{"status":true,"error":null}';
 
         $this->assertEquals($expected, $io->writtenData());
     }

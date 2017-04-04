@@ -30,7 +30,7 @@ class EntityJsonMapperStrategy implements StructMapperStrategy
     public function unmap($data, StructMapper $mapper, $class = null)
     {
         if ($class === Entity::class) {
-            $data['Data'] = base64_decode($data['Data']);
+            $data['data'] = base64_decode($data['data']);
         }
         return $data;
     }

@@ -23,9 +23,9 @@ class ReadAdapterTest extends PHPUnit_Framework_TestCase
 
         $SUT->step();
 
-        $expected = '{"Codec":"json","AdapterType":"read","Extra":{"EntityTypes":null}}' .
-            '{"Status":true,"Error":null,"Entities":[{"Id":{"Type":"test","Id":"123"},' .
-            '"Data":"dGVzdA==","Deleted":false}]}';
+        $expected = '{"codec":"json","adapterType":"read","extra":{"entityTypes":null}}' .
+            '{"status":true,"error":null,"entities":[{"id":{"type":"test","id":"123"},' .
+            '"data":"dGVzdA==","deleted":false}]}';
 
         $this->assertEquals($expected, $io->writtenData());
     }
@@ -44,10 +44,10 @@ class ReadAdapterTest extends PHPUnit_Framework_TestCase
 
         $SUT->step();
 
-        $expected = '{"Codec":"json","AdapterType":"read","Extra":{"EntityTypes":["type1","type2"]}}' .
-            '{"Status":true,"Error":null,"Entities":[' .
-            '{"Id":{"Type":"type1","Id":"456"},"Data":"Y29udGVudDE=","Deleted":false},' .
-            '{"Id":{"Type":"type2","Id":"234"},"Data":"Y29udGVudDI=","Deleted":false}]}';
+        $expected = '{"codec":"json","adapterType":"read","extra":{"entityTypes":["type1","type2"]}}' .
+            '{"status":true,"error":null,"entities":[' .
+            '{"id":{"type":"type1","id":"456"},"data":"Y29udGVudDE=","deleted":false},' .
+            '{"id":{"type":"type2","id":"234"},"data":"Y29udGVudDI=","deleted":false}]}';
 
         $this->assertEquals($expected, $io->writtenData());
     }
@@ -63,9 +63,9 @@ class ReadAdapterTest extends PHPUnit_Framework_TestCase
 
         $SUT->step();
 
-        $expected = '{"Codec":"json","AdapterType":"read","Extra":{"EntityTypes":["type1"]}}' .
-            '{"Status":false,"Error":"Encountered unsupported types unsupportedType (supported: type1)",' .
-            '"Entities":null}';
+        $expected = '{"codec":"json","adapterType":"read","extra":{"entityTypes":["type1"]}}' .
+            '{"status":false,"error":"Encountered unsupported types unsupportedType (supported: type1)",' .
+            '"entities":null}';
 
         $this->assertEquals($expected, $io->writtenData());
     }

@@ -38,7 +38,7 @@ class WriteRequest implements JsonSerializable
     {
         $entities = array_map(function ($id) use ($mapper) {
             return $mapper->unmap($id, Entity::class);
-        }, $data['Entities']);
+        }, $data['entities']);
         return new self($entities);
     }
 
@@ -48,7 +48,7 @@ class WriteRequest implements JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'Entities' => $this->entities,
+            'entities' => $this->entities,
         ];
     }
 }

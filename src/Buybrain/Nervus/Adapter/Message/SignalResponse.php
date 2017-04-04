@@ -33,7 +33,7 @@ class SignalResponse extends AbstractResponse
     {
         /** @var SignalResponse $res */
         $res = parent::fromArray($data, $mapper);
-        $res->signal = $mapper->unmap($data['Signal'], Signal::class);
+        $res->signal = $mapper->unmap($data['signal'], Signal::class);
         return $res;
     }
 
@@ -42,6 +42,6 @@ class SignalResponse extends AbstractResponse
      */
     public function jsonSerialize()
     {
-        return array_merge(parent::jsonSerialize(), ['Signal' => $this->signal]);
+        return array_merge(parent::jsonSerialize(), ['signal' => $this->signal]);
     }
 }

@@ -25,7 +25,7 @@ class SignalAdapterConfig implements ExtraAdapterConfig
     function jsonSerialize()
     {
         return [
-            'Interval' => $this->interval,
+            'interval' => $this->interval,
         ];
     }
 }
