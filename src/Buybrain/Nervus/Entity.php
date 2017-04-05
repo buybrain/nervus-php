@@ -29,8 +29,8 @@ class Entity implements JsonSerializable, Typed
     public function __construct(EntityId $id, $data, $deleted = false)
     {
         $this->id = $id;
-        $this->data = $data;
-        $this->deleted = $deleted;
+        $this->data = (string)$data;
+        $this->deleted = (bool)$deleted;
     }
 
     /**

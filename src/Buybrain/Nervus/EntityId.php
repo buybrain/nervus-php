@@ -22,8 +22,8 @@ class EntityId implements JsonSerializable, Typed
      */
     public function __construct($type, $id)
     {
-        $this->type = $type;
-        $this->id = $id;
+        $this->type = (string)$type;
+        $this->id = (string)$id;
     }
 
     /**

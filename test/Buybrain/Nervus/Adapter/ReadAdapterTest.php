@@ -54,7 +54,7 @@ class ReadAdapterTest extends PHPUnit_Framework_TestCase
 
     public function testUnsupportedType()
     {
-        $request = new ReadRequest([new EntityId('unsupportedType', '234')]);
+        $request = new ReadRequest([new EntityId('unsupportedType', 234)]);
 
         $io = (new MockIO())->write($request);
 
