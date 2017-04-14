@@ -1,5 +1,6 @@
 {
     "name": "buybrain/nervus-php",
+    "version": "0.0.1",
     "description": "A PHP library for creating nervus adapters",
     "keywords": [
         "nervus"
@@ -9,7 +10,8 @@
     "licence": "MIT",
     "authors": [
         {
-            "name": "Ede Meijer"
+            "name": "Ede Meijer",
+            "email": "ede@buybrain.io"
         }
     ],
     "autoload": {
