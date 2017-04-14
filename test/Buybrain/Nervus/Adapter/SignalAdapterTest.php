@@ -31,7 +31,7 @@ class SignalAdapterTest extends PHPUnit_Framework_TestCase
             ->codec($io->codec())
             ->interval(10);
 
-        $SUT->step();
+        $SUT->singleRequest()->run();
 
         $expected = '{"codec":"json","adapterType":"signal","extra":{"interval":10}}' .
             '{"status":true,"error":null,"signal":{"ids":[{"type":"test","id":"123"}]}}' . "\n" .
@@ -52,7 +52,7 @@ class SignalAdapterTest extends PHPUnit_Framework_TestCase
             ->out($io->output())
             ->codec($io->codec());
 
-        $SUT->step();
+        $SUT->singleRequest()->run();
 
         $expected = '{"codec":"json","adapterType":"signal","extra":{"interval":0}}' .
             '{"status":false,"error":"Oh no","signal":null}';
@@ -82,7 +82,7 @@ class SignalAdapterTest extends PHPUnit_Framework_TestCase
             ->out($io->output())
             ->codec($io->codec());
 
-        $SUT->step();
+        $SUT->singleRequest()->run();
 
         $expected = '{"codec":"json","adapterType":"signal","extra":{"interval":0}}' .
             '{"status":true,"error":null,"signal":{"ids":[]}}' . "\n" .

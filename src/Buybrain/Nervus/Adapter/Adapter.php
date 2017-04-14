@@ -24,6 +24,8 @@ abstract class Adapter
     protected $encoder;
     /** @var Decoder */
     protected $decoder;
+    /** @var bool */
+    private $singleRequest = false;
 
     public function __construct()
     {
@@ -78,25 +80,31 @@ abstract class Adapter
     }
 
     /**
+     * Handle just one request and then stop the adapter
+     *
+     * @return $this
+     */
+    public function singleRequest()
+    {
+        $this->singleRequest = true;
+        return $this;
+    }
+
+    /**
      * Starts the adapter and keeps handling requests in a loop. This method never returns and will typically be
      * the last call in an adapter implementation script.
      */
     public function run()
     {
         $this->init();
-        // Loop forever
+
+        // Loop forever, except when configured to handle a single request
         while (true) {
             $this->doStep();
+            if ($this->singleRequest) {
+                break;
+            }
         }
-    }
-
-    /**
-     * Perform a single step, i.e. handle a single incoming request
-     */
-    public function step()
-    {
-        $this->init();
-        $this->doStep();
     }
 
     /**
