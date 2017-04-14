@@ -1,6 +1,6 @@
 {
     "name": "buybrain/nervus-php",
-    "version": "0.0.1",
+    "version": "0.0.3",
     "description": "A PHP library for creating nervus adapters",
     "keywords": [
         "nervus"
