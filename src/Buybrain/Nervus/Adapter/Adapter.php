@@ -24,8 +24,8 @@ abstract class Adapter
     protected $encoder;
     /** @var Decoder */
     protected $decoder;
-    /** @var bool */
-    private $singleRequest = false;
+    /** @var int|null */
+    private $maxRequests;
 
     public function __construct()
     {
@@ -80,13 +80,14 @@ abstract class Adapter
     }
 
     /**
-     * Handle just one request and then stop the adapter
+     * Set the maximum number of requests to handle before stopping the adapter
      *
+     * @param int $max
      * @return $this
      */
-    public function singleRequest()
+    public function maxRequests($max)
     {
-        $this->singleRequest = true;
+        $this->maxRequests = $max;
         return $this;
     }
 
@@ -98,12 +99,11 @@ abstract class Adapter
     {
         $this->init();
 
-        // Loop forever, except when configured to handle a single request
-        while (true) {
+        // Loop forever, except when a maximum number of requests is configured
+        $requestsHandled = 0;
+        while ($this->maxRequests === null || $requestsHandled < $this->maxRequests) {
             $this->doStep();
-            if ($this->singleRequest) {
-                break;
-            }
+            $requestsHandled++;
         }
     }
 

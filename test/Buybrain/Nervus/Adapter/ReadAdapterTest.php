@@ -21,7 +21,7 @@ class ReadAdapterTest extends PHPUnit_Framework_TestCase
         $read = $this->mapToStaticContentReader('test');
         $SUT = (new ReadAdapter())->in($io->input())->out($io->output())->codec($io->codec())->add($read);
 
-        $SUT->singleRequest()->run();
+        $SUT->maxRequests(1)->run();
 
         $expected = '{"codec":"json","adapterType":"read","extra":{"entityTypes":null}}' .
             '{"status":true,"error":null,"entities":[{"id":{"type":"test","id":"123"},' .
@@ -42,7 +42,7 @@ class ReadAdapterTest extends PHPUnit_Framework_TestCase
         $read2 = $this->mapToStaticContentReader('content2', ['type2']);
         $SUT = (new ReadAdapter())->in($io->input())->out($io->output())->codec($io->codec())->add($read1)->add($read2);
 
-        $SUT->singleRequest()->run();
+        $SUT->maxRequests(1)->run();
 
         $expected = '{"codec":"json","adapterType":"read","extra":{"entityTypes":["type1","type2"]}}' .
             '{"status":true,"error":null,"entities":[' .
@@ -61,7 +61,7 @@ class ReadAdapterTest extends PHPUnit_Framework_TestCase
         $read = $this->mapToStaticContentReader('test', ['type1']);
         $SUT = (new ReadAdapter())->in($io->input())->out($io->output())->codec($io->codec())->add($read);
 
-        $SUT->singleRequest()->run();
+        $SUT->maxRequests(1)->run();
 
         $expected = '{"codec":"json","adapterType":"read","extra":{"entityTypes":["type1"]}}' .
             '{"status":false,"error":"Encountered unsupported types unsupportedType (supported: type1)",' .

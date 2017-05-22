@@ -43,7 +43,7 @@ class WriteAdapterTest extends PHPUnit_Framework_TestCase
             ->add($write1)
             ->add($write2);
 
-        $SUT->singleRequest()->run();
+        $SUT->maxRequests(1)->run();
 
         $this->assertEquals([$request->getEntities()[0]], $receivedEntities1);
         $this->assertEquals([$request->getEntities()[1]], $receivedEntities2);
@@ -68,7 +68,7 @@ class WriteAdapterTest extends PHPUnit_Framework_TestCase
             ->out($io->output())
             ->codec($io->codec());
 
-        $SUT->singleRequest()->run();
+        $SUT->maxRequests(1)->run();
 
         $expected = '{"codec":"json","adapterType":"write","extra":{"entityTypes":null}}' .
             '{"status":false,"error":"Wow"}';
