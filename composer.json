@@ -28,7 +28,7 @@
         "phpunit/phpunit": "^5.7"
     },
     "require": {
-        "rybakit/msgpack": "^0.2.1"
+        "rybakit/msgpack": "^0.2.2"
     },
     "suggest": {
         "msgpack/msgpack-php": "Native MessagePack codec that's more efficient than the default pure PHP version"
