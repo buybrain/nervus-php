@@ -10,13 +10,17 @@ class SignalAdapterConfig implements ExtraAdapterConfig
 {
     /** @var float */
     private $interval;
+    /** @var int */
+    private $priority;
 
     /**
      * @param float $interval
+     * @param int $priority
      */
-    public function __construct($interval)
+    public function __construct($interval, $priority)
     {
-        $this->interval = $interval;
+        $this->interval = (float)$interval;
+        $this->priority = (int)$priority;
     }
 
     /**
@@ -26,6 +30,7 @@ class SignalAdapterConfig implements ExtraAdapterConfig
     {
         return [
             'interval' => $this->interval,
+            'priority' => $this->priority,
         ];
     }
 }

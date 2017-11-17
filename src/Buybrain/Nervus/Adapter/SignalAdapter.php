@@ -24,6 +24,8 @@ class SignalAdapter extends Adapter implements SignalCallback
 {
     /** @var Signaler */
     private $signaler;
+    /** @var int */
+    private $priority = 0;
     /** @var float */
     private $interval = 0;
 
@@ -94,11 +96,24 @@ class SignalAdapter extends Adapter implements SignalCallback
     }
 
     /**
+     * Set the priority of this signal adapter. The higher the priority, the earlier this signal adapter is executed.
+     * Default priority is 0.
+     *
+     * @param int $priority
+     * @return $this
+     */
+    public function priority($priority)
+    {
+        $this->priority = $priority;
+        return $this;
+    }
+
+    /**
      * @return ExtraAdapterConfig|null
      */
     protected function getExtraConfig()
     {
-        return new SignalAdapterConfig($this->interval);
+        return new SignalAdapterConfig($this->interval, $this->priority);
     }
 
     /**

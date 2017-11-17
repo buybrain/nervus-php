@@ -29,11 +29,12 @@ class SignalAdapterTest extends PHPUnit_Framework_TestCase
             ->in($io->input())
             ->out($io->output())
             ->codec($io->codec())
-            ->interval(10);
+            ->interval(10)
+            ->priority(2);
 
         $SUT->maxRequests(1)->run();
 
-        $expected = '{"codec":"json","adapterType":"signal","extra":{"interval":10}}' .
+        $expected = '{"codec":"json","adapterType":"signal","extra":{"interval":10,"priority":2}}' .
             '{"status":true,"error":null,"signal":{"ids":[{"type":"test","id":"123"}]}}' . "\n" .
             '{"status":true,"error":null}';
 
@@ -54,7 +55,7 @@ class SignalAdapterTest extends PHPUnit_Framework_TestCase
 
         $SUT->maxRequests(1)->run();
 
-        $expected = '{"codec":"json","adapterType":"signal","extra":{"interval":0}}' .
+        $expected = '{"codec":"json","adapterType":"signal","extra":{"interval":0,"priority":0}}' .
             '{"status":false,"error":"Oh no","signal":null}';
 
         $this->assertEquals($expected, $io->writtenData());
@@ -84,7 +85,7 @@ class SignalAdapterTest extends PHPUnit_Framework_TestCase
 
         $SUT->maxRequests(1)->run();
 
-        $expected = '{"codec":"json","adapterType":"signal","extra":{"interval":0}}' .
+        $expected = '{"codec":"json","adapterType":"signal","extra":{"interval":0,"priority":0}}' .
             '{"status":true,"error":null,"signal":{"ids":[]}}' . "\n" .
             '{"status":false,"error":"Oh no"}' . "\n" .
             '{"status":true,"error":null}';
