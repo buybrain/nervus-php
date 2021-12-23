@@ -2,9 +2,9 @@
 namespace Buybrain\Nervus\Util;
 
 use Buybrain\Nervus\EntityId;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class EntityIdsTest extends PHPUnit_Framework_TestCase
+class EntityIdsTest extends TestCase
 {
     public function testExtractIds()
     {
