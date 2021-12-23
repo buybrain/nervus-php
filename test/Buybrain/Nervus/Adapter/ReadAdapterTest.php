@@ -7,9 +7,9 @@ use Buybrain\Nervus\Adapter\Message\ReadRequest;
 use Buybrain\Nervus\Entity;
 use Buybrain\Nervus\EntityId;
 use Buybrain\Nervus\MockIO;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class ReadAdapterTest extends PHPUnit_Framework_TestCase
+class ReadAdapterTest extends TestCase
 {
     public function testSingleReader()
     {

@@ -7,9 +7,9 @@ use Buybrain\Nervus\Entity;
 use Buybrain\Nervus\EntityId;
 use Buybrain\Nervus\Exception\Exception;
 use Buybrain\Nervus\MockIO;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class WriteAdapterTest extends PHPUnit_Framework_TestCase
+class WriteAdapterTest extends TestCase
 {
     public function testWriteAdapter()
     {

@@ -7,10 +7,10 @@ use Buybrain\Nervus\Adapter\Message\SignalAckRequest;
 use Buybrain\Nervus\Adapter\Message\SignalRequest;
 use Buybrain\Nervus\EntityId;
 use Buybrain\Nervus\MockIO;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
-class SignalAdapterTest extends PHPUnit_Framework_TestCase
+class SignalAdapterTest extends TestCase
 {
     public function testSignalAdapter()
     {

@@ -1,10 +1,10 @@
 <?php
 namespace Buybrain\Nervus\Util;
 
-use Buybrain\Nervus\Exception\Exception;
-use PHPUnit_Framework_TestCase;
+use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 
-class StreamsTest extends PHPUnit_Framework_TestCase
+class StreamsTest extends TestCase
 {
     public function testAssertStreamValid()
     {
@@ -14,11 +14,11 @@ class StreamsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider noStreamProvider
-     * @expectedException Exception
      * @param $noStream
      */
     public function testAssertStreamInvalid($noStream)
     {
+        $this->expectException(InvalidArgumentException::class);
         Streams::assertStream($noStream);
     }
 

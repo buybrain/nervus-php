@@ -3,9 +3,9 @@ namespace Buybrain\Nervus\Codec;
 
 use Buybrain\Nervus\Entity;
 use Buybrain\Nervus\EntityId;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class CodecTest extends PHPUnit_Framework_TestCase
+class CodecTest extends TestCase
 {
     /**
      * @dataProvider codecs

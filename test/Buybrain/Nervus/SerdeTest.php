@@ -13,9 +13,9 @@ use Buybrain\Nervus\Codec\Mapper\EntityJsonMapperStrategy;
 use Buybrain\Nervus\Codec\Mapper\BasicStructMapperStrategy;
 use Buybrain\Nervus\Codec\Mapper\StructMapper;
 use JsonSerializable;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class SerdeTest extends PHPUnit_Framework_TestCase
+class SerdeTest extends TestCase
 {
     /**
      * @dataProvider dataProvider
