@@ -36,10 +36,7 @@ class SignalAckRequest implements JsonSerializable
         return new self($data['ack']);
     }
 
-    /**
-     * @return array
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return ['ack' => $this->ack];
     }

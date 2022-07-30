@@ -30,10 +30,7 @@ class AdapterConfig implements JsonSerializable
         $this->extra = $extra;
     }
 
-    /**
-     * @return array
-     */
-    function jsonSerialize()
+    function jsonSerialize(): array
     {
         return [
             'codec' => $this->codec,

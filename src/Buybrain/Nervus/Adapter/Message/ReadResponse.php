@@ -42,10 +42,7 @@ class ReadResponse extends AbstractResponse
         return $res;
     }
 
-    /**
-     * @return array
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return array_merge(parent::jsonSerialize(), ['entities' => $this->entities]);
     }

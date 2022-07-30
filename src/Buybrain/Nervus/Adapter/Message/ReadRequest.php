@@ -43,10 +43,7 @@ class ReadRequest implements JsonSerializable
         return new self($ids);
     }
 
-    /**
-     * @return array
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return ['ids' => $this->ids];
     }

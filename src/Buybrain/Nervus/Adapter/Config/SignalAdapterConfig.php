@@ -23,10 +23,7 @@ class SignalAdapterConfig implements ExtraAdapterConfig
         $this->priority = (int)$priority;
     }
 
-    /**
-     * @return array
-     */
-    function jsonSerialize()
+    function jsonSerialize(): array
     {
         return [
             'interval' => $this->interval,

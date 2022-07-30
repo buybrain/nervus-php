@@ -19,10 +19,7 @@ class TypedAdapterConfig implements ExtraAdapterConfig
         $this->entityTypes = $entityTypes;
     }
 
-    /**
-     * @return array
-     */
-    function jsonSerialize()
+    function jsonSerialize(): array
     {
         return [
             'entityTypes' => $this->entityTypes,
