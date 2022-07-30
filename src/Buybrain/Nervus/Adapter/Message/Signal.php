@@ -41,10 +41,7 @@ class Signal implements JsonSerializable
         }, $data['ids']));
     }
 
-    /**
-     * @return array
-     */
-    function jsonSerialize()
+    function jsonSerialize(): array
     {
         return [
             'ids' => $this->ids,

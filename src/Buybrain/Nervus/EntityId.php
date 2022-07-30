@@ -42,10 +42,7 @@ class EntityId implements JsonSerializable, Typed
         return $this->id;
     }
 
-    /**
-     * @return array
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'type' => $this->type,

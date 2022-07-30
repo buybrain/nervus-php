@@ -55,10 +55,7 @@ abstract class AbstractResponse implements JsonSerializable
         return new static($data['status'], $data['error']);
     }
 
-    /**
-     * @return array
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'status' => $this->status,
